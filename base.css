@@ -1,0 +1,200 @@
+/* ─────────────────────────────────────────────────────────
+   base.css — reset, design tokens, theme + language switching
+   ───────────────────────────────────────────────────────── */
+
+/* ── Reset ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: 1.7;
+  color: var(--color-text);
+  background: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+img, svg, video {
+  display: block;
+  max-width: 100%;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+input, select, textarea {
+  font: inherit;
+  color: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul[role="list"], ol[role="list"] {
+  list-style: none;
+}
+
+/* ── Design Tokens ── */
+:root {
+  /* Typography */
+  --font-display: "Cormorant Garamond", "Noto Serif JP", serif;
+  --font-jp: "Noto Serif JP", serif;
+  --font-body: "Work Sans", "Noto Serif JP", sans-serif;
+
+  /* Type scale */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-md: 1.125rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.5rem;
+  --text-2xl: 1.875rem;
+  --text-3xl: 2.375rem;
+  --text-4xl: 3rem;
+  --text-5xl: 3.75rem;
+
+  /* Spacing */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+  --space-32: 8rem;
+
+  /* Radii */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 14px;
+  --radius-full: 999px;
+
+  /* Container */
+  --container-max: 72rem;
+  --container-pad: clamp(1.25rem, 4vw, 2.5rem);
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur: 0.6s;
+}
+
+/* ── Light theme (default) ── */
+:root[data-theme="light"] {
+  --color-bg: #faf7f2;             /* warm washi paper */
+  --color-surface: #ffffff;
+  --color-surface-offset: #f1ece3;
+  --color-border: #e4ddd0;
+
+  --color-text: #2b2723;
+  --color-text-soft: #5b5449;
+  --color-text-faint: #8f8778;
+
+  --color-primary: #9d2f3c;        /* shiraume plum red */
+  --color-primary-soft: #f4e4e6;
+  --color-cedar: #3f5040;          /* deep cedar green */
+  --color-cedar-soft: #e6ebe4;
+  --color-gold: #a8853c;
+
+  --color-hero-overlay: rgba(24, 22, 20, 0.45);
+  --color-header-bg: rgba(250, 247, 242, 0.92);
+  --color-footer-bg: #26221e;
+  --color-footer-text: #cfc8bc;
+
+  --shadow-sm: 0 1px 3px rgba(43, 39, 35, 0.08);
+  --shadow-md: 0 6px 24px rgba(43, 39, 35, 0.12);
+  --shadow-lg: 0 16px 48px rgba(43, 39, 35, 0.16);
+}
+
+/* ── Dark theme ── */
+:root[data-theme="dark"] {
+  --color-bg: #171512;
+  --color-surface: #201d19;
+  --color-surface-offset: #2a2620;
+  --color-border: #3a352d;
+
+  --color-text: #ece7de;
+  --color-text-soft: #b6ae9f;
+  --color-text-faint: #7e7666;
+
+  --color-primary: #d16a76;
+  --color-primary-soft: #3a2226;
+  --color-cedar: #55705a;
+  --color-cedar-soft: #232b24;
+  --color-gold: #c8a45c;
+
+  --color-hero-overlay: rgba(10, 9, 8, 0.55);
+  --color-header-bg: rgba(23, 21, 18, 0.92);
+  --color-footer-bg: #100e0c;
+  --color-footer-text: #9b9385;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 6px 24px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.55);
+}
+
+/* ── Language switching ──
+   Every bilingual node has an .en and .ja sibling span;
+   data-lang on <html> decides which one renders. */
+[data-lang="en"] .ja { display: none; }
+[data-lang="ja"] .en { display: none; }
+
+[data-lang="ja"] body {
+  font-family: var(--font-jp);
+  letter-spacing: 0.02em;
+}
+
+/* ── Layout primitives ── */
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-pad);
+}
+
+/* ── Reveal-on-scroll ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity var(--dur) var(--ease-out), transform var(--dur) var(--ease-out);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: none;
+}
+.reveal-delay-1 { transition-delay: 0.12s; }
+.reveal-delay-2 { transition-delay: 0.24s; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+/* ── Focus visibility ── */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+}
