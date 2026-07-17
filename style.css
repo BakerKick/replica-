@@ -683,10 +683,58 @@ section {
   line-height: 1.75;
 }
 
+.rooms-intro {
+  max-width: 640px;
+  margin-bottom: var(--space-10);
+}
+
+.rooms-intro .section-title {
+  margin-top: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.rooms-intro-desc {
+  font-size: var(--text-base);
+  color: var(--color-text-muted);
+  line-height: 1.75;
+}
+
+.rooms-divider {
+  border: none;
+  height: 1px;
+  background: var(--color-divider);
+  margin-block: var(--space-12);
+}
+
+.rooms-subsection + .rooms-subsection {
+  margin-top: var(--space-16);
+}
+
+.rooms-sub-title {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 600;
+  color: var(--color-text);
+  line-height: 1.2;
+}
+
+.rooms-sub-desc {
+  font-size: var(--text-base);
+  color: var(--color-text-muted);
+  line-height: 1.75;
+  max-width: 640px;
+  margin-top: var(--space-3);
+  margin-bottom: var(--space-8);
+}
+
 .rooms-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: var(--space-6);
+}
+
+.rooms-grid--suites {
+  grid-template-columns: repeat(2, 1fr);
 }
 
 .room-card {
@@ -750,7 +798,7 @@ section {
   font-size: var(--text-xs);
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--color-cedar);
+  color: var(--color-primary);
   font-weight: 600;
 }
 
