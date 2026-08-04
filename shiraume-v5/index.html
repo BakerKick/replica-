@@ -4,6 +4,19 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>白梅 Shiraume Lodge — Hikosan, Fukuoka</title>
+<meta name="description" content="A century-old inn returning to life at the foot of Mt. Hiko's sacred pilgrimage route. A boutique ryokan concept in Soeda, Fukuoka — five bespoke rooms, private ofuro baths, unhurried hospitality."/>
+<!-- Social preview. NOTE: og:image must be an ABSOLUTE url once hosted — replace with e.g. https://yourdomain.com/assets/og.jpg -->
+<meta property="og:title" content="Shiraume Lodge — A Ryokan Concept at Hikosan"/>
+<meta property="og:description" content="A century-old inn returning to life at the foot of Mt. Hiko's sacred pilgrimage route. Five bespoke rooms, private ofuro baths, unhurried hospitality."/>
+<meta property="og:type" content="website"/>
+<meta property="og:image" content="assets/og.jpg"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+<meta property="og:locale" content="en_US"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Shiraume Lodge — A Ryokan Concept at Hikosan"/>
+<meta name="twitter:description" content="A century-old inn returning to life at the foot of Mt. Hiko's sacred pilgrimage route."/>
+<meta name="twitter:image" content="assets/og.jpg"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;500;600;800&family=Noto+Serif+JP:wght@200;300;400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
@@ -309,6 +322,14 @@ body{
   0%{transform:scale(1) translate(0,0)}
   100%{transform:scale(1.05) translate(-0.8%,-0.6%)}
 }
+/* Optional hero video: fades in over the still once assets/hero.mp4 exists */
+.hero-video{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;transform:scale(1.02);
+  opacity:0;transition:opacity 1.4s ease;
+}
+.hero-video.playing{opacity:1}
+@media(prefers-reduced-motion:reduce){.hero-video{display:none}}
 @media(prefers-reduced-motion:reduce){.hero-bg-inner{animation:none}}
 .hero-vert{
   position:absolute;right:3.5rem;top:50%;transform:translateY(-50%);
@@ -584,18 +605,13 @@ body{
   display:flex;align-items:center;justify-content:center;
 }
 .area-img img{
-  width:min(100%,560px);
-  aspect-ratio:1/1;
+  width:100%;
+  max-width:680px;
   height:auto;
-  object-fit:cover;
+  object-fit:contain;
   display:block;
   filter:none;
-  border-radius:50%;
-  box-shadow:
-    0 0 0 1px rgba(184,149,106,0.45),
-    0 0 0 12px var(--washi),
-    0 0 0 13px rgba(184,149,106,0.25),
-    0 24px 70px rgba(20,18,16,0.18);
+  box-shadow:0 24px 70px rgba(20,18,16,0.18);
   transition:transform 1.2s cubic-bezier(0.22,1,0.36,1);
 }
 #area:hover .area-img img{transform:translateY(-6px)}
@@ -946,6 +962,50 @@ footer{background:var(--ink);color:var(--ash);padding:5rem 3rem 2.5rem}
   background:linear-gradient(90deg,rgba(184,149,106,0.45),transparent);
 }
 
+/* ─── JOURNAL (renovation notes) ─────── */
+#journal{
+  position:relative;overflow:hidden;
+  background:var(--washi);
+  padding:8rem 3rem;
+}
+.journal-kanji{
+  position:absolute;font-family:var(--jp);font-size:24rem;font-weight:400;
+  color:rgba(20,18,16,0.025);top:-3rem;left:-2rem;
+  pointer-events:none;user-select:none;line-height:1;
+}
+.journal-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:2.5rem;
+  margin-top:3.5rem;max-width:var(--max);
+}
+.j-entry{
+  border-top:1px solid var(--mist);
+  padding-top:1.6rem;
+  display:flex;flex-direction:column;
+  transition:border-color 0.4s;
+}
+.j-entry:hover{border-top-color:var(--lacquer)}
+.j-date{
+  font-family:var(--ui);font-size:0.6rem;letter-spacing:0.25em;
+  text-transform:uppercase;color:var(--gold);margin-bottom:0.8rem;
+}
+.j-title{
+  font-family:var(--d);font-weight:500;font-size:1.15rem;
+  color:var(--ink);line-height:1.4;margin-bottom:0.3rem;
+}
+.j-jp{
+  font-family:var(--jp);font-weight:200;font-size:0.68rem;
+  letter-spacing:0.15em;color:var(--mist);margin-bottom:0.9rem;
+}
+.j-body{font-size:0.8rem;color:var(--ash);line-height:1.85;flex-grow:1}
+.j-note{
+  margin-top:3rem;font-size:0.72rem;color:var(--ash);
+  letter-spacing:0.05em;font-style:italic;opacity:0.7;
+}
+@media(max-width:960px){
+  #journal{padding:4rem 1.5rem}
+  .journal-grid{grid-template-columns:1fr;gap:2rem}
+}
+
 /* ─── INTERLUDE (contemplative band) ─── */
 #interlude{
   position:relative;overflow:hidden;
@@ -1016,6 +1076,36 @@ footer{background:var(--ink);color:var(--ash);padding:5rem 3rem 2.5rem}
 }
 #float-inq:hover::after{opacity:1}
 @media(max-width:760px){#float-inq{bottom:1.2rem;right:1.2rem;width:46px;height:46px}}
+
+/* ─── AMBIENT SOUND TOGGLE ───────────── */
+#float-snd{
+  position:fixed;bottom:5.6rem;right:2rem;z-index:450;
+  width:44px;height:44px;border-radius:50%;
+  background:rgba(247,243,236,0.94);
+  border:1px solid rgba(160,116,72,0.4);
+  color:var(--lacquer);
+  font-family:var(--jp);font-weight:200;font-size:0.95rem;
+  display:none;align-items:center;justify-content:center;
+  cursor:none;
+  opacity:0;transform:translateY(12px);pointer-events:none;
+  transition:opacity 0.6s ease,transform 0.6s cubic-bezier(0.22,1,0.36,1),
+    background 0.3s,border-color 0.3s,color 0.3s;
+  box-shadow:0 6px 20px rgba(20,18,16,0.18);
+}
+#float-snd.ready{display:flex}
+#float-snd.on{opacity:1;transform:none;pointer-events:all}
+#float-snd:hover{border-color:var(--lacquer);color:var(--ink)}
+#float-snd.playing{background:var(--lacquer);border-color:var(--lacquer);color:var(--washi)}
+#float-snd .snd-waves{
+  position:absolute;inset:-1px;border-radius:50%;
+  border:1px solid rgba(160,116,72,0.5);opacity:0;
+}
+#float-snd.playing .snd-waves{animation:sndPulse 2.6s ease-out infinite}
+@keyframes sndPulse{
+  0%{transform:scale(1);opacity:0.6}
+  100%{transform:scale(1.55);opacity:0}
+}
+@media(max-width:760px){#float-snd{bottom:4.6rem;right:1.2rem;width:40px;height:40px}}
 
 /* ─── RESPONSIVE ─────────────────────── */
 @media(max-width:960px){
@@ -1275,6 +1365,10 @@ footer{background:var(--ink);color:var(--ash);padding:5rem 3rem 2.5rem}
 <!-- Floating inquire -->
 <button id="float-inq" onclick="goHome();ss('inquiry')" aria-label="Inquire · お問い合わせ">問</button>
 
+<!-- Ambient sound (appears only when assets/ambient.mp3 exists) -->
+<audio id="ambient" loop preload="metadata"><source src="assets/ambient.mp3" type="audio/mpeg"/></audio>
+<button id="float-snd" aria-label="Play ambient sound · 環境音" aria-pressed="false"><span class="snd-waves" aria-hidden="true"></span>音</button>
+
 <!-- Page wipe -->
 <div id="wipe"></div>
 
@@ -1300,6 +1394,7 @@ footer{background:var(--ink);color:var(--ash);padding:5rem 3rem 2.5rem}
     <li><button onclick="goHome();ss('rooms')">Rooms</button></li>
     <li><button onclick="goHome();ss('area')">The Area</button></li>
     <li><button onclick="goHome();ss('exp')">Experience</button></li>
+    <li><button onclick="goHome();ss('journal')">Journal</button></li>
     <li><button class="nav-cta" onclick="goHome();ss('inquiry')">Inquire</button></li>
   </ul>
   <button class="nav-ham" onclick="openMob()" aria-label="Menu">☰</button>
@@ -1312,6 +1407,7 @@ footer{background:var(--ink);color:var(--ash);padding:5rem 3rem 2.5rem}
   <button onclick="goHome();ss('rooms');closeMob()">Rooms</button>
   <button onclick="goHome();ss('area');closeMob()">The Area</button>
   <button onclick="goHome();ss('exp');closeMob()">Experience</button>
+  <button onclick="goHome();ss('journal');closeMob()">Journal</button>
   <button onclick="goHome();ss('inquiry');closeMob()">Inquire</button>
 </div>
 
@@ -1322,7 +1418,7 @@ footer{background:var(--ink);color:var(--ash);padding:5rem 3rem 2.5rem}
 
 <!-- Hero -->
 <section id="hero">
-  <div class="hero-bg" id="hero-bg"><div class="hero-bg-inner"></div><div class="hero-bg-gradient"></div></div>
+  <div class="hero-bg" id="hero-bg"><div class="hero-bg-inner"></div><video id="hero-video" class="hero-video" muted loop playsinline preload="auto" aria-hidden="true"><source src="assets/hero.mp4" type="video/mp4"/></video><div class="hero-bg-gradient"></div></div>
   <!-- Vertical ticker, anchored right edge -->
   <div id="hero-ticker"><div class="ticker-col" id="ticker-col"></div></div>
   <div class="hero-loc hero-loc-top hero-in" data-hero-order="0">Soeda-machi · Tagawa · Fukuoka Prefecture</div>
@@ -1621,6 +1717,39 @@ footer{background:var(--ink);color:var(--ash);padding:5rem 3rem 2.5rem}
     <div class="exp-item sr"><div class="exp-num">05</div><div class="exp-t">Check-in Ritual</div><div class="exp-jp">チェックインの儀式</div><p class="exp-b">Guests are welcomed with tea and a seasonal sweet in the common room. A brief orientation covers the property and the mountain. Nothing is rushed.</p></div>
     <div class="exp-item sr"><div class="exp-num">06</div><div class="exp-t">Craft & Local Culture</div><div class="exp-jp">工芸と地域文化</div><p class="exp-b">The Chikuho region is home to Koishiwara pottery — one of Japan's great folk-craft traditions. The inn will stock and showcase pieces by local kilns, and excursions to the pottery village can be arranged on request.</p></div>
   </div>
+</section>
+
+<!-- Journal · renovation notes (sample entries — replace with real progress updates) -->
+<section id="journal">
+  <span class="journal-kanji" aria-hidden="true">記</span>
+  <div class="sr">
+    <p class="eyebrow">Journal · 工事の記録</p>
+    <h2 class="s-h2">Notes from the mountain</h2>
+    <p class="s-h2-jp">山からの便り</p>
+    <div class="rule"></div>
+    <p class="body">The renovation of a century-old inn is a story worth telling as it happens. Progress notes, discoveries, and decisions will be recorded here as the work unfolds.</p>
+  </div>
+  <div class="journal-grid">
+    <article class="j-entry sr">
+      <div class="j-date">Entry 01 · Planning</div>
+      <div class="j-title">Reading the building</div>
+      <div class="j-jp">建物を読む</div>
+      <p class="j-body">Before anything is changed, everything is documented — the original timber frame, the joinery, the marks a century of guests have left. What is sound stays; what is tired is renewed in kind.</p>
+    </article>
+    <article class="j-entry sr">
+      <div class="j-date">Entry 02 · Design</div>
+      <div class="j-title">Five rooms, two houses</div>
+      <div class="j-jp">五室二家</div>
+      <p class="j-body">The room concept takes shape: two family suites beneath the original roofline, three garden rooms below. Studies for each room's private ofuro are underway with local craftspeople.</p>
+    </article>
+    <article class="j-entry sr">
+      <div class="j-date">Entry 03 · The Mountain</div>
+      <div class="j-title">A year of seasons on the sando</div>
+      <div class="j-jp">参道の四季</div>
+      <p class="j-body">We are photographing the approach to Hikosan Jingu through all four seasons — the record that will shape how each room frames its view of the mountain.</p>
+    </article>
+  </div>
+  <p class="j-note">Updates will be posted here through the renovation. — Shiraume Ryokan KK</p>
 </section>
 
 <!-- Inquiry -->
@@ -2256,21 +2385,65 @@ function submitInq(btn){
   if(fs) fs.style.display = 'block';
 }
 
-// ─── SCROLL PROGRESS + FLOATING INQUIRE ──
+// ─── SCROLL PROGRESS + FLOATING BUTTONS ──
 (function(){
   var bar = document.getElementById('progress');
   var fi = document.getElementById('float-inq');
+  var snd = document.getElementById('float-snd');
   function onScroll(){
     var max = document.documentElement.scrollHeight - window.innerHeight;
     if(bar) bar.style.setProperty('--p', max > 0 ? (window.scrollY / max).toFixed(4) : 0);
-    if(fi){
-      var show = splashDone && VIEW === 'home' && window.scrollY > 500;
-      fi.classList.toggle('on', show);
-    }
+    var show = splashDone && VIEW === 'home' && window.scrollY > 500;
+    if(fi) fi.classList.toggle('on', show);
+    if(snd) snd.classList.toggle('on', show);
   }
   window.addEventListener('scroll', onScroll, {passive:true});
   window.addEventListener('resize', onScroll, {passive:true});
   onScroll();
+})();
+
+// ─── HERO VIDEO (graceful fallback) ──────
+// Plays assets/hero.mp4 over the hero still when present; if the file is
+// missing or fails, the still simply remains.
+(function(){
+  var v = document.getElementById('hero-video');
+  if(!v) return;
+  if(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches){ v.remove(); return; }
+  var kill = function(){ if(v.parentNode) v.parentNode.removeChild(v); };
+  v.addEventListener('error', kill, true);
+  var src = v.querySelector('source');
+  if(src) src.addEventListener('error', kill);
+  // Some browsers never fire error for a missing local file — if no data
+  // has arrived after 5s, drop the element and keep the still.
+  setTimeout(function(){ if(v.parentNode && v.readyState === 0) kill(); }, 5000);
+  v.addEventListener('canplay', function(){
+    var p = v.play();
+    if(p && p.then) p.then(function(){ v.classList.add('playing'); }).catch(function(){ kill(); });
+    else v.classList.add('playing');
+  });
+})();
+
+// ─── AMBIENT SOUND (appears when file exists) ──
+(function(){
+  var a = document.getElementById('ambient');
+  var b = document.getElementById('float-snd');
+  if(!a || !b) return;
+  a.volume = 0.35;
+  a.addEventListener('loadedmetadata', function(){ b.classList.add('ready'); });
+  b.addEventListener('click', function(){
+    if(a.paused){
+      a.play().then(function(){
+        b.classList.add('playing');
+        b.setAttribute('aria-pressed','true');
+        b.setAttribute('aria-label','Pause ambient sound · 環境音を停止');
+      }).catch(function(){});
+    } else {
+      a.pause();
+      b.classList.remove('playing');
+      b.setAttribute('aria-pressed','false');
+      b.setAttribute('aria-label','Play ambient sound · 環境音');
+    }
+  });
 })();
 </script>
 </body>
