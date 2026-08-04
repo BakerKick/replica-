@@ -747,6 +747,7 @@ footer{background:var(--ink);color:var(--ash);padding:5rem 3rem 2.5rem}
 .ft-brand-n{
   font-family:var(--jp);font-weight:200;font-size:1.3rem;
   letter-spacing:0.2em;color:var(--gold);cursor:none;
+  background:none;border:none;padding:0;text-align:left;
   transition:color 0.4s;
   display:block;margin-bottom:0.8rem;
 }
@@ -912,7 +913,65 @@ footer{background:var(--ink);color:var(--ash);padding:5rem 3rem 2.5rem}
 .rm-footer-logo{
   font-family:var(--jp);font-weight:200;font-size:1.1rem;
   letter-spacing:0.2em;color:var(--washi);cursor:none;
+  background:none;border:none;padding:0;
 }
+
+/* ─── SCROLL PROGRESS HAIRLINE ───────── */
+#progress{
+  position:fixed;top:0;left:0;right:0;height:2px;z-index:600;
+  pointer-events:none;
+}
+#progress::after{
+  content:'';display:block;height:100%;
+  background:linear-gradient(90deg,var(--ink),var(--lacquer) 55%,var(--gold));
+  transform:scaleX(var(--p,0));transform-origin:left;
+}
+
+/* ─── UME ORNAMENT ON RULES ──────────── */
+.rule{position:relative;overflow:visible}
+.rule::after{
+  content:'';position:absolute;top:50%;left:48px;
+  width:11px;height:11px;transform:translateY(-50%);
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cg fill='%23B8956A'%3E%3Ccircle cx='6' cy='2.8' r='2.1'/%3E%3Ccircle cx='2.96' cy='5.01' r='2.1'/%3E%3Ccircle cx='4.12' cy='8.59' r='2.1'/%3E%3Ccircle cx='7.88' cy='8.59' r='2.1'/%3E%3Ccircle cx='9.04' cy='5.01' r='2.1'/%3E%3C/g%3E%3Ccircle cx='6' cy='6' r='1.15' fill='%23A07448'/%3E%3C/svg%3E") center/contain no-repeat;
+  opacity:0.9;
+}
+.rule::before{
+  content:'';position:absolute;top:50%;left:67px;
+  width:46px;height:1px;transform:translateY(-50%);
+  background:linear-gradient(90deg,rgba(184,149,106,0.45),transparent);
+}
+
+/* ─── SEIGAIHA TEXTURE (dark panels) ─── */
+.inq-info,footer:not(.rm-footer){
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='20'%3E%3Cg fill='none' stroke='%23B8956A' stroke-opacity='0.055' stroke-width='1'%3E%3Ccircle cx='20' cy='20' r='18'/%3E%3Ccircle cx='20' cy='20' r='12'/%3E%3Ccircle cx='20' cy='20' r='6'/%3E%3Ccircle cx='0' cy='10' r='18'/%3E%3Ccircle cx='0' cy='10' r='12'/%3E%3Ccircle cx='0' cy='10' r='6'/%3E%3Ccircle cx='40' cy='10' r='18'/%3E%3Ccircle cx='40' cy='10' r='12'/%3E%3Ccircle cx='40' cy='10' r='6'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* ─── FLOATING INQUIRE ───────────────── */
+#float-inq{
+  position:fixed;bottom:2rem;right:2rem;z-index:450;
+  width:52px;height:52px;border-radius:50%;
+  background:rgba(20,18,16,0.92);
+  border:1px solid rgba(184,149,106,0.45);
+  color:var(--gold);
+  font-family:var(--jp);font-weight:200;font-size:1.15rem;
+  display:flex;align-items:center;justify-content:center;
+  cursor:none;
+  opacity:0;transform:translateY(16px);pointer-events:none;
+  transition:opacity 0.6s ease,transform 0.6s cubic-bezier(0.22,1,0.36,1),
+    background 0.3s,border-color 0.3s,color 0.3s;
+  box-shadow:0 6px 24px rgba(20,18,16,0.25);
+}
+#float-inq.on{opacity:1;transform:none;pointer-events:all}
+#float-inq:hover{background:var(--lacquer);border-color:var(--lacquer);color:var(--washi)}
+#float-inq::after{
+  content:'Inquire · お問い合わせ';
+  position:absolute;right:calc(100% + 0.9rem);top:50%;transform:translateY(-50%);
+  white-space:nowrap;
+  font-family:var(--ui);font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--ash);opacity:0;transition:opacity 0.3s;pointer-events:none;
+}
+#float-inq:hover::after{opacity:1}
+@media(max-width:760px){#float-inq{bottom:1.2rem;right:1.2rem;width:46px;height:46px}}
 
 /* ─── RESPONSIVE ─────────────────────── */
 @media(max-width:960px){
@@ -1165,6 +1224,12 @@ footer{background:var(--ink);color:var(--ash);padding:5rem 3rem 2.5rem}
 
 <!-- Custom cursor -->
 <div id="cursor"></div>
+
+<!-- Scroll progress hairline -->
+<div id="progress" aria-hidden="true"></div>
+
+<!-- Floating inquire -->
+<button id="float-inq" onclick="goHome();ss('inquiry')" aria-label="Inquire · お問い合わせ">問</button>
 
 <!-- Page wipe -->
 <div id="wipe"></div>
@@ -1548,6 +1613,24 @@ footer{background:var(--ink);color:var(--ash);padding:5rem 3rem 2.5rem}
     </div>
   </div>
 </section>
+
+<!-- Seigaiha border strip -->
+<div aria-hidden="true" style="background:var(--ink);line-height:0">
+  <svg viewBox="0 0 1200 22" width="100%" height="22" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="display:block;opacity:0.5">
+    <defs>
+      <pattern id="seigaiha-strip" x="0" y="0" width="44" height="22" patternUnits="userSpaceOnUse">
+        <g fill="none" stroke="#B8956A" stroke-opacity="0.28" stroke-width="1">
+          <circle cx="22" cy="24" r="18"/><circle cx="22" cy="24" r="12"/><circle cx="22" cy="24" r="6"/>
+          <circle cx="0" cy="13" r="18"/><circle cx="0" cy="13" r="12"/><circle cx="0" cy="13" r="6"/>
+          <circle cx="44" cy="13" r="18"/><circle cx="44" cy="13" r="12"/><circle cx="44" cy="13" r="6"/>
+        </g>
+      </pattern>
+    </defs>
+    <rect x="0" y="0" width="1200" height="22" fill="url(#seigaiha-strip)"/>
+    <line x1="0" y1="0.5" x2="1200" y2="0.5" stroke="#B8956A" stroke-opacity="0.25" stroke-width="0.5"/>
+    <line x1="0" y1="21.5" x2="1200" y2="21.5" stroke="#B8956A" stroke-opacity="0.25" stroke-width="0.5"/>
+  </svg>
+</div>
 
 <!-- Footer -->
 <footer>
@@ -2117,6 +2200,23 @@ function submitInq(btn){
   if(fw) fw.style.display = 'none';
   if(fs) fs.style.display = 'block';
 }
+
+// ─── SCROLL PROGRESS + FLOATING INQUIRE ──
+(function(){
+  var bar = document.getElementById('progress');
+  var fi = document.getElementById('float-inq');
+  function onScroll(){
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    if(bar) bar.style.setProperty('--p', max > 0 ? (window.scrollY / max).toFixed(4) : 0);
+    if(fi){
+      var show = splashDone && VIEW === 'home' && window.scrollY > 500;
+      fi.classList.toggle('on', show);
+    }
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  window.addEventListener('resize', onScroll, {passive:true});
+  onScroll();
+})();
 </script>
 </body>
 </html>
