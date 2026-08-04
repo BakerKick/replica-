@@ -1,0 +1,281 @@
+/* ── Riad Sa'eed replica — custom classes not covered by Tailwind ── */
+
+:root {
+  --gold: #9D9540;
+  --gold-light: #C3BD75;
+  --palm-olive: #676127;
+  --midnight: #141414;
+  --desert-tan: #EAE2D2;
+  --ease-luxury: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Display type scale */
+.text-display-md {
+  font-size: clamp(2.1rem, 4.5vw, 3.4rem);
+  line-height: 1.15;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+.text-display-sm {
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  line-height: 1.2;
+}
+
+/* Section rhythm */
+.py-section {
+  padding-top: clamp(5rem, 10vw, 8rem);
+  padding-bottom: clamp(5rem, 10vw, 8rem);
+}
+
+/* ── Buttons ── */
+.btn-luxury,
+.btn-luxury-filled,
+.btn-luxury-dark {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.9rem 2.4rem;
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  overflow: hidden;
+  transition: color 0.5s var(--ease-luxury), border-color 0.5s var(--ease-luxury),
+    background-color 0.5s var(--ease-luxury);
+}
+.btn-luxury {
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  background: transparent;
+}
+.btn-luxury:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: #fff;
+}
+.btn-luxury-filled {
+  color: #fff;
+  background: var(--palm-olive);
+  border: 1px solid var(--palm-olive);
+}
+.btn-luxury-filled:hover {
+  background: #534e20;
+  border-color: #534e20;
+}
+.btn-luxury-dark {
+  color: var(--midnight);
+  border: 1px solid rgba(20, 20, 20, 0.4);
+  background: transparent;
+}
+.btn-luxury-dark:hover {
+  background: var(--midnight);
+  color: #fff;
+}
+
+/* ── Links with growing underline ── */
+.link-luxury {
+  position: relative;
+  display: inline-block;
+}
+.link-luxury::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  height: 1px;
+  width: 100%;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.45s var(--ease-luxury);
+}
+.link-luxury:hover::after {
+  transform: scaleX(1);
+}
+
+/* ── Gold separator line ── */
+.line-separator-gold {
+  height: 1px;
+  width: 80px;
+  background: linear-gradient(90deg, transparent, #c3bd75 20%, #9d9540 50%, #c3bd75 80%, transparent);
+}
+
+/* ── Gold shimmer headline ── */
+.text-gold-shimmer {
+  background: linear-gradient(100deg, #9d9540 0%, #c3bd75 25%, #e8e0a8 50%, #c3bd75 75%, #9d9540 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: gold-shimmer 6s linear infinite;
+}
+@keyframes gold-shimmer {
+  0% { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+
+/* ── Moorish arch frames ── */
+.arch-frame {
+  border-radius: 999px 999px 0 0;
+  overflow: hidden;
+}
+.arch-frame-subtle {
+  border-radius: 250px 250px 4px 4px;
+  overflow: hidden;
+  border: 1px solid rgba(157, 149, 64, 0.15);
+}
+
+/* ── Image zoom on hover ── */
+.img-zoom img {
+  transition: transform 0.9s var(--ease-luxury);
+}
+.img-zoom:hover img {
+  transform: scale(1.05);
+}
+
+/* ── Discover cards ── */
+.discover-card__image {
+  transition: transform 0.9s var(--ease-luxury), filter 0.6s ease;
+}
+.discover-card:hover .discover-card__image {
+  transform: scale(1.06);
+}
+.discover-card__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(10, 10, 10, 0.75) 0%, rgba(10, 10, 10, 0.25) 45%, rgba(10, 10, 10, 0.05) 100%);
+  transition: background 0.5s ease;
+  z-index: 1;
+}
+.discover-card:hover .discover-card__overlay {
+  background: linear-gradient(to top, rgba(10, 10, 10, 0.85) 0%, rgba(10, 10, 10, 0.4) 55%, rgba(10, 10, 10, 0.1) 100%);
+}
+.discover-card__line {
+  height: 1px;
+  width: 32px;
+  background: linear-gradient(90deg, #c3bd75, transparent);
+  transition: width 0.5s var(--ease-luxury);
+}
+.discover-card:hover .discover-card__line {
+  width: 56px;
+}
+.discover-card__description,
+.discover-card__cta {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.55s var(--ease-luxury), opacity 0.45s ease, margin 0.45s ease;
+  margin-top: 0;
+}
+.discover-card:hover .discover-card__description {
+  max-height: 8rem;
+  opacity: 1;
+  margin-top: 0.5rem;
+}
+.discover-card:hover .discover-card__cta {
+  max-height: 2rem;
+  opacity: 1;
+  margin-top: 1rem;
+}
+.discover-card__cta-arrow {
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+.discover-card:hover .discover-card__cta-arrow {
+  transform: translateX(4px);
+}
+/* On touch devices, keep description visible */
+@media (hover: none) {
+  .discover-card__description,
+  .discover-card__cta {
+    max-height: none;
+    opacity: 1;
+    margin-top: 0.5rem;
+  }
+}
+
+/* ── Zellige tile background (dark sections) ── */
+.zellige-bg {
+  background-image:
+    linear-gradient(45deg, rgba(157, 149, 64, 0.03) 25%, transparent 25%, transparent 75%, rgba(157, 149, 64, 0.03) 75%),
+    linear-gradient(-45deg, rgba(157, 149, 64, 0.03) 25%, transparent 25%, transparent 75%, rgba(157, 149, 64, 0.03) 75%);
+  background-size: 48px 48px;
+}
+
+/* ── Header scrolled state ── */
+#site-header.scrolled {
+  background: rgba(234, 226, 210, 0.96);
+  box-shadow: 0 1px 0 rgba(103, 97, 39, 0.15), 0 8px 30px rgba(20, 20, 20, 0.06);
+  backdrop-filter: blur(8px);
+}
+#site-header.scrolled .hdr-logo {
+  filter: none;
+  opacity: 1;
+}
+#site-header.scrolled .hdr-title { color: var(--midnight); }
+#site-header.scrolled .hdr-link { color: rgba(20, 20, 20, 0.7); }
+#site-header.scrolled .hdr-link:hover { color: var(--midnight); }
+#site-header.scrolled .hdr-currency { color: rgba(20, 20, 20, 0.6); }
+#site-header.scrolled .hdr-currency:hover { color: var(--midnight); }
+#site-header.scrolled .hdr-bar { background-color: var(--midnight); }
+
+/* ── Hero arch draw-in ── */
+.hero-arch-path {
+  stroke-dasharray: 1400;
+  stroke-dashoffset: 1400;
+  animation: arch-draw 2.8s var(--ease-luxury) 0.8s forwards;
+}
+@keyframes arch-draw {
+  to { stroke-dashoffset: 0; }
+}
+
+/* ── Preloader ── */
+#preloader {
+  transition: opacity 0.8s ease;
+}
+#preloader.done {
+  opacity: 0;
+  pointer-events: none;
+}
+#preloader-inner {
+  transition: opacity 0.9s ease, transform 0.9s var(--ease-luxury);
+}
+#preloader-line {
+  transition: transform 0.9s var(--ease-luxury) 0.4s;
+}
+
+/* ── Reveal-on-scroll ── */
+[data-reveal] {
+  transition: opacity 0.9s ease, transform 0.9s var(--ease-luxury);
+}
+[data-reveal].revealed {
+  opacity: 1 !important;
+  transform: none !important;
+}
+[data-line] {
+  transition: width 0.9s var(--ease-luxury), opacity 0.9s ease;
+}
+[data-dot], [data-star] {
+  transition: transform 0.7s var(--ease-luxury) 0.3s, opacity 0.7s ease 0.3s;
+}
+
+/* ── Hide horizontal scrollbar on carousels ── */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Reduced motion: show everything immediately */
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal], [data-line], [data-dot], [data-star] {
+    opacity: 1 !important;
+    transform: none !important;
+    width: auto !important;
+  }
+  .hero-arch-path { animation: none; stroke-dashoffset: 0; }
+}

@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, viewport-fit=cover" />
+  <title>Riad Sa'eed | Luxury Riad in Marrakech Medina</title>
+  <meta name="description" content="Discover timeless luxury at Riad Sa'eed, a meticulously restored traditional riad in the heart of the Marrakech Medina. Six unique suites, rooftop dining, and an authentic Moroccan experience." />
+  <meta name="robots" content="noindex, nofollow" />
+
+  <!-- Fonts: Playfair Display (display serif) + DM Sans (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..500&display=swap" rel="stylesheet" />
+
+  <!-- Compiled Tailwind (static, no CDN needed) + custom styles -->
+  <link rel="stylesheet" href="./tailwind.css" />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body class="overflow-x-hidden bg-desert-tan text-midnight antialiased font-body">
+
+<!-- ── PRELOADER ─────────────────────────────────────────── -->
+<div id="preloader" class="fixed inset-0 z-[9999] flex items-center justify-center bg-desert-tan" aria-hidden="true">
+  <div id="preloader-inner" class="relative" style="opacity:0;transform:scale(0.94)">
+    <div class="absolute inset-0 -z-10 rounded-full bg-gold-light/15 blur-3xl"></div>
+    <img alt="Riad Sa'eed" width="400" height="500" decoding="async" class="h-36 w-auto md:h-48"
+      src="https://theriadsaeed.com/_next/image?url=%2Fimages%2Flogo.png&w=828&q=75" />
+    <div id="preloader-line" class="mx-auto mt-4 h-px w-24 origin-center"
+      style="background:linear-gradient(90deg, transparent, #C3BD75 20%, #9D9540 50%, #C3BD75 80%, transparent);transform:scaleX(0)"></div>
+  </div>
+</div>
+
+<!-- ── SCROLL PROGRESS BAR ───────────────────────────────── -->
+<div class="pointer-events-none fixed top-0 left-0 right-0 z-[60] h-[1px]">
+  <div id="scroll-progress" class="h-full origin-left"
+    style="background:linear-gradient(90deg, #676127, #9D9540, #C3BD75, #9D9540);transform:scaleX(0)"></div>
+</div>
+
+<!-- ── HEADER ────────────────────────────────────────────── -->
+<header id="site-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-luxury bg-transparent">
+  <div class="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
+    <a class="relative z-50 flex shrink-0 items-center gap-3" href="#">
+      <img alt="Riad Sa'eed" width="120" height="120" decoding="async"
+        class="hdr-logo h-12 w-auto transition-all duration-500 brightness-0 invert opacity-90"
+        src="https://theriadsaeed.com/_next/image?url=%2Fimages%2Flogo.png&w=256&q=75" />
+      <span class="hdr-title font-seasons text-xl font-semibold tracking-[0.15em] transition-colors duration-500 text-white">RIAD SA'EED</span>
+    </a>
+    <nav class="hidden items-center gap-6 xl:gap-8 lg:flex">
+      <a class="hdr-link link-luxury whitespace-nowrap font-body text-[0.7rem] font-medium uppercase tracking-[0.2em] transition-colors duration-300 text-white/80 hover:text-white" href="#about">The Riad</a>
+      <a class="hdr-link link-luxury whitespace-nowrap font-body text-[0.7rem] font-medium uppercase tracking-[0.2em] transition-colors duration-300 text-white/80 hover:text-white" href="#suites">Suites</a>
+      <a class="hdr-link link-luxury whitespace-nowrap font-body text-[0.7rem] font-medium uppercase tracking-[0.2em] transition-colors duration-300 text-white/80 hover:text-white" href="#restaurant">Restaurant</a>
+      <a class="hdr-link link-luxury whitespace-nowrap font-body text-[0.7rem] font-medium uppercase tracking-[0.2em] transition-colors duration-300 text-white/80 hover:text-white" href="#spa">Spa &amp; Wellness</a>
+      <a class="hdr-link link-luxury whitespace-nowrap font-body text-[0.7rem] font-medium uppercase tracking-[0.2em] transition-colors duration-300 text-white/80 hover:text-white" href="#experiences">Experiences</a>
+      <a class="hdr-link link-luxury whitespace-nowrap font-body text-[0.7rem] font-medium uppercase tracking-[0.2em] transition-colors duration-300 text-white/80 hover:text-white" href="#gallery">Gallery</a>
+      <a class="hdr-link link-luxury whitespace-nowrap font-body text-[0.7rem] font-medium uppercase tracking-[0.2em] transition-colors duration-300 text-white/80 hover:text-white" href="#journal">Journal</a>
+      <a class="hdr-link link-luxury whitespace-nowrap font-body text-[0.7rem] font-medium uppercase tracking-[0.2em] transition-colors duration-300 text-white/80 hover:text-white" href="#contact">Contact</a>
+    </nav>
+    <div class="ml-6 hidden shrink-0 lg:flex">
+      <div class="relative">
+        <button type="button" aria-haspopup="listbox" aria-expanded="false" aria-label="Change display currency"
+          class="hdr-currency flex items-center gap-1.5 font-body text-xs uppercase tracking-[0.15em] transition-colors duration-300 text-white/70 hover:text-white">
+          <span>MAD</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="h-3 w-3 transition-transform duration-200" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+      </div>
+    </div>
+    <a class="btn-luxury-filled hidden shrink-0 lg:inline-flex" href="#suites"><span>Book Now</span></a>
+    <button id="menu-btn" type="button" class="relative z-50 flex h-11 w-11 items-center justify-center lg:hidden"
+      style="touch-action:manipulation;-webkit-tap-highlight-color:transparent" aria-label="Open menu" aria-expanded="false">
+      <div class="flex w-6 flex-col items-end gap-[5px]">
+        <span class="hdr-bar block h-[1.5px] transition-all duration-500 ease-luxury w-6 bg-white"></span>
+        <span class="hdr-bar block h-[1.5px] w-4 transition-all duration-500 ease-luxury opacity-100 bg-white"></span>
+        <span class="hdr-bar block h-[1.5px] transition-all duration-500 ease-luxury w-5 bg-white"></span>
+      </div>
+    </button>
+  </div>
+  <!-- Mobile menu -->
+  <div id="mobile-menu" class="hidden lg:hidden bg-desert-tan px-6 pb-8 pt-24 fixed inset-0 z-40 flex-col gap-5">
+    <a class="font-seasons text-2xl text-midnight" href="#about">The Riad</a>
+    <a class="font-seasons text-2xl text-midnight" href="#suites">Suites</a>
+    <a class="font-seasons text-2xl text-midnight" href="#restaurant">Restaurant</a>
+    <a class="font-seasons text-2xl text-midnight" href="#spa">Spa &amp; Wellness</a>
+    <a class="font-seasons text-2xl text-midnight" href="#experiences">Experiences</a>
+    <a class="font-seasons text-2xl text-midnight" href="#gallery">Gallery</a>
+    <a class="font-seasons text-2xl text-midnight" href="#journal">Journal</a>
+    <a class="font-seasons text-2xl text-midnight" href="#contact">Contact</a>
+    <a class="btn-luxury-dark mt-4 self-start" href="#suites"><span>Book Now</span></a>
+  </div>
+</header>
+
+<main>
+
+  <!-- ── HERO ────────────────────────────────────────────── -->
+  <section class="relative h-screen w-full overflow-hidden">
+    <div class="absolute inset-0">
+      <video autoplay loop muted playsinline preload="auto"
+        poster="https://theriadsaeed.com/images/patio/IMGL0747.jpg"
+        class="h-full w-full object-cover scale-110" aria-label="Riad Sa'eed hero video">
+        <source src="https://theriadsaeed.com/video/hero.mp4" type="video/mp4" />
+      </video>
+    </div>
+    <div class="absolute inset-0 z-10" style="background:linear-gradient(to top, rgba(20, 20, 20, 0.55) 0%, rgba(20, 20, 20, 0.30) 40%, rgba(20, 20, 20, 0.10) 100%)"></div>
+
+    <!-- Keyhole arch outline -->
+    <div class="absolute inset-0 z-20 flex items-center justify-center pointer-events-none">
+      <svg viewBox="0 0 800 500" fill="none" xmlns="http://www.w3.org/2000/svg" class="absolute w-[min(500px,70vw)] h-auto opacity-[0.15]" preserveAspectRatio="xMidYMid meet">
+        <path class="hero-arch-path" d="M 200,500 L 200,200 C 200,89.5 289.5,0 400,0 C 510.5,0 600,89.5 600,200 L 600,500" stroke="white" stroke-width="1" fill="none" />
+      </svg>
+    </div>
+
+    <div class="relative z-20 flex h-full flex-col items-center justify-center px-6 text-center">
+      <div class="flex flex-col items-center gap-6">
+        <div data-reveal="scale-x" class="h-px w-[80px]" style="background:linear-gradient(90deg, transparent, #9D9540 20%, #C3BD75 50%, #9D9540 80%, transparent);opacity:0;transform:scaleX(0)"></div>
+        <p data-reveal class="font-body text-xs tracking-[0.3em] text-palm-olive-300 uppercase" style="opacity:0;transform:translateY(20px)">Riad Sa'eed</p>
+        <h1 data-reveal class="font-seasons text-display-md text-gold max-w-4xl leading-[1.2]" style="text-shadow:0 4px 30px rgba(0, 0, 0, 0.3);opacity:0;transform:translateY(30px)">
+          Exclusivity and Elegance<br /><span class="italic">in the Heart of the Médina</span>
+        </h1>
+        <div data-reveal class="mt-4" style="opacity:0;transform:translateY(25px)">
+          <a class="btn-luxury" href="#suites"><span>Discover Our Suites</span></a>
+        </div>
+      </div>
+    </div>
+
+    <div data-reveal class="absolute bottom-10 left-1/2 z-20 -translate-x-1/2" style="opacity:0">
+      <div class="flex flex-col items-center gap-2">
+        <span class="font-body text-[10px] tracking-[0.25em] text-white/40 uppercase">Scroll</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" class="text-white/40 animate-bounce"><polyline points="6 9 12 15 18 9"></polyline></svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── ABOUT ───────────────────────────────────────────── -->
+  <section id="about" class="bg-desert-tan px-6 py-section md:px-12 lg:px-20">
+    <div class="mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-20">
+      <div data-reveal class="lg:col-span-5" style="opacity:0;transform:translateX(-40px)">
+        <div class="relative">
+          <div class="arch-frame relative aspect-[3/4] w-full" style="border:1px solid rgba(103, 97, 39, 0.2)">
+            <img alt="View through ornate Riad Sa'eed double doors onto the marble fountain and Tuareg portrait" loading="lazy" decoding="async"
+              class="absolute inset-0 h-full w-full object-cover"
+              src="https://theriadsaeed.com/_next/image?url=%2Fimages%2Fpatio%2Fpatio-fountain-door.jpg&w=1080&q=75" />
+          </div>
+          <div class="flex justify-center"><div class="relative -mt-1 h-2 w-2 rotate-45 bg-palm-olive opacity-30"></div></div>
+        </div>
+      </div>
+      <div class="lg:col-span-7 lg:pl-8">
+        <p data-reveal class="font-body text-xs tracking-[0.3em] text-palm-olive uppercase" style="opacity:0;transform:translateY(40px)">About Riad Sa'eed</p>
+        <h2 data-reveal class="mt-5 font-seasons text-display-md text-midnight" style="opacity:0;transform:translateY(40px)">A Serene Oasis of Happiness</h2>
+        <div data-reveal class="line-separator-gold mt-6" style="opacity:0;transform:translateY(40px)"></div>
+        <p data-reveal class="mt-8 max-w-xl text-justify font-body text-base leading-[1.85] text-midnight/70" style="opacity:0;transform:translateY(40px)">
+          <strong class="font-medium text-midnight">Riad Sa'eed</strong>, meaning Happiness, invites you to the heart of Marrakech's timeless medina. Tim Antal and Haynes Wheeler from Charleston South Carolina have imagined and transformed this refined 16th-century residence as a private home and sanctuary where joy and discretion intertwine. Crafted with exquisite Moroccan artisanship, <strong class="font-medium text-midnight">Riad Sa'eed</strong> transcends hospitality to become a living, breathing home, an intimate retreat that illuminates the senses and elevates the art of gathering. Here, every detail is curated to invite peaceful moments, private luxury, and a profound sense of belonging in the heart of the city. Welcome to your serene oasis of happiness.
+        </p>
+        <p data-reveal class="mt-5 max-w-xl text-justify font-body text-base leading-[1.85] text-midnight/70" style="opacity:0;transform:translateY(40px)">
+          Located in the heart of the <strong class="font-medium text-midnight">Mouassine district</strong>, one of the Medina's most coveted neighbourhoods, Riad Sa'eed stands as a masterpiece of 15th and 16th-century architecture, surrounded by ancient mosques, historic gardens, celebrated restaurants, and the kind of curated concept stores that define contemporary cool. This is a neighbourhood that doesn't just tell history. It lives it, effortlessly.
+        </p>
+        <div data-reveal class="mt-8" style="opacity:0;transform:translateY(40px)">
+          <a class="link-luxury font-body text-sm tracking-wide text-palm-olive" href="#suites">Explore Our Suites →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="mx-auto mt-20 grid max-w-6xl grid-cols-1 gap-4 md:grid-cols-3 md:gap-6">
+      <div data-reveal class="relative aspect-[4/5] w-full overflow-hidden rounded-sm" style="opacity:0;transform:translateY(40px)">
+        <img alt="Riad Sa'eed inner courtyard at night with warm lighting and fountain" loading="lazy" decoding="async"
+          class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-luxury hover:scale-[1.03]"
+          src="https://theriadsaeed.com/_next/image?url=%2Fimages%2Fpatio%2Fpatio-night.jpg&w=1080&q=75" />
+      </div>
+      <div data-reveal class="relative aspect-[4/5] w-full overflow-hidden rounded-sm" style="opacity:0;transform:translateY(40px)">
+        <img alt="Marrakech medina rooftop view at sunset from Riad Sa'eed" loading="lazy" decoding="async"
+          class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-luxury hover:scale-[1.03]"
+          src="https://theriadsaeed.com/_next/image?url=%2Fimages%2Frooftop%2Fsunset-roof.jpg&w=1080&q=75" />
+      </div>
+      <div data-reveal class="relative aspect-[4/5] w-full overflow-hidden rounded-sm" style="opacity:0;transform:translateY(40px)">
+        <img alt="Vibrant Marrakech medina souk with hanging lanterns, leather goods and craftsmen" loading="lazy" decoding="async"
+          class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-luxury hover:scale-[1.03]"
+          src="https://theriadsaeed.com/_next/image?url=%2Fimages%2Fgeneral%2Fmedina-souk.webp&w=1080&q=75" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ── DISCOVER ────────────────────────────────────────── -->
+  <section aria-labelledby="discover-heading" class="bg-palm-olive-700 px-6 py-section md:px-12 lg:px-20">
+    <div class="mx-auto max-w-7xl">
+      <div class="mb-16 text-center">
+        <p data-reveal class="font-body text-xs tracking-[0.3em] uppercase text-palm-olive-200" style="opacity:0;transform:translateY(30px)">Discover</p>
+        <h2 data-reveal id="discover-heading" class="mt-5 font-seasons text-display-md text-white" style="opacity:0;transform:translateY(30px)">The Art of Moroccan Living</h2>
+        <div data-reveal class="mt-6" style="opacity:0;transform:translateY(30px)">
+          <div class="flex items-center justify-center gap-3 py-4">
+            <div data-line class="h-px" style="background:linear-gradient(90deg, transparent, #C3BD75);width:0px;opacity:0"></div>
+            <div data-dot class="h-2 w-2 shrink-0" style="background-color:#C3BD75;opacity:0;transform:scale(0)"></div>
+            <div data-line class="h-px" style="background:linear-gradient(90deg, #C3BD75, transparent);width:0px;opacity:0"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div data-reveal style="opacity:0;transform:translateY(40px)">
+          <a class="discover-card group relative block aspect-[3/4] w-full overflow-hidden rounded-sm" href="#suites"
+            aria-label="Suites: Six Singular Sanctuaries.">
+            <img alt="Luxurious suite interior with traditional Moroccan craftsmanship at Riad Sa'eed" loading="lazy" decoding="async"
+              class="discover-card__image absolute inset-0 h-full w-full object-cover"
+              src="https://theriadsaeed.com/_next/image?url=%2Fimages%2Frooms%2Fonyx%2Fhero.jpg&w=1080&q=75" />
+            <div class="discover-card__overlay" aria-hidden="true"></div>
+            <div class="relative z-10 flex h-full flex-col justify-end p-6 sm:p-5 lg:p-6">
+              <h3 class="font-body text-[10px] font-medium tracking-[0.3em] uppercase text-white/90">Suites</h3>
+              <div class="discover-card__line mt-3" aria-hidden="true"></div>
+              <p class="discover-card__subtitle mt-3 font-seasons text-lg leading-snug text-white sm:text-base lg:text-lg">Six Singular Sanctuaries</p>
+              <p class="discover-card__description mt-2 font-body text-[13px] leading-relaxed text-white/60">Each suite is a private world of hand-carved cedar, tadelakt walls, and antique Berber textiles curated over generations.</p>
+              <p class="discover-card__cta mt-4 font-body text-[11px] font-medium tracking-[0.15em] uppercase text-gold-light">More information <span class="discover-card__cta-arrow" aria-hidden="true">→</span></p>
+            </div>
+            <div class="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/50 to-transparent" aria-hidden="true"></div>
+          </a>
+        </div>
+        <div data-reveal style="opacity:0;transform:translateY(40px)">
+          <a class="discover-card group relative block aspect-[3/4] w-full overflow-hidden rounded-sm" href="#restaurant"
+            aria-label="Restaurant: Rooftop Dining, Atlas Views.">
+            <img alt="Exquisite Moroccan cuisine presented on a rooftop terrace at Riad Sa'eed" loading="lazy" decoding="async"
+              class="discover-card__image absolute inset-0 h-full w-full object-cover"
+              src="https://theriadsaeed.com/_next/image?url=%2Fimages%2Ffood%2Fmbk906_editorial_food_magazine_photograph_of_gastromy_food_lu_385cc322-92ba-4803-a89c-ab4d1a324ab9_0.png&w=1080&q=75" />
+            <div class="discover-card__overlay" aria-hidden="true"></div>
+            <div class="relative z-10 flex h-full flex-col justify-end p-6 sm:p-5 lg:p-6">
+              <h3 class="font-body text-[10px] font-medium tracking-[0.3em] uppercase text-white/90">Restaurant</h3>
+              <div class="discover-card__line mt-3" aria-hidden="true"></div>
+              <p class="discover-card__subtitle mt-3 font-seasons text-lg leading-snug text-white sm:text-base lg:text-lg">Rooftop Dining, Atlas Views</p>
+              <p class="discover-card__description mt-2 font-body text-[13px] leading-relaxed text-white/60">Slow-simmered tagines, hand-rolled couscous, and pastries sweetened with orange blossom, served beneath the Marrakech stars.</p>
+              <p class="discover-card__cta mt-4 font-body text-[11px] font-medium tracking-[0.15em] uppercase text-gold-light">More information <span class="discover-card__cta-arrow" aria-hidden="true">→</span></p>
+            </div>
+            <div class="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/50 to-transparent" aria-hidden="true"></div>
+          </a>
+        </div>
+        <div data-reveal style="opacity:0;transform:translateY(40px)">
+          <a class="discover-card group relative block aspect-[3/4] w-full overflow-hidden rounded-sm" href="#spa"
+            aria-label="Spa &amp; Wellness: Ancient Rituals, Modern Serenity.">
+            <img alt="Hammered copper bowl with rose petals in warm Moroccan light, spa treatment ritual" loading="lazy" decoding="async"
+              class="discover-card__image absolute inset-0 h-full w-full object-cover"
+              src="https://theriadsaeed.com/_next/image?url=%2Fimages%2Fexperiences%2Fcard-spa.png&w=1080&q=75" />
+            <div class="discover-card__overlay" aria-hidden="true"></div>
+            <div class="relative z-10 flex h-full flex-col justify-end p-6 sm:p-5 lg:p-6">
+              <h3 class="font-body text-[10px] font-medium tracking-[0.3em] uppercase text-white/90">Spa &amp; Wellness</h3>
+              <div class="discover-card__line mt-3" aria-hidden="true"></div>
+              <p class="discover-card__subtitle mt-3 font-seasons text-lg leading-snug text-white sm:text-base lg:text-lg">Ancient Rituals, Modern Serenity</p>
+              <p class="discover-card__description mt-2 font-body text-[13px] leading-relaxed text-white/60">A traditional hammam and bespoke treatments using argan oil, black soap, and locally sourced botanicals.</p>
+              <p class="discover-card__cta mt-4 font-body text-[11px] font-medium tracking-[0.15em] uppercase text-gold-light">More information <span class="discover-card__cta-arrow" aria-hidden="true">→</span></p>
+            </div>
+            <div class="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/50 to-transparent" aria-hidden="true"></div>
+          </a>
+        </div>
+        <div data-reveal style="opacity:0;transform:translateY(40px)">
+          <a class="discover-card group relative block aspect-[3/4] w-full overflow-hidden rounded-sm" href="#experiences"
+            aria-label="Experiences: Beyond the Riad Walls.">
+            <img alt="Vibrant Marrakech Medina alleyway at dusk with glowing Moroccan lanterns" loading="lazy" decoding="async"
+              class="discover-card__image absolute inset-0 h-full w-full object-cover"
+              src="https://theriadsaeed.com/_next/image?url=%2Fimages%2Fexperiences%2Fcard-riad-walls.png&w=1080&q=75" />
+            <div class="discover-card__overlay" aria-hidden="true"></div>
+            <div class="relative z-10 flex h-full flex-col justify-end p-6 sm:p-5 lg:p-6">
+              <h3 class="font-body text-[10px] font-medium tracking-[0.3em] uppercase text-white/90">Experiences</h3>
+              <div class="discover-card__line mt-3" aria-hidden="true"></div>
+              <p class="discover-card__subtitle mt-3 font-seasons text-lg leading-snug text-white sm:text-base lg:text-lg">Beyond the Riad Walls</p>
+              <p class="discover-card__description mt-2 font-body text-[13px] leading-relaxed text-white/60">Guided souk expeditions, Atlas Mountain excursions, private cooking classes, and Saharan stargazing journeys.</p>
+              <p class="discover-card__cta mt-4 font-body text-[11px] font-medium tracking-[0.15em] uppercase text-gold-light">More information <span class="discover-card__cta-arrow" aria-hidden="true">→</span></p>
+            </div>
+            <div class="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/50 to-transparent" aria-hidden="true"></div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SUITES ──────────────────────────────────────────── -->
+  <section id="suites" class="bg-desert-tan-50 px-6 py-section md:px-12 lg:px-20">
+    <div class="mx-auto max-w-7xl">
+      <div class="mb-16 text-center">
+        <p data-reveal class="font-body text-xs tracking-[0.3em] text-palm-olive uppercase" style="opacity:0;transform:translateY(30px)">Our Suites</p>
+        <h2 data-reveal class="text-gold-shimmer mt-5 font-seasons text-display-md" style="opacity:0;transform:translateY(30px)">Six Sanctuaries, Each Unique</h2>
+        <div data-reveal class="mt-6" style="opacity:0;transform:translateY(30px)">
+          <div class="flex items-center justify-center gap-3 py-4">
+            <div data-line class="h-px" style="background:linear-gradient(90deg, transparent, #676127);width:0px;opacity:0"></div>
+            <div data-dot class="h-2 w-2 shrink-0" style="background-color:#676127;opacity:0;transform:scale(0)"></div>
+            <div data-line class="h-px" style="background:linear-gradient(90deg, #676127, transparent);width:0px;opacity:0"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        <!-- Onyx -->
+        <div data-reveal style="opacity:0;transform:translateY(40px)">
+          <a class="group block" href="#suites">
+            <div class="img-zoom relative aspect-[4/5] w-full overflow-hidden rounded-sm">
+              <img alt="Onyx suite at Riad Sa'eed" loading="lazy" decoding="async" class="absolute inset-0 h-full w-full object-cover"
+                src="https://theriadsaeed.com/_next/image?url=%2Fimages%2Frooms%2Fonyx%2Fhero.jpg&w=1080&q=75" />
+            </div>
+            <div class="h-[3px] w-full transition-all duration-500 ease-out group-hover:h-[4px]" style="background-color:#3D3D3D"></div>
+            <div class="mt-5 rounded-b-sm p-1 transition-shadow duration-500 ease-out group-hover:shadow-lg">
+              <div class="flex items-center gap-2">
+                <span class="h-2 w-2 shrink-0 rounded-full" style="background-color:#3D3D3D"></span>
+                <h3 class="font-seasons text-lg uppercase tracking-[0.12em] text-midnight lg:text-xl">Onyx Suite</h3>
+              </div>
+              <p class="mt-1 pl-4 font-body text-sm italic text-midnight/40">Inspired by Moonlit Moroccan Nights</p>
+              <p class="mt-3 pl-4 font-body text-sm tracking-wide text-palm-olive">From <span>5,400 MAD</span> / night</p>
+            </div>
+          </a>
+        </div>
+        <!-- Berber Terrace -->
+        <div data-reveal style="opacity:0;transform:translateY(40px)">
+          <a class="group block" href="#suites">
+            <div class="img-zoom relative aspect-[4/5] w-full overflow-hidden rounded-sm">
+              <img alt="Berber Terrace suite at Riad Sa'eed" loading="lazy" decoding="async" class="absolute inset-0 h-full w-full object-cover"
+                src="https://theriadsaeed.com/_next/image?url=%2Fimages%2Frooms%2Fvermeil%2Fhero-tim.jpg&w=1080&q=75" />
+            </div>
+            <div class="h-[3px] w-full transition-all duration-500 ease-out group-hover:h-[4px]" style="background-color:#8B6914"></div>
+            <div class="mt-5 rounded-b-sm p-1 transition-shadow duration-500 ease-out group-hover:shadow-lg">
+              <div class="flex items-center gap-2">
+                <span class="h-2 w-2 shrink-0 rounded-full" style="background-color:#8B6914"></span>
+                <h3 class="font-seasons text-lg uppercase tracking-[0.12em] text-midnight lg:text-xl">Berber Terrace Suite</h3>
+              </div>
+              <p class="mt-1 pl-4 font-body text-sm italic text-midnight/40">Inspired by the Artisans of the Atlas Mountains</p>
+              <p class="mt-3 pl-4 font-body text-sm tracking-wide text-palm-olive">From <span>5,400 MAD</span> / night</p>
+            </div>
+          </a>
+        </div>
+        <!-- Emerald -->
+        <div data-reveal style="opacity:0;transform:translateY(40px)">
+          <a class="group block" href="#suites">
+            <div class="img-zoom relative aspect-[4/5] w-full overflow-hidden rounded-sm">
+              <img alt="Emerald suite at Riad Sa'eed" loading="lazy" decoding="async" class="absolute inset-0 h-full w-full object-cover"
+                src="https://theriadsaeed.com/_next/image?url=%2Fimages%2Frooms%2Femeraude%2Fbedroom-wide.jpg&w=1080&q=75" />
+            </div>
+            <div class="h-[3px] w-full transition-all duration-500 ease-out group-hover:h-[4px]" style="background-color:#2D6A4F"></div>
+            <div class="mt-5 rounded-b-sm p-1 transition-shadow duration-500 ease-out group-hover:shadow-lg">
+              <div class="flex items-center gap-2">
+                <span class="h-2 w-2 shrink-0 rounded-full" style="background-color:#2D6A4F"></span>
+                <h3 class="font-seasons text-lg uppercase tracking-[0.12em] text-midnight lg:text-xl">Emerald Suite</h3>
+              </div>
+              <p class="mt-1 pl-4 font-body text-sm italic text-midnight/40">Inspired by the Verdant Desert Oasis</p>
+              <p class="mt-3 pl-4 font-body text-sm tracking-wide text-palm-olive">From <span>5,400 MAD</span> / night</p>
+            </div>
+          </a>
+        </div>
+        <!-- Indigo -->
+        <div data-reveal style="opacity:0;transform:translateY(40px)">
+          <a class="group block" href="#suites">
+            <div class="img-zoom relative aspect-[4/5] w-full overflow-hidden rounded-sm">
+              <img alt="Indigo suite at Riad Sa'eed" loading="lazy" decoding="async" class="absolute inset-0 h-full w-full object-cover"
+                src="https://theriadsaeed.com/_next/image?url=%2Fimages%2Frooms%2Fmajorelle%2Fhero.jpg&w=1080&q=75" />
+            </div>
+            <div class="h-[3px] w-full transition-all duration-500 ease-out group-hover:h-[4px]" style="background-color:#2C4A7C"></div>
+            <div class="mt-5 rounded-b-sm p-1 transition-shadow duration-500 ease-out group-hover:shadow-lg">
+              <div class="flex items-center gap-2">
+                <span class="h-2 w-2 shrink-0 rounded-full" style="background-color:#2C4A7C"></span>
+                <h3 class="font-seasons text-lg uppercase tracking-[0.12em] text-midnight lg:text-xl">Indigo Suite</h3>
+              </div>
+              <p class="mt-1 pl-4 font-body text-sm italic text-midnight/40">Inspired by Blue Skies of North Africa</p>
+              <p class="mt-3 pl-4 font-body text-sm tracking-wide text-palm-olive">From <span>6,500 MAD</span> / night</p>
+            </div>
+          </a>
+        </div>
+        <!-- Sienna -->
+        <div data-reveal style="opacity:0;transform:translateY(40px)">
+          <a class="group block" href="#suites">
+            <div class="img-zoom relative aspect-[4/5] w-full overflow-hidden rounded-sm">
+              <img alt="Sienna suite at Riad Sa'eed" loading="lazy" decoding="async" class="absolute inset-0 h-full w-full object-cover"
+                src="https://theriadsaeed.com/_next/image?url=%2Fimages%2Frooms%2Fkilim%2Fbed-four-poster.jpg&w=1080&q=75" />
+            </div>
+            <div class="h-[3px] w-full transition-all duration-500 ease-out group-hover:h-[4px]" style="background-color:#A0522D"></div>
+            <div class="mt-5 rounded-b-sm p-1 transition-shadow duration-500 ease-out group-hover:shadow-lg">
+              <div class="flex items-center gap-2">
+                <span class="h-2 w-2 shrink-0 rounded-full" style="background-color:#A0522D"></span>
+                <h3 class="font-seasons text-lg uppercase tracking-[0.12em] text-midnight lg:text-xl">Sienna Suite</h3>
+              </div>
+              <p class="mt-1 pl-4 font-body text-sm italic text-midnight/40">Inspired by the Warm Earth Tones of the Red City</p>
+              <p class="mt-3 pl-4 font-body text-sm tracking-wide text-palm-olive">From <span>6,750 MAD</span> / night</p>
+            </div>
+          </a>
+        </div>
+        <!-- Ivory -->
+        <div data-reveal style="opacity:0;transform:translateY(40px)">
+          <a class="group block" href="#suites">
+            <div class="img-zoom relative aspect-[4/5] w-full overflow-hidden rounded-sm">
+              <img alt="Ivory suite at Riad Sa'eed" loading="lazy" decoding="async" class="absolute inset-0 h-full w-full object-cover"
+                src="https://theriadsaeed.com/_next/image?url=%2Fimages%2Frooms%2Fnacre%2Fhero-tim.jpg&w=1080&q=75" />
+            </div>
+            <div class="h-[3px] w-full transition-all duration-500 ease-out group-hover:h-[4px]" style="background-color:#C4B69A"></div>
+            <div class="mt-5 rounded-b-sm p-1 transition-shadow duration-500 ease-out group-hover:shadow-lg">
+              <div class="flex items-center gap-2">
+                <span class="h-2 w-2 shrink-0 rounded-full" style="background-color:#C4B69A"></span>
+                <h3 class="font-seasons text-lg uppercase tracking-[0.12em] text-midnight lg:text-xl">Ivory Suite</h3>
+              </div>
+              <p class="mt-1 pl-4 font-body text-sm italic text-midnight/40">Inspired by the Riad's 16th Century Tadelakt Walls</p>
+              <p class="mt-3 pl-4 font-body text-sm tracking-wide text-palm-olive">From <span>7,100 MAD</span> / night</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── RESTAURANT ──────────────────────────────────────── -->
+  <section id="restaurant" class="zellige-bg bg-midnight px-6 py-section md:px-12 lg:px-20">
+    <div class="mx-auto max-w-7xl">
+      <div class="mb-16 text-center">
+        <p data-reveal class="font-body text-xs tracking-[0.3em] text-palm-olive-300 uppercase" style="opacity:0;transform:translateY(40px)">Culinary Arts</p>
+        <h2 data-reveal class="mt-5 font-seasons text-display-md text-white" style="opacity:0;transform:translateY(40px)">A Feast for the Senses</h2>
+        <div data-reveal class="mx-auto mt-6 line-separator-gold" style="opacity:0;transform:translateY(40px)"></div>
+      </div>
+      <div class="grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-20">
+        <div class="lg:col-span-6">
+          <p data-reveal class="max-w-lg font-body text-base leading-relaxed text-white/60" style="opacity:0;transform:translateY(40px)">Ascend to our rooftop terrace where the Atlas Mountains paint the horizon and the Medina unfolds beneath the evening sky. Our chef transforms the freshest ingredients from the morning souk into authentic Moroccan cuisine -- slow-simmered tagines, hand-rolled couscous, and pastries sweetened with orange blossom and local honey.</p>
+          <p data-reveal class="mt-5 max-w-lg font-body text-base leading-relaxed text-white/60" style="opacity:0;transform:translateY(40px)">Each morning begins with fresh-baked bread, fragrant mint tea, and seasonal fruits gathered at dawn. As the sun dips below the minarets, candlelight takes over and every evening becomes an intimate celebration of flavour, tradition, and the incomparable magic of dining under the Marrakech stars.</p>
+          <div data-reveal class="mt-8" style="opacity:0;transform:translateY(40px)">
+            <a class="link-luxury font-body text-sm tracking-wide text-palm-olive-300" href="#restaurant">View Full Menu →</a>
+          </div>
+        </div>
+        <div data-reveal class="lg:col-span-6" style="opacity:0;transform:translateX(40px)">
+          <div class="arch-frame img-zoom relative aspect-[4/5] w-full" style="border:1px solid rgba(157, 149, 64, 0.2)">
+            <img alt="Exquisite Moroccan cuisine at Riad Sa'eed rooftop restaurant" loading="lazy" decoding="async"
+              class="absolute inset-0 h-full w-full object-cover"
+              src="https://theriadsaeed.com/_next/image?url=%2Fimages%2Ffood%2Fmbk906_editorial_food_magazine_photograph_of_gastromy_food_lu_385cc322-92ba-4803-a89c-ab4d1a324ab9_0.png&w=1080&q=75" />
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-3">
+        <div data-reveal class="overflow-hidden rounded-sm border border-white/5 bg-midnight-600 p-4" style="opacity:0;transform:translateY(40px)">
+          <div class="arch-frame-subtle img-zoom relative aspect-square w-full">
+            <img alt="Lamb Tagine - traditional Moroccan cuisine at Riad Sa'eed" loading="lazy" decoding="async"
+              class="absolute inset-0 h-full w-full object-cover"
+              src="https://theriadsaeed.com/_next/image?url=%2Fimages%2Ffood%2Fmbk906_editorial_food_magazine_photograph_of_moroccan_lamb_ta_e010b23f-5dec-44da-ae7e-abe39717c502_0.png&w=1080&q=75" />
+          </div>
+          <h3 class="mt-4 font-seasons text-lg text-white">Lamb Tagine</h3>
+          <p class="mt-1 font-body text-sm leading-relaxed text-white/40">Slow-simmered with preserved lemons, saffron, and Moroccan olives</p>
+        </div>
+        <div data-reveal class="overflow-hidden rounded-sm border border-white/5 bg-midnight-600 p-4" style="opacity:0;transform:translateY(40px)">
+          <div class="arch-frame-subtle img-zoom relative aspect-square w-full">
+            <img alt="Couscous Royal - traditional Moroccan cuisine at Riad Sa'eed" loading="lazy" decoding="async"
+              class="absolute inset-0 h-full w-full object-cover"
+              src="https://theriadsaeed.com/_next/image?url=%2Fimages%2Ffood%2Fmbk906_editorial_food_magazine_photograph_of_moroccan_couscou_e8212d76-ea26-4592-a2db-616e3ba831d7_0.png&w=1080&q=75" />
+          </div>
+          <h3 class="mt-4 font-seasons text-lg text-white">Couscous Royal</h3>
+          <p class="mt-1 font-body text-sm leading-relaxed text-white/40">Hand-rolled semolina crowned with seven vegetables and tender meats</p>
+        </div>
+        <div data-reveal class="overflow-hidden rounded-sm border border-white/5 bg-midnight-600 p-4" style="opacity:0;transform:translateY(40px)">
+          <div class="arch-frame-subtle img-zoom relative aspect-square w-full">
+            <img alt="Chicken M'Chermel - traditional Moroccan cuisine at Riad Sa'eed" loading="lazy" decoding="async"
+              class="absolute inset-0 h-full w-full object-cover"
+              src="https://theriadsaeed.com/_next/image?url=%2Fimages%2Ffood%2Fmbk906_editorial_food_magazine_photograph_of_moroccan_chiecke_f4ac4385-34bb-4237-9497-4ecfe4a94b54_2.png&w=1080&q=75" />
+          </div>
+          <h3 class="mt-4 font-seasons text-lg text-white">Chicken M'Chermel</h3>
+          <p class="mt-1 font-body text-sm leading-relaxed text-white/40">Marinated in chermoula, roasted with caramelised onions and raisins</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── EXPERIENCES ─────────────────────────────────────── -->
+  <section id="experiences" class="bg-palm-olive-700 px-6 py-section md:px-12 lg:px-20">
+    <div class="flex items-center justify-center gap-4 py-6 mb-16">
+      <div data-line class="h-px" style="background:linear-gradient(90deg, transparent, #C3BD75);width:0px;opacity:0"></div>
+      <svg data-star width="20" height="20" viewBox="0 0 24 24" class="shrink-0" style="opacity:0;transform:scale(0) rotate(-90deg)">
+        <polygon points="12,0 14.5,9.5 24,12 14.5,14.5 12,24 9.5,14.5 0,12 9.5,9.5" fill="#C3BD75"></polygon>
+        <rect x="8" y="8" width="8" height="8" transform="rotate(45 12 12)" fill="#C3BD75" opacity="0.5"></rect>
+      </svg>
+      <div data-line class="h-px" style="background:linear-gradient(90deg, #C3BD75, transparent);width:0px;opacity:0"></div>
+    </div>
+    <div class="mx-auto max-w-7xl">
+      <div class="mb-14 text-center">
+        <p data-reveal class="font-body text-xs tracking-[0.3em] text-palm-olive-200 uppercase" style="opacity:0;transform:translateY(30px)">Experiences</p>
+        <h2 data-reveal class="text-gold-shimmer mt-5 font-seasons text-display-md" style="opacity:0;transform:translateY(30px)">Unforgettable Moments</h2>
+        <div data-reveal class="mt-6" style="opacity:0;transform:translateY(30px)">
+          <div class="flex items-center justify-center py-2">
+            <div data-line class="h-px" style="background:linear-gradient(90deg, transparent, #C3BD75, transparent);width:0px;opacity:0"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="relative -mx-6 md:-mx-12 lg:-mx-20">
+        <div class="flex gap-5 overflow-x-auto px-6 pb-6 md:px-12 lg:px-20 no-scrollbar" style="scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch">
+          <div data-reveal class="w-[280px] flex-shrink-0 md:w-[320px]" style="scroll-snap-align:start;opacity:0;transform:translateY(30px)">
+            <div class="flex h-full flex-col rounded-sm border-l-[3px] border-l-gold bg-desert-tan p-7 shadow-sm transition-all duration-500 ease-out hover:-translate-y-[2px] hover:border-l-gold-light hover:shadow-md">
+              <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-palm-olive" aria-hidden="true">
+                <rect x="16" y="38" width="16" height="4" rx="0.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></rect>
+                <path d="M19 38V18h10v20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M22 30v-4a2 2 0 0 1 4 0v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M17 18h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M18 18v-2h12v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M21 16V10h6v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M21 10c0-3 3-5 3-5s3 2 3 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                <line x1="24" y1="5" x2="24" y2="3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></line>
+                <circle cx="24" cy="2.5" r="0.8" fill="currentColor"></circle>
+              </svg>
+              <h3 class="mt-5 font-seasons text-lg text-midnight">Guided Medina Discovery</h3>
+              <p class="mt-1 font-body text-xs tracking-wide text-midnight/40">3 hours</p>
+              <p class="mt-3 line-clamp-2 flex-grow font-body text-sm leading-relaxed text-midnight/50">Wander the labyrinthine souks and hidden treasures of the Marrakech Medina with our private guide. From the spice markets to secret palaces, discover stories only locals know.</p>
+              <p class="mt-4 font-body text-sm tracking-wide text-palm-olive">From €65 per person</p>
+            </div>
+          </div>
+          <div data-reveal class="w-[280px] flex-shrink-0 md:w-[320px]" style="scroll-snap-align:start;opacity:0;transform:translateY(30px)">
+            <div class="flex h-full flex-col rounded-sm border-l-[3px] border-l-gold bg-desert-tan p-7 shadow-sm transition-all duration-500 ease-out hover:-translate-y-[2px] hover:border-l-gold-light hover:shadow-md">
+              <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-palm-olive" aria-hidden="true">
+                <path d="M12 42V22c0-8 5.5-14 12-14s12 6 12 14v20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M18 42V26c0-4 2.7-8 6-8s6 4 6 8v16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M22 14c0-2 1-3 0-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"></path>
+                <path d="M24 12c0-2 1-3.5 0-5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"></path>
+                <path d="M26 14c0-2 1-3 0-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"></path>
+                <line x1="10" y1="42" x2="38" y2="42" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></line>
+                <circle cx="24" cy="24" r="1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.4"></circle>
+                <path d="M24 20.5l1.5 1.5-1.5 1.5-1.5-1.5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.3"></path>
+              </svg>
+              <h3 class="mt-5 font-seasons text-lg text-midnight">Traditional Hammam Ritual</h3>
+              <p class="mt-1 font-body text-xs tracking-wide text-midnight/40">1.5 hours</p>
+              <p class="mt-3 line-clamp-2 flex-grow font-body text-sm leading-relaxed text-midnight/50">Within Riad Sa'eed's private hammam, surrender to the ancient art of the Moroccan ritual. Black soap, rhassoul clay, and argan oil, applied by expert hands beneath the warm steam of our intimate domed retreat. An ancestral ceremony of purification and renewal, never leaving the riad.</p>
+              <p class="mt-4 font-body text-sm tracking-wide text-palm-olive">From €85 per person</p>
+            </div>
+          </div>
+          <div data-reveal class="w-[280px] flex-shrink-0 md:w-[320px]" style="scroll-snap-align:start;opacity:0;transform:translateY(30px)">
+            <div class="flex h-full flex-col rounded-sm border-l-[3px] border-l-gold bg-desert-tan p-7 shadow-sm transition-all duration-500 ease-out hover:-translate-y-[2px] hover:border-l-gold-light hover:shadow-md">
+              <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-palm-olive" aria-hidden="true">
+                <path d="M14 28c0 0 4-16 10-16s10 16 10 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                <circle cx="24" cy="10" r="2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></circle>
+                <ellipse cx="24" cy="30" rx="14" ry="4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></ellipse>
+                <path d="M12 34c0 2 5.4 4 12 4s12-2 12-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                <line x1="10" y1="30" x2="10" y2="34" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></line>
+                <line x1="38" y1="30" x2="38" y2="34" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></line>
+                <path d="M21 8c-0.5-1.5 0.5-3 0-4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.4"></path>
+                <path d="M27 8c-0.5-1.5 0.5-3 0-4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.4"></path>
+              </svg>
+              <h3 class="mt-5 font-seasons text-lg text-midnight">Moroccan Cooking Atelier</h3>
+              <p class="mt-1 font-body text-xs tracking-wide text-midnight/40">4 hours</p>
+              <p class="mt-3 line-clamp-2 flex-grow font-body text-sm leading-relaxed text-midnight/50">Join one of our local chefs on a journey from the spice souk to the kitchen. Learn to prepare classic tagines, hand-roll couscous, and master the art of Moroccan pastry in an intimate hands-on cooking experience.</p>
+              <p class="mt-4 font-body text-sm tracking-wide text-palm-olive">From €90 per person</p>
+            </div>
+          </div>
+          <div data-reveal class="w-[280px] flex-shrink-0 md:w-[320px]" style="scroll-snap-align:start;opacity:0;transform:translateY(30px)">
+            <div class="flex h-full flex-col rounded-sm border-l-[3px] border-l-gold bg-desert-tan p-7 shadow-sm transition-all duration-500 ease-out hover:-translate-y-[2px] hover:border-l-gold-light hover:shadow-md">
+              <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-palm-olive" aria-hidden="true">
+                <path d="M4 40L18 12l6 10 4-6 12 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M14.5 19l3.5-7 3 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"></path>
+                <path d="M24 40l8-16 8 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"></path>
+                <circle cx="38" cy="10" r="3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.4"></circle>
+                <line x1="2" y1="40" x2="46" y2="40" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></line>
+                <path d="M24 40c0-3 2-5 1-8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.3"></path>
+              </svg>
+              <h3 class="mt-5 font-seasons text-lg text-midnight">Atlas Mountains Escape</h3>
+              <p class="mt-1 font-body text-xs tracking-wide text-midnight/40">Full day</p>
+              <p class="mt-3 line-clamp-2 flex-grow font-body text-sm leading-relaxed text-midnight/50">Journey through the foothills of the High Atlas to visit Berber villages, terraced valleys, and the cascading Ouzoud waterfalls. A day of breathtaking landscapes and warm encounters.</p>
+              <p class="mt-4 font-body text-sm tracking-wide text-palm-olive">From €120 per person</p>
+            </div>
+          </div>
+          <div data-reveal class="w-[280px] flex-shrink-0 md:w-[320px]" style="scroll-snap-align:start;opacity:0;transform:translateY(30px)">
+            <div class="flex h-full flex-col rounded-sm border-l-[3px] border-l-gold bg-desert-tan p-7 shadow-sm transition-all duration-500 ease-out hover:-translate-y-[2px] hover:border-l-gold-light hover:shadow-md">
+              <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-palm-olive" aria-hidden="true">
+                <path d="M10 32c0-2 1-4 3-5l2-8c0.5-2 2-3 3-3h2l1-3h2l-0.5 3h3c2 0 3 1 3.5 3l1.5 5 3 1v-4h2v6l-2 1v4h-2v-3h-1v3h-2v-3H17v3h-2v-3h-1v3h-2v-4z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M13 16l-3-2h-2l0.5 2.5 2 0.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                <line x1="40" y1="38" x2="40" y2="22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"></line>
+                <path d="M40 22c-3 0-5 2-7 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"></path>
+                <path d="M40 22c3 0 5 2 7 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"></path>
+                <path d="M40 23c-2-1-4 0-6 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.4"></path>
+                <path d="M40 23c2-1 4 0 6 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.4"></path>
+                <line x1="2" y1="38" x2="46" y2="38" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.3"></line>
+                <circle cx="34" cy="8" r="4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.3"></circle>
+              </svg>
+              <h3 class="mt-5 font-seasons text-lg text-midnight">Sunset Camel Ride</h3>
+              <p class="mt-1 font-body text-xs tracking-wide text-midnight/40">2 hours</p>
+              <p class="mt-3 line-clamp-2 flex-grow font-body text-sm leading-relaxed text-midnight/50">As the sun dips toward the Atlas, ride through the ancient palm groves of the Palmeraie on camelback. Tea and Moroccan pastries await at a traditional bivouac under the first stars.</p>
+              <p class="mt-4 font-body text-sm tracking-wide text-palm-olive">From €55 per person</p>
+            </div>
+          </div>
+          <div data-reveal class="w-[280px] flex-shrink-0 md:w-[320px]" style="scroll-snap-align:start;opacity:0;transform:translateY(30px)">
+            <a class="group flex h-full flex-col items-center justify-center rounded-sm border border-dashed border-gold-light/50 p-7 transition-all duration-500 ease-out hover:border-gold-light hover:bg-palm-olive-600" href="#experiences">
+              <span class="font-body text-sm tracking-wide text-gold-light transition-colors group-hover:text-white">Discover All Experiences</span>
+              <span class="mt-2 text-xl text-gold-light transition-transform duration-300 group-hover:translate-x-1">→</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TESTIMONIALS ────────────────────────────────────── -->
+  <section id="gallery" class="zellige-bg bg-midnight px-6 py-section md:px-12 lg:px-20">
+    <div class="mx-auto max-w-7xl">
+      <div class="mb-16 text-center">
+        <p data-reveal class="font-body text-xs tracking-[0.3em] text-palm-olive-300 uppercase" style="opacity:0;transform:translateY(30px)">Guest Voices</p>
+        <h2 data-reveal class="text-gold-shimmer mt-5 font-seasons text-display-md" style="opacity:0;transform:translateY(30px)">Stories From Our Guests</h2>
+        <div data-reveal class="mt-6" style="opacity:0;transform:translateY(30px)"><div class="line-separator-gold mx-auto"></div></div>
+      </div>
+
+      <div class="grid gap-8 md:grid-cols-3">
+        <article data-reveal class="group relative flex flex-col rounded-sm border border-white/5 bg-white/[0.03] p-8 backdrop-blur-sm transition-colors duration-500 hover:bg-white/[0.06]" style="opacity:0;transform:translateY(40px)">
+          <span class="absolute -top-2 left-6 font-seasons text-6xl leading-none text-palm-olive/20" aria-hidden="true">“</span>
+          <div class="mb-5"><div class="stars flex gap-1" aria-label="5 out of 5 stars"></div></div>
+          <blockquote class="flex-grow">
+            <p class="font-body text-sm leading-relaxed text-white/60 italic">“Our stay at Riad Sa'eed was truly magical. Tucked in the heart of the Medina, it felt like stepping into a beautifully curated moment in time. The attention to detail and the incredible staff made us feel like we were the only guests. Riad Sa'eed is more than a place to stay, it's an experience we'll always remember.”</p>
+          </blockquote>
+          <div class="my-6 h-px bg-gradient-to-r from-transparent via-palm-olive/30 to-transparent"></div>
+          <footer>
+            <p class="font-seasons text-base text-white">Keane &amp; Elizabeth Mayer</p>
+            <p class="mt-1 font-body text-xs text-white/40">Charleston South Carolina USA</p>
+            <p class="mt-0.5 font-body text-[0.65rem] uppercase tracking-wider text-palm-olive/60">Romantic Getaway</p>
+          </footer>
+        </article>
+        <article data-reveal class="group relative flex flex-col rounded-sm border border-white/5 bg-white/[0.03] p-8 backdrop-blur-sm transition-colors duration-500 hover:bg-white/[0.06]" style="opacity:0;transform:translateY(40px)">
+          <span class="absolute -top-2 left-6 font-seasons text-6xl leading-none text-palm-olive/20" aria-hidden="true">“</span>
+          <div class="mb-5"><div class="stars flex gap-1" aria-label="5 out of 5 stars"></div></div>
+          <blockquote class="flex-grow">
+            <p class="font-body text-sm leading-relaxed text-white/60 italic">“Riad Sa'eed took my breath away! An absolute jewel in the heart of the Medina. I felt like a princess in my own elegant palace dining under the stars. The staff anticipated my every need. My room was so beautiful, I truly wanted to never leave. No place better in the Medina. 11 out of 10 stars.”</p>
+          </blockquote>
+          <div class="my-6 h-px bg-gradient-to-r from-transparent via-palm-olive/30 to-transparent"></div>
+          <footer>
+            <p class="font-seasons text-base text-white">Lynne</p>
+            <p class="mt-1 font-body text-xs text-white/40">United States</p>
+            <p class="mt-0.5 font-body text-[0.65rem] uppercase tracking-wider text-palm-olive/60">Solo Escape</p>
+          </footer>
+        </article>
+        <article data-reveal class="group relative flex flex-col rounded-sm border border-white/5 bg-white/[0.03] p-8 backdrop-blur-sm transition-colors duration-500 hover:bg-white/[0.06]" style="opacity:0;transform:translateY(40px)">
+          <span class="absolute -top-2 left-6 font-seasons text-6xl leading-none text-palm-olive/20" aria-hidden="true">“</span>
+          <div class="mb-5"><div class="stars flex gap-1" aria-label="5 out of 5 stars"></div></div>
+          <blockquote class="flex-grow">
+            <p class="font-body text-sm leading-relaxed text-white/60 italic">“Riad Sa'eed superó todas mis expectativas. Desde la llegada nos hicieron sentir como en casa, con un servicio genuino y muy cuidado. La ubicación es ideal, las habitaciones impecables y cada detalle está pensado con mucho gusto. La cena en la terraza al atardecer fue uno de los momentos más especiales del viaje. Sin duda volveremos.”</p>
+          </blockquote>
+          <div class="my-6 h-px bg-gradient-to-r from-transparent via-palm-olive/30 to-transparent"></div>
+          <footer>
+            <p class="font-seasons text-base text-white">Débora Giordan Jones</p>
+            <p class="mt-1 font-body text-xs text-white/40">Buenos Aires Argentina</p>
+            <p class="mt-0.5 font-body text-[0.65rem] uppercase tracking-wider text-palm-olive/60">Memorable Stay</p>
+          </footer>
+        </article>
+      </div>
+
+      <div class="mt-16">
+        <div class="flex items-center justify-center gap-3 py-4">
+          <div data-line class="h-px" style="background:linear-gradient(90deg, transparent, #676127);width:0px;opacity:0"></div>
+          <div data-dot class="h-2 w-2 shrink-0" style="background-color:#676127;opacity:0;transform:scale(0)"></div>
+          <div data-line class="h-px" style="background:linear-gradient(90deg, #676127, transparent);width:0px;opacity:0"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ── FOOTER ────────────────────────────────────────────── -->
+<footer id="contact" class="bg-midnight">
+  <!-- Zellige diamond border (pattern-tiled, matches the original's repeated groups) -->
+  <svg viewBox="0 0 1200 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-6 opacity-30" preserveAspectRatio="none">
+    <defs>
+      <pattern id="zellige-tile" x="0" y="0" width="20" height="24" patternUnits="userSpaceOnUse">
+        <rect x="5" y="7" width="10" height="10" transform="rotate(45 10 12)" stroke="#534E20" stroke-width="0.5" fill="none"></rect>
+        <circle cx="10" cy="12" r="1.5" fill="#534E20" opacity="0.5"></circle>
+      </pattern>
+    </defs>
+    <rect x="0" y="0" width="1200" height="24" fill="url(#zellige-tile)"></rect>
+    <line x1="0" y1="1" x2="1200" y2="1" stroke="#534E20" stroke-width="0.5"></line>
+    <line x1="0" y1="23" x2="1200" y2="23" stroke="#534E20" stroke-width="0.5"></line>
+  </svg>
+
+  <div class="mx-auto max-w-7xl px-6 py-16 lg:px-8 lg:py-20">
+    <div class="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
+      <div class="sm:col-span-2 lg:col-span-1">
+        <a class="inline-block" href="#"><span class="font-seasons text-2xl text-white tracking-[0.15em]">RIAD SA'EED</span></a>
+        <p class="mt-4 max-w-xs font-body text-sm leading-relaxed text-white/50">A palace of tranquility in the heart of the Marrakech Medina</p>
+        <div class="mt-6">
+          <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-palm-olive-600">
+            <path d="M20 0L24.5 15.5L40 20L24.5 24.5L20 40L15.5 24.5L0 20L15.5 15.5Z" fill="currentColor"></path>
+          </svg>
+        </div>
+      </div>
+      <div>
+        <h4 class="font-body text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-palm-olive">Explore</h4>
+        <nav class="mt-6 flex flex-col gap-3">
+          <a class="font-body text-sm text-white/60 transition-colors duration-300 hover:text-palm-olive-300" href="#about">The Riad</a>
+          <a class="font-body text-sm text-white/60 transition-colors duration-300 hover:text-palm-olive-300" href="#suites">Suites</a>
+          <a class="font-body text-sm text-white/60 transition-colors duration-300 hover:text-palm-olive-300" href="#restaurant">Restaurant</a>
+          <a class="font-body text-sm text-white/60 transition-colors duration-300 hover:text-palm-olive-300" href="#spa">Spa</a>
+          <a class="font-body text-sm text-white/60 transition-colors duration-300 hover:text-palm-olive-300" href="#experiences">Experiences</a>
+          <a class="font-body text-sm text-white/60 transition-colors duration-300 hover:text-palm-olive-300" href="#gallery">Gallery</a>
+          <a class="font-body text-sm text-white/60 transition-colors duration-300 hover:text-palm-olive-300" href="#journal">Journal</a>
+          <a class="font-body text-sm text-white/60 transition-colors duration-300 hover:text-palm-olive-300" href="#contact">Contact</a>
+        </nav>
+      </div>
+      <div>
+        <h4 class="font-body text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-palm-olive">Contact</h4>
+        <div class="mt-6 flex flex-col gap-4">
+          <a href="tel:+212663630320" class="font-body text-sm text-white/40 transition-colors duration-300 hover:text-palm-olive-300">+212 663 630 320</a>
+          <a href="mailto:contact@theriadsaeed.com" class="font-body text-sm text-white/40 transition-colors duration-300 hover:text-palm-olive-300">contact@theriadsaeed.com</a>
+          <p class="font-body text-sm text-white/40">116 Derb El Hemmam, Mouassine, Marrakech Medina</p>
+        </div>
+      </div>
+      <div>
+        <h4 class="font-body text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-palm-olive">Connect</h4>
+        <div class="mt-6 flex flex-col gap-3">
+          <a href="https://www.instagram.com/theriadsaeed/" target="_blank" rel="noopener noreferrer" class="font-body text-sm text-white/60 transition-colors duration-300 hover:text-palm-olive-300">Instagram</a>
+          <a href="https://www.facebook.com/TheRiadSaeed" target="_blank" rel="noopener noreferrer" class="font-body text-sm text-white/60 transition-colors duration-300 hover:text-palm-olive-300">Facebook</a>
+          <span class="cursor-default font-body text-sm text-white/60">TripAdvisor</span>
+        </div>
+        <div class="mt-8">
+          <p class="font-body text-[0.65rem] uppercase tracking-[0.2em] text-white/40">Newsletter</p>
+          <form class="mt-3 flex gap-0" onsubmit="event.preventDefault(); this.reset();">
+            <label for="footer-email" class="sr-only">Email address</label>
+            <input id="footer-email" type="email" placeholder="Your email" required name="email"
+              class="w-full min-w-0 border border-palm-olive/30 bg-transparent px-3 py-2.5 font-body text-xs text-white placeholder:text-white/30 focus:border-palm-olive focus:outline-none transition-colors duration-300" />
+            <button type="submit" class="shrink-0 bg-palm-olive px-4 py-2.5 font-body text-[0.65rem] font-semibold uppercase tracking-wider text-white transition-colors duration-300 hover:bg-palm-olive-600">Subscribe</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="border-t border-white/10">
+    <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-6 py-6 sm:flex-row lg:px-8">
+      <p class="font-body text-xs text-white/30">© 2026 Riad Sa'eed. All rights reserved.</p>
+      <p class="font-body text-xs italic text-white/30">Crafted with passion in Marrakech</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ── FLOATING BUTTONS ──────────────────────────────────── -->
+<a id="whatsapp-btn" href="https://wa.me/212663630320?text=Bonjour%2C%20I%20would%20like%20to%20enquire%20about%20Riad%20Sa'eed..."
+  target="_blank" rel="noopener noreferrer" aria-label="Contact us on WhatsApp"
+  class="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] shadow-lg transition-all duration-700 ease-out hover:scale-110 hover:shadow-xl translate-y-8 opacity-0 pointer-events-none">
+  <svg viewBox="0 0 24 24" fill="white" class="h-7 w-7" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"></path></svg>
+  <span class="absolute inset-0 animate-ping rounded-full bg-[#25D366] opacity-20"></span>
+</a>
+<button id="music-btn" aria-label="Play ambient music" aria-pressed="false"
+  class="fixed bottom-24 right-6 z-50 flex h-12 w-12 items-center justify-center rounded-full border border-palm-olive/30 bg-desert-tan/95 text-palm-olive shadow-lg backdrop-blur-sm transition-all duration-700 ease-out hover:scale-110 hover:border-palm-olive hover:text-midnight hover:shadow-xl translate-y-4 opacity-0 pointer-events-none">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3" fill="currentColor"></circle><circle cx="18" cy="16" r="3" fill="currentColor"></circle></svg>
+</button>
+
+<script src="./script.js"></script>
+</body>
+</html>
