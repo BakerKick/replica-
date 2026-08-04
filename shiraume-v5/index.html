@@ -1418,7 +1418,7 @@ footer{background:var(--ink);color:var(--ash);padding:5rem 3rem 2.5rem}
 
 <!-- Hero -->
 <section id="hero">
-  <div class="hero-bg" id="hero-bg"><div class="hero-bg-inner"></div><video id="hero-video" class="hero-video" muted loop playsinline preload="auto" aria-hidden="true"><source src="assets/hero.mp4" type="video/mp4"/></video><div class="hero-bg-gradient"></div></div>
+  <div class="hero-bg" id="hero-bg"><div class="hero-bg-inner"></div><video id="hero-video" class="hero-video" autoplay muted loop playsinline preload="auto" aria-hidden="true"><source src="assets/hero.mp4" type="video/mp4"/></video><div class="hero-bg-gradient"></div></div>
   <!-- Vertical ticker, anchored right edge -->
   <div id="hero-ticker"><div class="ticker-col" id="ticker-col"></div></div>
   <div class="hero-loc hero-loc-top hero-in" data-hero-order="0">Soeda-machi · Tagawa · Fukuoka Prefecture</div>
@@ -2404,23 +2404,37 @@ function submitInq(btn){
 
 // ─── HERO VIDEO (graceful fallback) ──────
 // Plays assets/hero.mp4 over the hero still when present; if the file is
-// missing or fails, the still simply remains.
+// missing or fails, the still simply remains. NOTE: media events can fire
+// while this large document is still parsing, so current state is checked
+// as well as listened for.
 (function(){
   var v = document.getElementById('hero-video');
   if(!v) return;
   if(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches){ v.remove(); return; }
-  var kill = function(){ if(v.parentNode) v.parentNode.removeChild(v); };
-  v.addEventListener('error', kill, true);
-  var src = v.querySelector('source');
-  if(src) src.addEventListener('error', kill);
-  // Some browsers never fire error for a missing local file — if no data
-  // has arrived after 5s, drop the element and keep the still.
-  setTimeout(function(){ if(v.parentNode && v.readyState === 0) kill(); }, 5000);
-  v.addEventListener('canplay', function(){
+  var kill = function(reason){
+    if(!v.parentNode) return;
+    v.parentNode.removeChild(v);
+    if(window.console) console.warn('Shiraume: hero video disabled (' + reason + ') — using the still image. ' +
+      'Check that the file is assets/hero.mp4 and encoded as H.264 (HEVC/H.265 will not play in most browsers).');
+  };
+  var started = false;
+  function tryStart(){
+    if(started || !v.parentNode) return;
+    started = true;
     var p = v.play();
-    if(p && p.then) p.then(function(){ v.classList.add('playing'); }).catch(function(){ kill(); });
-    else v.classList.add('playing');
-  });
+    if(p && p.catch) p.catch(function(){ started = false; });
+  }
+  // Whenever playback genuinely begins (whoever started it), fade in.
+  v.addEventListener('playing', function(){ v.classList.add('playing'); });
+  v.addEventListener('error', function(){ kill('cannot decode or load'); }, true);
+  var src = v.querySelector('source');
+  if(src) src.addEventListener('error', function(){ kill('file not found or unsupported'); });
+  v.addEventListener('canplay', tryStart);
+  // Catch up on state reached before listeners attached:
+  if(v.error){ kill('cannot decode or load'); return; }
+  if(v.readyState >= 3) tryStart();
+  // If nothing has loaded after 5s, assume the file is absent.
+  setTimeout(function(){ if(v.parentNode && v.readyState === 0) kill('no file found'); }, 5000);
 })();
 
 // ─── AMBIENT SOUND (appears when file exists) ──
