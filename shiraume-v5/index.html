@@ -584,13 +584,18 @@ body{
   display:flex;align-items:center;justify-content:center;
 }
 .area-img img{
-  width:100%;
-  max-width:680px;
+  width:min(100%,560px);
+  aspect-ratio:1/1;
   height:auto;
-  object-fit:contain;
+  object-fit:cover;
   display:block;
   filter:none;
-  box-shadow:0 24px 70px rgba(20,18,16,0.18);
+  border-radius:50%;
+  box-shadow:
+    0 0 0 1px rgba(184,149,106,0.45),
+    0 0 0 12px var(--washi),
+    0 0 0 13px rgba(184,149,106,0.25),
+    0 24px 70px rgba(20,18,16,0.18);
   transition:transform 1.2s cubic-bezier(0.22,1,0.36,1);
 }
 #area:hover .area-img img{transform:translateY(-6px)}
@@ -941,8 +946,47 @@ footer{background:var(--ink);color:var(--ash);padding:5rem 3rem 2.5rem}
   background:linear-gradient(90deg,rgba(184,149,106,0.45),transparent);
 }
 
+/* ─── INTERLUDE (contemplative band) ─── */
+#interlude{
+  position:relative;overflow:hidden;
+  background:var(--ink);
+  padding:7.5rem 2rem;
+}
+.interlude-inner{max-width:780px;margin:0 auto;text-align:center;position:relative;z-index:1}
+.interlude-quote{
+  font-family:var(--d);font-weight:400;
+  font-size:clamp(1.3rem,2.6vw,2rem);line-height:1.7;
+  color:rgba(247,243,236,0.88);
+  margin:1.6rem 0 1.5rem;
+}
+.interlude-quote em{font-style:italic;color:var(--gold)}
+.interlude-jp{
+  font-family:var(--jp);font-weight:200;
+  font-size:0.8rem;letter-spacing:0.3em;
+  color:rgba(247,243,236,0.4);
+}
+.interlude-sep{
+  display:flex;align-items:center;justify-content:center;gap:0.9rem;
+  margin-top:2.4rem;
+}
+.interlude-sep::before,.interlude-sep::after{
+  content:'';height:1px;width:56px;
+}
+.interlude-sep::before{background:linear-gradient(90deg,transparent,rgba(184,149,106,0.55))}
+.interlude-sep::after{background:linear-gradient(90deg,rgba(184,149,106,0.55),transparent)}
+.interlude-ume{
+  width:12px;height:12px;flex-shrink:0;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cg fill='%23B8956A'%3E%3Ccircle cx='6' cy='2.8' r='2.1'/%3E%3Ccircle cx='2.96' cy='5.01' r='2.1'/%3E%3Ccircle cx='4.12' cy='8.59' r='2.1'/%3E%3Ccircle cx='7.88' cy='8.59' r='2.1'/%3E%3Ccircle cx='9.04' cy='5.01' r='2.1'/%3E%3C/g%3E%3Ccircle cx='6' cy='6' r='1.15' fill='%23141210'/%3E%3C/svg%3E") center/contain no-repeat;
+}
+.interlude-kanji{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-52%);
+  font-family:var(--jp);font-weight:400;font-size:clamp(14rem,26vw,24rem);
+  color:rgba(247,243,236,0.035);
+  pointer-events:none;user-select:none;line-height:1;
+}
+
 /* ─── SEIGAIHA TEXTURE (dark panels) ─── */
-.inq-info,footer:not(.rm-footer){
+.inq-info,#interlude,footer:not(.rm-footer){
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='20'%3E%3Cg fill='none' stroke='%23B8956A' stroke-opacity='0.055' stroke-width='1'%3E%3Ccircle cx='20' cy='20' r='18'/%3E%3Ccircle cx='20' cy='20' r='12'/%3E%3Ccircle cx='20' cy='20' r='6'/%3E%3Ccircle cx='0' cy='10' r='18'/%3E%3Ccircle cx='0' cy='10' r='12'/%3E%3Ccircle cx='0' cy='10' r='6'/%3E%3Ccircle cx='40' cy='10' r='18'/%3E%3Ccircle cx='40' cy='10' r='12'/%3E%3Ccircle cx='40' cy='10' r='6'/%3E%3C/g%3E%3C/svg%3E");
 }
 
@@ -1527,6 +1571,17 @@ footer{background:var(--ink);color:var(--ash);padding:5rem 3rem 2.5rem}
   </div>
 </section>
 
+<!-- Interlude -->
+<section id="interlude">
+  <span class="interlude-kanji" aria-hidden="true">静</span>
+  <div class="interlude-inner sr">
+    <p class="eyebrow eyebrow-gold">The Spirit of the Place · 山の心</p>
+    <p class="interlude-quote">Silence here is not the absence of sound —<br>it is cedar rain, temple bells, the mountain breathing.<br><em>We are simply restoring a place to listen.</em></p>
+    <p class="interlude-jp">静けさとは、音の無いことではなく、山の呼吸に耳を澄ますこと。</p>
+    <div class="interlude-sep"><span class="interlude-ume"></span></div>
+  </div>
+</section>
+
 <!-- Seasons -->
 <section id="seasons">
   <div class="seasons-head sr">
@@ -1798,13 +1853,13 @@ function hideTagline(onDone){
   if(!el){ if(onDone) onDone(); return; }
   var els = el.querySelectorAll('.ticker-char');
   var n = els.length;
-  var perChar = 60;
+  var perChar = 40;
   for(var i = 0; i < n; i++){
     (function(idx){
       setTimeout(function(){ els[idx].classList.remove('show'); els[idx].classList.add('hide'); }, idx * perChar);
     })(i);
   }
-  if(onDone) setTimeout(onDone, n * perChar + 400);
+  if(onDone) setTimeout(onDone, n * perChar + 250);
 }
 
 function dismissSplash(){
@@ -1828,11 +1883,11 @@ function revealHero(){
     animateTagline(TAGLINE_JP, function(){
       hideTagline(function(){
         animateTagline(TAGLINE_EN, function(){
-          setTimeout(dismissSplash, 900);
-        }, 700, 'ltr', 80);
+          setTimeout(dismissSplash, 450);
+        }, 350, 'ltr', 45);
       });
-    }, 500);
-  }, 600);
+    }, 300, null, 95);
+  }, 350);
 })();
 
 
