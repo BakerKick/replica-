@@ -246,6 +246,32 @@ body.hero-enhanced .hero-in.show { opacity: 1; transform: none; }
   body.hero-enhanced .hero-in { opacity: 1; transform: none; }
 }
 
+/* ─── HERO TITLE, JAPANESE ──────────────────────────────────
+   These declarations used to sit in a style="" attribute on the span.
+   Inline styles outrank the [data-lang="en"] .ja { display: none }
+   rule, so the Japanese headline stayed visible in English mode and
+   made the English hero taller than one screen — which scaled the
+   background photo up. As a class it obeys the language toggle. */
+.hero-title-jp {
+  font-family: 'Noto Serif JP', serif;
+  font-weight: 300;
+  font-size: var(--text-3xl);
+}
+[data-lang="ja"] .hero-title-jp { display: block; }
+
+/* The English headline is three long lines where the Japanese is two, so on
+   short windows it would still outgrow one screen and scale the photo up.
+   Capping it against viewport height keeps both languages exactly 100dvh.
+   Above 880px tall — every common presentation display — the cap never
+   applies and the headline keeps its approved size. */
+@media (max-height: 880px) {
+  [data-lang="en"] .hero-content { padding-top: 5rem; }
+  [data-lang="en"] .hero-title { font-size: min(var(--text-hero), 11vh); }
+}
+@media (max-height: 700px) {
+  [data-lang="en"] .hero-title { font-size: min(var(--text-hero), 8.5vh); }
+}
+
 /* ─── KANJI WATERMARKS ──────────────────────────────────── */
 .kanji-bg {
   position: absolute;
