@@ -67,6 +67,7 @@
 
 /* ─── INK LOGO MARK (header · footer · splash) ──────────── */
 .logo-ink-mark { position: relative; width: 40px; height: 40px; flex-shrink: 0; }
+.site-header .logo-ink-mark { width: 46px; height: 46px; }
 .logo-ink-img {
   width: 100%; height: 100%; object-fit: contain; display: block;
   filter: brightness(0) invert(0.12);
@@ -81,9 +82,9 @@
   40%  { opacity: 1; }
   100% { clip-path: circle(75% at 50% 50%); opacity: 1; }
 }
-/* Light-on-dark contexts: transparent header over hero, footer, dark mode */
+/* Light-on-dark contexts: transparent header over hero, mobile menu, dark mode.
+   The footer is light in light mode, so it keeps the default dark ink there. */
 .site-header:not(.scrolled) .logo-ink-img,
-.site-footer .logo-ink-img,
 .mobile-menu .logo-ink-img,
 .dark .logo-ink-img { filter: brightness(0) invert(0.92); }
 .dark .site-header.scrolled .logo-ink-img { filter: brightness(0) invert(0.92); }
@@ -128,7 +129,7 @@
   display: flex; align-items: center; gap: 1.2rem;
   margin-bottom: 2rem;
 }
-.splash-ink-mark { position: relative; width: 127px; height: 127px; flex-shrink: 0; }
+.splash-ink-mark { position: relative; width: 110px; height: 110px; flex-shrink: 0; }
 .splash-ink-img {
   width: 100%; height: 100%; object-fit: contain; display: block;
   filter: brightness(0) invert(0.1) blur(0px);
