@@ -415,9 +415,16 @@ function populateRoom(slug) {
   }).join('');
 
   const galEl = document.getElementById('rd-gallery');
-  if (galEl) galEl.innerHTML = r.gallery.map((src, i) =>
-    '<img src="' + src + '" alt="' + r.nameEn + ' gallery ' + (i + 1) + '" loading="lazy" onclick="openLightbox(\'' + src + '\')"/>'
-  ).join('');
+  if (galEl) {
+    galEl.innerHTML = r.gallery.map((src, i) =>
+      '<img src="' + src + '" alt="' + r.nameEn + ' gallery ' + (i + 1) + '" loading="lazy"/>'
+    ).join('');
+    // Bound here rather than via an inline onclick so the source stays out of
+    // the attribute — it can be a very long inlined image in the single-file build.
+    galEl.querySelectorAll('img').forEach((im, i) => {
+      im.addEventListener('click', () => openLightbox(r.gallery[i]));
+    });
+  }
 
   const guests = document.getElementById('bk-guests');
   if (guests) {
