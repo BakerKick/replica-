@@ -272,6 +272,98 @@ body.hero-enhanced .hero-in.show { opacity: 1; transform: none; }
   [data-lang="en"] .hero-title { font-size: min(var(--text-hero), 8.5vh); }
 }
 
+/* ════════════════════════════════════════════════════════
+   REFINEMENTS
+   Drawn from the reference site the client admired: a signature
+   architectural shape used as an image frame, hairline drawn icons in
+   place of emoji, and separators that fade out at both ends. The shapes
+   are the Japanese counterparts — a temple window arch and the ink
+   circle already used as the mark — rather than the Moorish motifs.
+   ════════════════════════════════════════════════════════ */
+
+/* ─── DRAWN ICONS (replacing emoji) ─────────────────────── */
+.spot-icon {
+  font-size: 0; /* kills the whitespace an inline svg would sit on */
+  width: 2.25rem;
+  padding-top: 0;
+  color: var(--color-cedar);
+  opacity: 0.85;
+  transition: color var(--transition-interactive), opacity var(--transition-interactive);
+}
+.spot-icon svg { width: 26px; height: 26px; display: block; }
+.spot-card:hover .spot-icon { color: var(--color-primary); opacity: 1; }
+
+/* ─── SIGNATURE ARCH (katomado — the temple window) ─────── */
+/* The reference repeats one architectural silhouette as an image frame.
+   This is that idea in a Japanese register: a domed temple-window head
+   over straight sides, with a hairline ring just inside the edge. */
+.area-img-wrap {
+  border-radius: 50% 50% var(--radius) var(--radius) / 30% 30% var(--radius) var(--radius);
+  box-shadow: var(--shadow-lg);
+}
+.area-img-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 10px;
+  border: 1px solid rgba(232, 224, 196, 0.28);
+  border-radius: 50% 50% 2px 2px / 30% 30% 2px 2px;
+  pointer-events: none;
+  z-index: 2;
+}
+.area-img-wrap img { transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1); }
+.area-img-wrap:hover img { transform: scale(1.04); }
+
+/* ─── HERO ENSŌ ─────────────────────────────────────────── */
+/* The reference draws a faint outline of its signature arch over the
+   hero. Here it is the ink circle from the logo, drawing itself once. */
+/* Sits in the open right-hand side of the frame, clear of the headline —
+   placed the way a seal sits on a scroll rather than centred. */
+.hero-enso {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: clamp(2rem, 7vw, 8rem);
+  pointer-events: none;
+  color: #fdfcf9;
+}
+.hero-enso svg {
+  width: min(440px, 34vw);
+  height: auto;
+  opacity: 0.22;
+  filter: drop-shadow(0 2px 14px rgba(10, 8, 6, 0.45));
+}
+.hero-enso-path {
+  stroke-dasharray: 1790;
+  stroke-dashoffset: 1790;
+  animation: ensoDraw 3.2s cubic-bezier(0.22, 1, 0.36, 1) 0.6s forwards;
+}
+@keyframes ensoDraw { to { stroke-dashoffset: 0; } }
+@media (max-width: 760px) { .hero-enso svg { width: 76vw; opacity: 0.1; } }
+@media (prefers-reduced-motion: reduce) {
+  .hero-enso-path { animation: none; stroke-dashoffset: 0; }
+}
+
+/* ─── SECTION LABELS ────────────────────────────────────── */
+/* Wider tracking and a hairline trailing off the end of each label —
+   the reference pairs every small caps label with one, and it is what
+   makes them read as considered rather than merely small. */
+.section-eyebrow {
+  letter-spacing: 0.2em;
+}
+.section-eyebrow::after {
+  content: '';
+  flex: 0 0 auto;
+  align-self: center;
+  width: 44px;
+  height: 1px;
+  margin-left: 0.9rem;
+  background: linear-gradient(90deg, var(--color-cedar), transparent);
+  opacity: 0.55;
+}
+
 /* ─── KANJI WATERMARKS ──────────────────────────────────── */
 .kanji-bg {
   position: absolute;
