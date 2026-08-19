@@ -504,6 +504,7 @@ body.hero-enhanced .hero-in.show { opacity: 1; transform: none; }
 }
 .form-status:empty { display: none; }
 .form-status.is-error { color: var(--destructive); }
+.form-status.is-note { color: var(--color-primary); }
 .bc-note + .form-status, .booking-card .form-status { text-align: left; }
 button[disabled] { opacity: 0.6; cursor: default; }
 

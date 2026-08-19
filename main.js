@@ -531,6 +531,29 @@ function notLiveMessage() {
     : 'This form is not connected yet — nothing was sent. Please contact us directly.';
 }
 
+// Opened as a downloaded file rather than from a web address. Form services
+// refuse posts from file:// pages, so compose the enquiry as an email instead
+// — the details still reach a person, which is the point of the form.
+const isLocalFile = () => location.protocol === 'file:';
+
+function buildMailto(payload) {
+  const subject = payload._subject || 'Enquiry — Shiraume Lodge';
+  const body = Object.keys(payload)
+    .filter((k) => k.charAt(0) !== '_' && payload[k])
+    .map((k) => k.charAt(0).toUpperCase() + k.slice(1) + ': ' + payload[k])
+    .join('\n');
+  return 'mailto:' + CONTACT_EMAIL
+    + '?subject=' + encodeURIComponent(subject)
+    + '&body=' + encodeURIComponent(body);
+}
+
+function localFileMessage() {
+  return isJa()
+    ? 'メールアプリを開きました。内容をご確認のうえ送信してください。開かない場合は ' + CONTACT_EMAIL + ' まで直接お送りください。'
+    : 'Your email app should now be open with these details filled in — just press send. '
+      + 'If nothing opened, please email ' + CONTACT_EMAIL + ' directly.';
+}
+
 function failureMessage(err) {
   if (isJa()) {
     return '送信できませんでした（' + err.message + '）。'
@@ -576,6 +599,14 @@ async function handleSubmit(opts) {
 
   if (!FORM_ENDPOINT) {
     setStatus(opts.statusId, notLiveMessage(), 'error');
+    return;
+  }
+
+  // A downloaded copy cannot post to a form service, so hand the details to
+  // the visitor's email app rather than failing in front of them.
+  if (isLocalFile() && CONTACT_EMAIL) {
+    window.location.href = buildMailto(opts.payload());
+    setStatus(opts.statusId, localFileMessage(), 'note');
     return;
   }
 
