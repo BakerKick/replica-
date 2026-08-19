@@ -474,9 +474,12 @@ document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLight
 //
 // While this is empty the forms do NOT pretend to have sent anything: they
 // say plainly that the form is not live yet and point at CONTACT_EMAIL.
-const FORM_ENDPOINT = '';
-const FORM_EXTRA_FIELDS = {};          // e.g. { access_key: '…' } if your service needs one
-const CONTACT_EMAIL = '';              // fallback address shown until the endpoint is set
+// TO CHANGE THE ADDRESS ENQUIRIES GO TO: edit the address on the next line.
+// That is the only place it appears. Then rerun build-standalone.py if you
+// are sending the single-file version around.
+const FORM_ENDPOINT = 'https://formsubmit.co/ajax/bakeyalrawi@gmail.com';
+const FORM_EXTRA_FIELDS = { _template: 'table', _captcha: 'false' };
+const CONTACT_EMAIL = 'bakeyalrawi@gmail.com';   // shown if delivery ever fails
 
 const val = (id) => {
   const el = document.getElementById(id);
@@ -544,7 +547,15 @@ async function deliver(payload) {
     headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
     body: JSON.stringify(Object.assign({}, FORM_EXTRA_FIELDS, payload))
   });
-  if (!res.ok) throw new Error('The server replied ' + res.status);
+  if (!res.ok) throw new Error('the server replied ' + res.status);
+  // Some services answer 200 while refusing the message — an unactivated
+  // address, for instance. Treat that as the failure it is, so the visitor
+  // is never shown a confirmation for an enquiry that was not accepted.
+  let body = null;
+  try { body = await res.clone().json(); } catch (e) { /* not JSON: trust the status */ }
+  if (body && (body.success === false || body.success === 'false')) {
+    throw new Error(body.message || 'the form service refused it');
+  }
   return res;
 }
 
