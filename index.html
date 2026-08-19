@@ -601,18 +601,18 @@
 
       <div class="inquiry-form-col reveal">
         <div class="form-title"><span class="en">Send an Introduction</span><span class="ja">ご挨拶をお送りください</span></div>
-        <form class="form-grid" id="inq-form-wrap" onsubmit="submitInq(event)">
+        <form class="form-grid" id="inq-form-wrap" onsubmit="submitInq(event)" novalidate>
           <div class="form-field">
             <label class="form-label" for="first-name"><span class="en">First Name</span><span class="ja">名</span></label>
-            <input class="form-input" id="first-name" type="text">
+            <input class="form-input" id="first-name" type="text" autocomplete="given-name" required>
           </div>
           <div class="form-field">
             <label class="form-label" for="last-name"><span class="en">Last Name</span><span class="ja">姓</span></label>
-            <input class="form-input" id="last-name" type="text">
+            <input class="form-input" id="last-name" type="text" autocomplete="family-name" required>
           </div>
           <div class="form-field full">
             <label class="form-label" for="email"><span class="en">Email Address</span><span class="ja">メールアドレス</span></label>
-            <input class="form-input" id="email" type="email">
+            <input class="form-input" id="email" type="email" autocomplete="email" required>
           </div>
           <div class="form-field full">
             <label class="form-label" for="role"><span class="en">Your Background or Role</span><span class="ja">ご経歴・お立場</span></label>
@@ -633,8 +633,14 @@
             <label class="form-label" for="interest"><span class="en">What Draws You to This Project?</span><span class="ja">このプロジェクトへの関心の理由</span></label>
             <textarea class="form-textarea" id="interest" rows="3"></textarea>
           </div>
+          <!-- Spam trap: hidden from people, tempting to bots. A filled value is discarded. -->
+          <div class="form-field full hp-field" aria-hidden="true">
+            <label class="form-label" for="inq-company">Company</label>
+            <input class="form-input" id="inq-company" type="text" tabindex="-1" autocomplete="off">
+          </div>
           <div class="form-field full">
-            <button type="submit" class="form-submit"><span class="en">Send Introduction</span><span class="ja">送信する</span></button>
+            <button type="submit" class="form-submit" id="inq-submit"><span class="en">Send Introduction</span><span class="ja">送信する</span></button>
+            <p class="form-status" id="inq-status" role="status" aria-live="polite"></p>
             <p class="form-note en">This form is for private concept inquiries only. Your information will not be shared with third parties.</p>
             <p class="form-note ja">このフォームは非公開コンセプトのお問い合わせ専用です。お客様の情報は第三者と共有されません。</p>
           </div>
@@ -743,21 +749,24 @@
     </main>
     <aside class="rdb-side">
       <div class="booking-card">
-        <div id="bk-form">
+        <form id="bk-form" onsubmit="submitBooking(event)" novalidate>
           <div class="bc-title" id="bk-name">—</div>
           <div class="bc-price" id="bk-price">—</div>
-          <div class="fg"><label for="bk-in">Arrival · チェックイン</label><input type="date" id="bk-in"></div>
-          <div class="fg"><label for="bk-out">Departure · チェックアウト</label><input type="date" id="bk-out"></div>
+          <div class="fg"><label for="bk-in">Arrival · チェックイン</label><input type="date" id="bk-in" required></div>
+          <div class="fg"><label for="bk-out">Departure · チェックアウト</label><input type="date" id="bk-out" required></div>
           <div class="fg"><label for="bk-guests">Guests · 人数</label>
             <select id="bk-guests"></select>
           </div>
           <div class="bc-div"></div>
-          <div class="fg"><label>Full Name · お名前</label><input type="text" placeholder="Your name" autocomplete="name"></div>
-          <div class="fg"><label>Email · メールアドレス</label><input type="email" placeholder="you@example.com" autocomplete="email"></div>
-          <div class="fg"><label>Special Requests · ご要望</label><textarea placeholder="Dietary requirements, occasion, accessibility needs…"></textarea></div>
-          <button class="btn-book" onclick="submitBooking()">Request to Book · 予約リクエスト</button>
+          <div class="fg"><label for="bk-fullname">Full Name · お名前</label><input type="text" id="bk-fullname" placeholder="Your name" autocomplete="name" required></div>
+          <div class="fg"><label for="bk-email">Email · メールアドレス</label><input type="email" id="bk-email" placeholder="you@example.com" autocomplete="email" required></div>
+          <div class="fg"><label for="bk-requests">Special Requests · ご要望</label><textarea id="bk-requests" placeholder="Dietary requirements, occasion, accessibility needs…"></textarea></div>
+          <!-- Spam trap: hidden from people, tempting to bots. A filled value is discarded. -->
+          <div class="hp-field" aria-hidden="true"><label for="bk-company">Company</label><input type="text" id="bk-company" tabindex="-1" autocomplete="off"></div>
+          <button class="btn-book" type="submit" id="bk-submit">Request to Book · 予約リクエスト</button>
+          <p class="form-status" id="bk-status" role="status" aria-live="polite"></p>
           <p class="bc-note">Sends a reservation enquiry. You will receive confirmation within 24 hours. All rates are per room, inclusive of breakfast and consumption tax.</p>
-        </div>
+        </form>
         <div class="bk-success" id="bk-success">
           <div class="bk-success-icon">🌸</div>
           <h3>Request Received</h3>

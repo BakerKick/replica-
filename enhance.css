@@ -488,6 +488,25 @@ body.hero-enhanced .hero-in.show { opacity: 1; transform: none; }
 }
 #lightbox-close:hover { color: var(--washi2); }
 
+/* ─── FORM STATUS & SPAM TRAP ───────────────────────────── */
+/* Off-screen rather than display:none — bots skip hidden fields but
+   happily fill this one, which is exactly what we want to detect. */
+.hp-field {
+  position: absolute !important;
+  left: -9999px !important;
+  width: 1px; height: 1px; overflow: hidden;
+}
+.form-status {
+  font-size: var(--text-xs);
+  line-height: 1.6;
+  margin-top: var(--space-3);
+  text-align: center;
+}
+.form-status:empty { display: none; }
+.form-status.is-error { color: var(--destructive); }
+.bc-note + .form-status, .booking-card .form-status { text-align: left; }
+button[disabled] { opacity: 0.6; cursor: default; }
+
 /* ─── INQUIRY SUCCESS STATE ─────────────────────────────── */
 .form-success { display: none; text-align: center; padding: 3rem 0; }
 .form-success.show { display: block; }

@@ -467,18 +467,165 @@ document.getElementById('lightbox').addEventListener('click', function (e) {
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
 
 // ─── FORMS ──────────────────────────────────────────────────
-function submitBooking() {
-  const bf = document.getElementById('bk-form');
-  const bs = document.getElementById('bk-success');
-  if (bf) bf.style.display = 'none';
-  if (bs) bs.classList.add('show');
+// WHERE ENQUIRIES GO. Paste the form endpoint below and both forms start
+// delivering to that inbox. Any service that accepts a JSON POST works —
+// e.g. https://formsubmit.co/ajax/you@example.com (no signup; it emails you
+// once to confirm the address), or a Formspree / Web3Forms endpoint.
+//
+// While this is empty the forms do NOT pretend to have sent anything: they
+// say plainly that the form is not live yet and point at CONTACT_EMAIL.
+const FORM_ENDPOINT = '';
+const FORM_EXTRA_FIELDS = {};          // e.g. { access_key: '…' } if your service needs one
+const CONTACT_EMAIL = '';              // fallback address shown until the endpoint is set
+
+const val = (id) => {
+  const el = document.getElementById(id);
+  return el ? el.value.trim() : '';
+};
+
+function setStatus(id, message, kind) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.textContent = message || '';
+  el.className = 'form-status' + (kind ? ' is-' + kind : '');
 }
+
+// Returns the first missing required field, so we can tell the visitor
+// exactly what is wrong instead of failing silently.
+function firstInvalid(form) {
+  const fields = form.querySelectorAll('[required]');
+  for (const f of fields) {
+    if (!f.value.trim()) return f;
+    if (f.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.value.trim())) return f;
+  }
+  return null;
+}
+
+// Labels carry both languages in .en/.ja spans; quote only the visible one.
+function labelFor(field) {
+  const lbl = field.form.querySelector('label[for="' + field.id + '"]');
+  if (!lbl) return '';
+  const scoped = lbl.querySelector('.' + (html.getAttribute('data-lang') || 'en'));
+  return (scoped || lbl).textContent.replace(/\s+/g, ' ').trim();
+}
+
+const isJa = () => html.getAttribute('data-lang') === 'ja';
+
+function missingFieldMessage(field) {
+  const name = labelFor(field);
+  if (isJa()) return name ? '「' + name + '」をご入力ください。' : '必須項目をご入力ください。';
+  return name ? 'Please complete “' + name + '”.' : 'Please complete the required fields.';
+}
+
+function notLiveMessage() {
+  if (isJa()) {
+    return CONTACT_EMAIL
+      ? 'このフォームは未接続のため、送信されていません。' + CONTACT_EMAIL + ' まで直接ご連絡ください。'
+      : 'このフォームは未接続のため、送信されていません。直接ご連絡ください。';
+  }
+  return CONTACT_EMAIL
+    ? 'This form is not connected yet, so nothing was sent. Please email ' + CONTACT_EMAIL + ' instead.'
+    : 'This form is not connected yet — nothing was sent. Please contact us directly.';
+}
+
+function failureMessage(err) {
+  if (isJa()) {
+    return '送信できませんでした（' + err.message + '）。'
+      + (CONTACT_EMAIL ? CONTACT_EMAIL + ' までご連絡ください。' : 'しばらくしてから再度お試しください。');
+  }
+  return 'Sorry — your enquiry could not be sent (' + err.message + '). '
+    + (CONTACT_EMAIL ? 'Please email ' + CONTACT_EMAIL + '.' : 'Please try again shortly.');
+}
+
+// Posts the payload and reports honestly whether it arrived.
+async function deliver(payload) {
+  const res = await fetch(FORM_ENDPOINT, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify(Object.assign({}, FORM_EXTRA_FIELDS, payload))
+  });
+  if (!res.ok) throw new Error('The server replied ' + res.status);
+  return res;
+}
+
+async function handleSubmit(opts) {
+  const form = document.getElementById(opts.formId);
+  const button = document.getElementById(opts.buttonId);
+  if (!form) return;
+
+  // Bots fill hidden fields; people never see them. Pretend all is well.
+  if (val(opts.honeypotId)) { opts.onSuccess(); return; }
+
+  const bad = firstInvalid(form);
+  if (bad) {
+    setStatus(opts.statusId, missingFieldMessage(bad), 'error');
+    bad.focus();
+    return;
+  }
+
+  if (!FORM_ENDPOINT) {
+    setStatus(opts.statusId, notLiveMessage(), 'error');
+    return;
+  }
+
+  const label = button ? button.innerHTML : '';
+  if (button) { button.disabled = true; button.textContent = 'Sending…'; }
+  setStatus(opts.statusId, '');
+
+  try {
+    await deliver(opts.payload());
+    opts.onSuccess();
+  } catch (err) {
+    setStatus(opts.statusId, failureMessage(err), 'error');
+    if (button) { button.disabled = false; button.innerHTML = label; }
+  }
+}
+
+function submitBooking(e) {
+  if (e && e.preventDefault) e.preventDefault();
+  handleSubmit({
+    formId: 'bk-form', buttonId: 'bk-submit', statusId: 'bk-status', honeypotId: 'bk-company',
+    payload: () => ({
+      _subject: 'Booking enquiry — ' + (document.getElementById('bk-name') || {}).textContent,
+      form: 'Room booking enquiry',
+      room: (document.getElementById('bk-name') || {}).textContent,
+      rate: (document.getElementById('bk-price') || {}).textContent,
+      arrival: val('bk-in'),
+      departure: val('bk-out'),
+      guests: (document.getElementById('bk-guests') || {}).value,
+      name: val('bk-fullname'),
+      email: val('bk-email'),
+      requests: val('bk-requests')
+    }),
+    onSuccess: () => {
+      const bf = document.getElementById('bk-form');
+      const bs = document.getElementById('bk-success');
+      if (bf) bf.style.display = 'none';
+      if (bs) bs.classList.add('show');
+    }
+  });
+}
+
 function submitInq(e) {
   if (e && e.preventDefault) e.preventDefault();
-  const fw = document.getElementById('inq-form-wrap');
-  const fs = document.getElementById('inq-success');
-  if (fw) fw.style.display = 'none';
-  if (fs) fs.classList.add('show');
+  handleSubmit({
+    formId: 'inq-form-wrap', buttonId: 'inq-submit', statusId: 'inq-status', honeypotId: 'inq-company',
+    payload: () => ({
+      _subject: 'Partner introduction — Shiraume Lodge',
+      form: 'Partner introduction',
+      name: (val('first-name') + ' ' + val('last-name')).trim(),
+      email: val('email'),
+      role: (document.getElementById('role') || {}).value,
+      experience: val('experience-field'),
+      interest: val('interest')
+    }),
+    onSuccess: () => {
+      const fw = document.getElementById('inq-form-wrap');
+      const fs = document.getElementById('inq-success');
+      if (fw) fw.style.display = 'none';
+      if (fs) fs.classList.add('show');
+    }
+  });
 }
 
 // ─── SCROLL PROGRESS + FLOATING BUTTONS ─────────────────────
