@@ -124,16 +124,90 @@ function hideTagline(onDone) {
   const el = document.getElementById('splash-tagline');
   if (!el) { if (onDone) onDone(); return; }
   const els = el.querySelectorAll('.ticker-char');
-  els.forEach((s, i) => setTimeout(() => { s.classList.remove('show'); s.classList.add('hide'); }, i * 40));
-  if (onDone) setTimeout(onDone, els.length * 40 + 250);
+  els.forEach((s, i) => setTimeout(() => { s.classList.remove('show'); s.classList.add('hide'); }, i * 22));
+  if (onDone) setTimeout(onDone, els.length * 22 + 180);
+}
+
+// ─── THE GATE ───────────────────────────────────────────────
+// The katomado silhouette, in fractions of its own box, so one set of
+// numbers drives the hole and the outline at whatever size the gate ends
+// up. Same curve as the frames around the two photographs.
+const KATOMADO = [
+  [0, 1], ['L', 0, 0.42],
+  ['C', 0.015, 0.2607, 0.11, 0.1666, 0.25, 0.1195],
+  ['C', 0.375, 0.0833, 0.44, 0.0543, 0.5, 0],
+  ['C', 0.56, 0.0543, 0.625, 0.0833, 0.75, 0.1195],
+  ['C', 0.89, 0.1666, 0.985, 0.2607, 1, 0.42],
+  ['L', 1, 1],
+];
+
+function katomadoPath(x, y, w, h) {
+  const px = (u) => (x + u * w).toFixed(2);
+  const py = (v) => (y + v * h).toFixed(2);
+  let d = `M${px(KATOMADO[0][0])},${py(KATOMADO[0][1])}`;
+  for (let i = 1; i < KATOMADO.length; i++) {
+    const seg = KATOMADO[i];
+    const cmd = seg[0];
+    const nums = [];
+    for (let k = 1; k < seg.length; k += 2) nums.push(`${px(seg[k])},${py(seg[k + 1])}`);
+    d += ` ${cmd}${nums.join(' ')}`;
+  }
+  return d + ' Z';
+}
+
+// Size the doorway around whatever the splash is actually showing, rather
+// than to fixed numbers: measure the logo and tagline, leave headroom above
+// them for the crown, and drop the sill just below the bottom edge so the
+// gate reads as standing on the floor of the screen instead of floating.
+function layoutGate() {
+  const gate = document.getElementById('gate');
+  if (!gate) return;
+  const vw = window.innerWidth, vh = window.innerHeight;
+
+  let top = vh * 0.5, bottom = vh * 0.5, left = vw * 0.5, right = vw * 0.5;
+  document.querySelectorAll('.splash-logo, .splash-tagline').forEach((el) => {
+    const r = el.getBoundingClientRect();
+    if (!r.width && !r.height) return;
+    top = Math.min(top, r.top); bottom = Math.max(bottom, r.bottom);
+    left = Math.min(left, r.left); right = Math.max(right, r.right);
+  });
+
+  const w = Math.min(Math.max(right - left + 190, vw * 0.42), vw * 0.86, 660);
+  const y = Math.max(Math.min(top - 120, vh * 0.34), vh * 0.06);
+  const h = vh - y + 44;                 // sill sits just off the bottom edge
+  const x = (left + right) / 2 - w / 2;
+
+  gate.setAttribute('viewBox', `0 0 ${vw} ${vh}`);
+  const rect = document.getElementById('gate-rect');
+  const fill = document.getElementById('gate-fill');
+  [rect, fill].forEach((r) => {
+    if (!r) return;
+    r.setAttribute('x', 0); r.setAttribute('y', 0);
+    r.setAttribute('width', vw); r.setAttribute('height', vh);
+  });
+
+  const d = katomadoPath(x, y, w, h);
+  const hole = document.getElementById('gate-hole');
+  const line = document.getElementById('gate-line');
+  if (hole) hole.setAttribute('d', d);
+  if (line) line.setAttribute('d', d);
 }
 
 let tickerStarted = false;
-function dismissSplash() {
+function dismissSplash(instant) {
   if (splashDone) return;
   splashDone = true;
   const s = document.getElementById('splash');
-  if (s) { s.classList.add('hidden'); setTimeout(() => { s.style.display = 'none'; }, 950); }
+  if (s) {
+    if (REDUCED_MOTION || instant === true) {
+      s.style.display = 'none';
+    } else {
+      // The hero has to be under the doorway before it opens.
+      layoutGate();
+      s.classList.add('opening');
+      setTimeout(() => { s.style.display = 'none'; }, 2300);
+    }
+  }
   revealHero();
   if (!tickerStarted) { tickerStarted = true; setTimeout(runTicker, 1200); }
 }
@@ -148,16 +222,25 @@ function revealHero() {
 
 (function () {
   if (REDUCED_MOTION) { dismissSplash(); return; }
+
+  // The outline starts tracing at 0.55s, so the gate has to know its size
+  // before then. Measure once immediately and again once webfonts have
+  // settled, since the tagline's width moves when they land.
+  layoutGate();
+  requestAnimationFrame(layoutGate);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(layoutGate);
+  window.addEventListener('resize', () => { if (!splashDone) layoutGate(); });
+
   setTimeout(() => {
     if (splashDone) return;
     animateTagline(TAGLINE_JP, () => {
       if (splashDone) return;
       hideTagline(() => {
         if (splashDone) return;
-        animateTagline(TAGLINE_EN, () => setTimeout(dismissSplash, 450), 350, 'ltr', 45);
+        animateTagline(TAGLINE_EN, () => setTimeout(dismissSplash, 300), 200, 'ltr', 22);
       });
-    }, 300, null, 95);
-  }, 350);
+    }, 120, null, 60);
+  }, 300);
   // Safety: never trap the visitor on the splash
   setTimeout(dismissSplash, 12000);
 })();

@@ -49,6 +49,22 @@
 
 <!-- ── Splash intro ── -->
 <div id="splash">
+  <!-- The gate. A cream field with a katomado-shaped hole in it, sized and
+       positioned by JS to enclose the logo. The hole starts closed; the
+       outline traces around it first, then the hole opens along that exact
+       line and keeps opening until it has passed off every edge — so the
+       visitor arrives on the site by stepping through the doorway rather
+       than by watching a panel fade. -->
+  <svg id="gate" aria-hidden="true" preserveAspectRatio="none">
+    <defs>
+      <mask id="gate-mask" maskUnits="userSpaceOnUse">
+        <rect id="gate-rect" fill="#fff"></rect>
+        <path id="gate-hole" fill="#000"></path>
+      </mask>
+    </defs>
+    <rect id="gate-fill" mask="url(#gate-mask)"></rect>
+    <path id="gate-line" fill="none" stroke-width="1" vector-effect="non-scaling-stroke" pathLength="1"></path>
+  </svg>
   <div class="splash-kanji-wrap">
     <span class="splash-kanji-bg k1">白</span>
     <span class="splash-kanji-bg k2">梅</span>

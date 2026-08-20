@@ -929,3 +929,99 @@ button[disabled] { opacity: 0.6; cursor: default; }
   .ume-line { width: 200px !important; opacity: 1 !important; }
   .ume-mark { transform: none !important; opacity: 0.7 !important; }
 }
+
+/* ═══════════════════════════════════════════════════════════
+   THE GATE — the splash opens instead of fading
+   ═══════════════════════════════════════════════════════════ */
+
+/* The splash itself no longer paints the cream; the gate does, so that a
+   hole can be cut in it. */
+#splash { background: transparent; }
+
+#gate {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+#gate-fill { fill: #f7f3ec; }
+
+/* Both the hole and the drawn line share one bounding box, so one
+   transform-origin serves both and they open in perfect register. */
+#gate-hole, #gate-line {
+  transform-box: fill-box;
+  transform-origin: 50% 43%;
+}
+#gate-hole { transform: scale(0); }
+
+#gate-line {
+  stroke: rgba(139, 74, 47, 0.45);
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: gateTrace 1.75s cubic-bezier(0.22, 1, 0.36, 1) 0.45s forwards;
+}
+@keyframes gateTrace { to { stroke-dashoffset: 0; } }
+
+/* Everything that belongs to the cream world sits above the gate and
+   fades as the doorway opens. */
+.splash-kanji-wrap { z-index: 1; }
+.splash-logo, .splash-tagline, .splash-skip { position: relative; z-index: 2; }
+
+/* ─── OPENING ───────────────────────────────────────────────
+   One continuous move: the hole grows from nothing to exactly the
+   traced line (the 42% keyframe), then keeps going until it has left
+   the screen. The line rides with it from that moment and fades. */
+#splash.opening { pointer-events: none; }
+#splash.opening #gate-hole { animation: gateOpen 2.2s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+/* The opening animation replaces gateTrace, and with it the forwards fill
+   that was holding the line drawn — so the offset has to be pinned here or
+   the outline blinks out the instant the doorway starts to move. */
+#splash.opening #gate-line {
+  stroke-dashoffset: 0;
+  animation: gateLineOpen 2.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+#splash.opening .splash-kanji-wrap,
+#splash.opening .splash-logo,
+#splash.opening .splash-tagline,
+#splash.opening .splash-skip {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+/* The doorway fills with the mountain until it reaches the traced line,
+   holds there for a beat — that pause is the whole point of the shot, the
+   moment you are standing in the gateway — and only then sweeps outward. */
+@keyframes gateOpen {
+  0%   { transform: scale(0); }
+  40%  { transform: scale(1); }
+  56%  { transform: scale(1); }
+  100% { transform: scale(9); }
+}
+@keyframes gateLineOpen {
+  0%, 56% { transform: scale(1); opacity: 1; }
+  100%    { transform: scale(9); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #gate-line { animation: none; stroke-dashoffset: 0; }
+}
+
+/* ─── THE GATE AT NIGHT ─────────────────────────────────────
+   Japan time decides day or night before the splash paints, so at night
+   a cream doorway would flash white in front of a dark site. The gate,
+   the ink mark and the lettering all turn over together. */
+.dark #gate-fill { fill: #17150f; }
+.dark #gate-line { stroke: rgba(184, 149, 106, 0.5); }
+.dark .splash-ink-img,
+.dark .splash-ink-img[style] { filter: brightness(0) invert(0.92); }
+.dark .splash-en { color: #f4f0e8; }
+.dark .splash-kanji-bg { color: rgba(184, 149, 106, 0.045); }
+.dark .splash-skip { color: rgba(244, 240, 232, 0.5); }
+.dark .splash-tagline { color: rgba(244, 240, 232, 0.72); }
+
+.dark .splash-ink-img { animation-name: splashInkDrawDark; }
+@keyframes splashInkDrawDark {
+  0%    { --sweep: 0deg; opacity: 0; filter: brightness(0) invert(0.92) blur(2.5px); }
+  6%    { opacity: 1; }
+  90%   { filter: brightness(0) invert(0.92) blur(0px); }
+  100%  { --sweep: 360deg; opacity: 1; filter: brightness(0) invert(0.92) blur(0px); -webkit-mask-image: none; mask-image: none; }
+}
