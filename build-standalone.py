@@ -74,6 +74,13 @@ for n in used:
 html = re.sub(r'(<img[^>]*?)src="assets/img/([\w.-]+\.(?:jpg|png))"',
               lambda m: f'{m.group(1)}data-a="{key(m.group(2))}"', html)
 
+# og:image names a file path for link-preview scrapers. A single file sent
+# by email has no URL for anything to fetch, and inlining the photograph as
+# a data URI inside a <meta> tag would just add a megabyte nobody reads —
+# so the tag comes out of the standalone copy.
+html = re.sub(r'\n\s*<!-- Relative path:.*?-->', '', html, flags=re.S)
+html = re.sub(r'\n\s*<meta property="og:image[^>]*>', '', html)
+
 leftover = re.findall(r'assets/img/[\w.-]+', html + style + enhance + js)
 assert not leftover, f'unresolved asset references: {leftover}'
 

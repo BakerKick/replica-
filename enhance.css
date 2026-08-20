@@ -293,11 +293,50 @@ body.hero-enhanced .hero-in.show { opacity: 1; transform: none; }
 .spot-icon svg { width: 26px; height: 26px; display: block; }
 .spot-card:hover .spot-icon { color: var(--color-primary); opacity: 1; }
 
-/* A slow zoom on the feature photograph. The arched frame that was here
-   was a rounded top on a rectangle — the same construction the reference
-   uses, not a Japanese shape — so it has been taken back out. */
-.area-img-wrap img { transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1); }
-.area-img-wrap:hover img { transform: scale(1.04); }
+/* ─── 火灯窓 KATOMADO FRAME ──────────────────────────────── */
+/* The bell-shaped window of a Zen temple hall: the line leaves the sill
+   vertically, flares OUT at the shoulder, then curves back IN to a soft
+   point at the crown. That outward flare is the whole difference between
+   this and a plain dome — a dome only ever curves one way.
+   Used on both feature photographs so it reads as a repeated motif
+   rather than an ornament stuck on one picture. */
+.katomado-frame {
+  position: relative;
+  clip-path: url(#katomado);
+  /* the clip supplies the whole silhouette, so the rectangle's own
+     corner radius and drop shadow have to come off or they fight it */
+  border-radius: 0;
+  box-shadow: none;
+  overflow: visible;
+}
+.katomado-frame img {
+  display: block;
+  width: 100%;
+  border-radius: 0;
+  box-shadow: none;
+  transition: transform 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.katomado-frame:hover img { transform: scale(1.05); }
+
+/* A second line, drawn a little inside the edge — the way a real window
+   has a frame within its opening. preserveAspectRatio="none" on the SVG
+   makes it stretch exactly as the clip does, so the two stay parallel at
+   any width; non-scaling-stroke keeps the line hairline-thin regardless. */
+.katomado-ring {
+  position: absolute;
+  inset: 14px;
+  width: calc(100% - 28px);
+  height: calc(100% - 28px);
+  color: rgba(255, 255, 255, 0.42);
+  pointer-events: none;
+  z-index: 2;
+}
+@media (max-width: 700px) {
+  .katomado-ring { inset: 10px; width: calc(100% - 20px); height: calc(100% - 20px); }
+}
+
+/* The parent wrappers were carrying the rectangle's own framing. */
+.area-img-wrap { border-radius: 0; box-shadow: none; overflow: visible; }
 
 /* ─── SECTION LABELS ────────────────────────────────────── */
 /* Wider tracking and a hairline trailing off the end of each label —
@@ -724,8 +763,103 @@ button[disabled] { opacity: 0.6; cursor: default; }
   .rdh-content { padding: 0 2rem 4rem; }
 }
 
+/* ═══════════════════════════════════════════════════════════
+   EDITORIAL DETAIL
+   Small things, each one repeated somewhere else on the page,
+   so nothing reads as a one-off flourish.
+   ═══════════════════════════════════════════════════════════ */
+
+/* ─── THE RING DRAWS ITSELF IN ──────────────────────────── */
+/* pathLength="1" on the path lets the dash be written in plain
+   fractions instead of measured pixels, so one rule covers both
+   frames at any size. The line traces itself as the photograph
+   scrolls up — the same gesture as a brush laid down once. */
+.katomado-ring path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 2.6s cubic-bezier(0.33, 1, 0.68, 1) 0.35s;
+}
+.reveal.visible .katomado-ring path { stroke-dashoffset: 0; }
+
+/* ─── DROP CAP ──────────────────────────────────────────── */
+/* Only on the English opening. Japanese has no tradition of one,
+   and setting a kanji three lines tall looks like a mistake. */
+.story-lede::first-letter {
+  float: left;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 3.6em;
+  line-height: 0.82;
+  padding: 0.06em 0.14em 0 0;
+  color: var(--color-cedar);
+}
+[data-lang="ja"] .story-lede::first-letter { float: none; font-size: inherit; color: inherit; padding: 0; }
+
+/* ─── PHOTOGRAPH CAPTIONS ───────────────────────────────── */
+/* The Est. 1917 badge hangs off the photograph, so it needs the
+   photograph as its containing block — not the whole column, or
+   the caption below would push it away from the picture. */
+.story-figure { position: relative; }
+
+.fig-caption {
+  margin-top: 2.4rem;
+  padding-left: 1.1rem;
+  border-left: 1px solid var(--color-divider);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+  max-width: 34ch;
+}
+.fig-caption .ja {
+  font-family: 'Noto Serif JP', serif;
+  font-style: normal;
+  font-size: 0.82rem;
+}
+
+/* ─── UME RULE BETWEEN MOVEMENTS ────────────────────────── */
+/* The same five-petal plum mark that closes the interlude. It opens
+   each new movement of the page from inside that section, so it always
+   sits on one flat ground — the sections alternate their background,
+   and a rule laid across the seam looks like a printing error. */
+.ume-rule {
+  display: flex; align-items: center; justify-content: center;
+  gap: 1.1rem;
+  max-width: 1200px;
+  margin: 0 auto var(--space-12);
+  padding: 0 var(--space-6);
+}
+.ume-rule::before, .ume-rule::after {
+  content: ''; height: 1px; flex: 1 1 auto; max-width: 260px;
+}
+.ume-rule::before { background: linear-gradient(90deg, transparent, var(--color-divider)); }
+.ume-rule::after  { background: linear-gradient(90deg, var(--color-divider), transparent); }
+.ume-mark {
+  width: 11px; height: 11px; flex: 0 0 auto; opacity: 0.7;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cg fill='%23B8956A'%3E%3Ccircle cx='6' cy='2.8' r='2.1'/%3E%3Ccircle cx='2.96' cy='5.01' r='2.1'/%3E%3Ccircle cx='4.12' cy='8.59' r='2.1'/%3E%3Ccircle cx='7.88' cy='8.59' r='2.1'/%3E%3Ccircle cx='9.04' cy='5.01' r='2.1'/%3E%3C/g%3E%3C/svg%3E") center/contain no-repeat;
+}
+
+/* ─── FOOTER ENQUIRIES BLOCK ────────────────────────────── */
+/* The footer grid was three columns wide but has always held four
+   children, so the last one dropped beneath the brand with a hole
+   beside it. Four columns on wide screens; it still stacks below. */
+@media (min-width: 900px) {
+  .footer-inner { grid-template-columns: 2.1fr 1fr 1fr 1.25fr; gap: var(--space-12); }
+}
+.footer-nav-title-2 { margin-top: 2.4rem; }
+.footer-contact-note {
+  font-size: 0.78rem;
+  line-height: 1.75;
+  color: var(--color-text-muted);
+  opacity: 0.75;
+  max-width: 30ch;
+  margin-top: 0.4rem;
+}
+
 /* ─── REDUCED MOTION ────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   #splash { display: none; }
   .seasons-track, .petal, .splash-petal { animation: none !important; }
+  .katomado-ring path { transition: none; stroke-dashoffset: 0; }
 }

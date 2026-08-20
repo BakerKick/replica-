@@ -10,6 +10,16 @@
   <meta property="og:title" content="Shiraume Lodge — A Ryokan Concept">
   <meta property="og:description" content="A private concept presentation for a boutique inn at the foot of Mt. Hiko, Fukuoka.">
   <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Shiraume Lodge">
+  <meta property="og:locale" content="en_GB">
+  <meta property="og:locale:alternate" content="ja_JP">
+  <!-- Relative path: absolute URLs only exist once the site has a domain.
+       Most link-preview scrapers resolve this against the page URL. -->
+  <meta property="og:image" content="assets/img/story.jpg">
+  <meta property="og:image:alt" content="The entrance of Shiraume Lodge beneath autumn maples">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#f5f1e8" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#141210" media="(prefers-color-scheme: dark)">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,6 +31,21 @@
 <!-- To revert to the original hero exactly as approved (no ticker, no
      entrance animation), remove the "hero-enhanced" class below. -->
 <body class="hero-enhanced">
+<!-- 火灯窓 katomado: the temple-window silhouette used to frame feature imagery.
+     Flares at the shoulders, then returns to a soft point. -->
+<svg width="0" height="0" aria-hidden="true" style="position:absolute">
+  <defs>
+    <clipPath id="katomado" clipPathUnits="objectBoundingBox">
+      <path d="M0,1 L0,0.42
+               C0.015,0.2607 0.11,0.1666 0.25,0.1195
+               C0.375,0.0833 0.44,0.0543 0.5,0
+               C0.56,0.0543 0.625,0.0833 0.75,0.1195
+               C0.89,0.1666 0.985,0.2607 1,0.42
+               L1,1 Z"/>
+    </clipPath>
+  </defs>
+</svg>
+
 
 <!-- ── Splash intro ── -->
 <div id="splash">
@@ -196,12 +221,18 @@
   <div class="container">
     <div class="story-grid">
       <div class="story-image-col reveal">
-<img class="story-img-main" src="assets/img/story.jpg" alt="Historic exterior of Shiraume Lodge with noren curtain entrance and autumn maple trees" loading="lazy">
+        <div class="story-figure">
+        <div class="katomado-frame">
+          <img class="story-img-main" src="assets/img/story.jpg" alt="Historic exterior of Shiraume Lodge with noren curtain entrance and autumn maple trees" loading="lazy">
+          <svg class="katomado-ring" viewBox="0 0 100 100" preserveAspectRatio="none" fill="none" aria-hidden="true"><path pathLength="1" d="M0,100 L0,42 C1.5,26.07 11,16.66 25,11.95 C37.5,8.33 44,5.43 50,0 C56,5.43 62.5,8.33 75,11.95 C89,16.66 98.5,26.07 100,42 L100,100" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke"/></svg>
+        </div>
         <div class="story-img-badge">
           <div class="story-img-badge-est">Est.</div>
           <div class="story-img-badge-year">1917</div>
           <div class="story-img-badge-loc">Hikosan, Soeda</div>
         </div>
+        </div><!-- /story-figure -->
+        <p class="fig-caption"><span class="en">The original entrance, noren hung as it has been for a century.</span><span class="ja">創建当時からの玄関。暖簾は百年変わらぬ場所に掛かる。</span></p>
       </div>
 
       <div class="story-text-col">
@@ -210,7 +241,7 @@
           <h2 class="section-title"><span class="en">A century of shelter, returning to life</span><span class="ja">百年の宿、新たなる息吹</span></h2>
         </div>
         <div class="bilingual-block reveal">
-          <p class="story-text en">For over a hundred years, this building stood at the approach to Hikosan Jingu — welcoming pilgrims and mountain wanderers along one of Kyushu's most storied sacred routes. Today, it has been reborn through a complete renovation from the ground up, honoring its timber bones while reimagining every interior space.</p>
+          <p class="story-text story-lede en">For over a hundred years, this building stood at the approach to Hikosan Jingu — welcoming pilgrims and mountain wanderers along one of Kyushu's most storied sacred routes. Today, it has been reborn through a complete renovation from the ground up, honoring its timber bones while reimagining every interior space.</p>
           <p class="story-text ja">百年以上にわたり、この建物は英彦山神宮の参道入口に佇み、九州屈指の聖地を訪れる巡礼者や山旅人を迎えてきました。今、骨格となる木造軸組みを活かしながら、全ての内部空間を刷新する全面的な改修によって、新たな命が吹き込まれました。</p>
         </div>
         <div class="bilingual-block reveal">
@@ -261,6 +292,7 @@
 </section>
 
 <section class="rooms-section" id="rooms">
+  <div class="ume-rule" aria-hidden="true"><span class="ume-mark"></span></div>
   <span class="kanji-bg rooms-kanji" aria-hidden="true">客</span>
   <div class="container">
     <div class="rooms-header reveal">
@@ -373,7 +405,11 @@
   <div class="container">
     <div class="area-grid">
       <div class="area-img-wrap reveal">
-        <img src="assets/img/area.jpg" alt="Aerial view of Mt. Hiko shrine complex in cedar and maple forest with morning mist" loading="lazy">
+        <div class="katomado-frame">
+          <img src="assets/img/area.jpg" alt="Aerial view of Mt. Hiko shrine complex in cedar and maple forest with morning mist" loading="lazy">
+          <svg class="katomado-ring" viewBox="0 0 100 100" preserveAspectRatio="none" fill="none" aria-hidden="true"><path pathLength="1" d="M0,100 L0,42 C1.5,26.07 11,16.66 25,11.95 C37.5,8.33 44,5.43 50,0 C56,5.43 62.5,8.33 75,11.95 C89,16.66 98.5,26.07 100,42 L100,100" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke"/></svg>
+        </div>
+        <p class="fig-caption"><span class="en">Hikosan Jingu at first light, seen from the upper shrine path.</span><span class="ja">夜明けの英彦山神宮。上宮への参道より望む。</span></p>
       </div>
       <div class="area-text-col">
         <div class="reveal">
@@ -495,6 +531,7 @@
 </section>
 
 <section class="experience-section" id="experience">
+  <div class="ume-rule" aria-hidden="true"><span class="ume-mark"></span></div>
   <span class="kanji-bg exp-kanji" aria-hidden="true">泊</span>
   <div class="container">
     <div class="experience-header reveal">
@@ -571,6 +608,7 @@
 </section>
 
 <section class="inquiry-section" id="inquiry">
+  <div class="ume-rule" aria-hidden="true"><span class="ume-mark"></span></div>
   <div class="container">
     <div class="reveal" style="margin-bottom: var(--space-12);">
       <p class="section-eyebrow"><span class="en">Get in Touch</span><span class="ja">ご連絡ください</span></p>
@@ -697,7 +735,12 @@
       </div>
 
       <div>
-        <div class="footer-nav-title">Location</div>
+        <div class="footer-nav-title">Enquiries</div>
+        <ul class="footer-nav-links footer-contact">
+          <li><a href="#inquiry"><span class="en">Send an introduction</span><span class="ja">ご紹介を送る</span></a></li>
+          <li class="footer-contact-note"><span class="en">Partnership, operator and press enquiries are read directly by the project team. Replies within two business days.</span><span class="ja">提携・運営・取材のお問い合わせはプロジェクトチームが直接拝読します。2営業日以内にご返信いたします。</span></li>
+        </ul>
+        <div class="footer-nav-title footer-nav-title-2">Location</div>
         <ul class="footer-nav-links">
           <li><a href="https://www.visitfukuoka.jp" target="_blank" rel="noopener noreferrer">Mt. Hiko — Visit Fukuoka</a></li>
           <li><a href="https://www.jnto.go.jp" target="_blank" rel="noopener noreferrer">Hikosan Jingu — JNTO</a></li>
