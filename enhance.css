@@ -829,32 +829,26 @@ button[disabled] { opacity: 0.6; cursor: default; }
   max-width: 1200px;
   margin: 0 auto var(--space-12);
   padding: 0 var(--space-6);
+  opacity: 1; transform: none;  /* the parts animate, not the row */
 }
-.ume-rule::before, .ume-rule::after {
-  content: ''; height: 1px; flex: 1 1 auto; max-width: 260px;
+/* The two hairlines grow outward from the mark and the mark scales in —
+   the reference animates its divider open on scroll rather than having it
+   simply appear, and that is what makes it feel drawn rather than placed. */
+.ume-line {
+  height: 1px; width: 0; opacity: 0;
+  transition: width 1s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.8s ease;
 }
-.ume-rule::before { background: linear-gradient(90deg, transparent, var(--color-divider)); }
-.ume-rule::after  { background: linear-gradient(90deg, var(--color-divider), transparent); }
+.ume-line:first-child  { background: linear-gradient(90deg, transparent, var(--color-divider)); }
+.ume-line:last-child   { background: linear-gradient(90deg, var(--color-divider), transparent); }
+.ume-rule.visible .ume-line { width: 200px; opacity: 1; }
+.ume-mark {
+  transform: scale(0) rotate(-40deg); opacity: 0;
+  transition: transform 0.8s cubic-bezier(0.34, 1.4, 0.64, 1) 0.35s, opacity 0.6s ease 0.35s;
+}
+.ume-rule.visible .ume-mark { transform: scale(1) rotate(0deg); opacity: 0.7; }
 .ume-mark {
   width: 11px; height: 11px; flex: 0 0 auto; opacity: 0.7;
   background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cg fill='%23B8956A'%3E%3Ccircle cx='6' cy='2.8' r='2.1'/%3E%3Ccircle cx='2.96' cy='5.01' r='2.1'/%3E%3Ccircle cx='4.12' cy='8.59' r='2.1'/%3E%3Ccircle cx='7.88' cy='8.59' r='2.1'/%3E%3Ccircle cx='9.04' cy='5.01' r='2.1'/%3E%3C/g%3E%3C/svg%3E") center/contain no-repeat;
-}
-
-/* ─── FOOTER ENQUIRIES BLOCK ────────────────────────────── */
-/* The footer grid was three columns wide but has always held four
-   children, so the last one dropped beneath the brand with a hole
-   beside it. Four columns on wide screens; it still stacks below. */
-@media (min-width: 900px) {
-  .footer-inner { grid-template-columns: 2.1fr 1fr 1fr 1.25fr; gap: var(--space-12); }
-}
-.footer-nav-title-2 { margin-top: 2.4rem; }
-.footer-contact-note {
-  font-size: 0.78rem;
-  line-height: 1.75;
-  color: var(--color-text-muted);
-  opacity: 0.75;
-  max-width: 30ch;
-  margin-top: 0.4rem;
 }
 
 /* ─── REDUCED MOTION ────────────────────────────────────── */
@@ -862,4 +856,76 @@ button[disabled] { opacity: 0.6; cursor: default; }
   #splash { display: none; }
   .seasons-track, .petal, .splash-petal { animation: none !important; }
   .katomado-ring path { transition: none; stroke-dashoffset: 0; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   INTERACTION — drawn from the reference site the client admires
+   Each block below names the component it comes from, so the
+   lineage is checkable rather than asserted.
+   ═══════════════════════════════════════════════════════════ */
+
+/* The hero carried a drawn katomado outline for a moment, mirroring the
+   reference's keyhole arch. It came out: the hero photograph is a torii —
+   an actual gateway — and outlining a gateway over a picture of a gateway
+   is noise, not a motif. It was also invisible against that much foliage. */
+
+/* ─── ROOM CARDS · IDENTITY BAR AND DOT ─────────────────────
+   Their suite cards give each suite a colour: a 3px bar beneath
+   the photograph that thickens on hover, and a dot of the same
+   colour beside the name. Five rooms, five colours drawn from
+   what each room actually is — moss, stone, cedar, hinoki,
+   east-mountain dusk. */
+.room-bar {
+  height: 2px; width: 100%;
+  background: var(--tint, var(--color-cedar));
+  transition: height 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.room-card:hover .room-bar { height: 4px; }
+.room-dot {
+  display: inline-block;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--tint, var(--color-cedar));
+  margin-right: 0.6rem;
+  vertical-align: 0.12em;
+  transition: transform 0.45s cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+.room-card:hover .room-dot { transform: scale(1.35); }
+
+/* ─── EXPERIENCE CARDS · GROWING HAIRLINE ───────────────────
+   Their .discover-card__line runs 32px → 56px on hover. Theirs
+   also hides the description until hover; ours are text-only
+   cards, so hiding the text would leave six near-empty boxes.
+   The line and the numeral carry the movement instead. */
+.exp-line {
+  height: 1px; width: 30px;
+  margin: 0.9rem 0 0.2rem;
+  background: linear-gradient(90deg, var(--color-cedar), transparent);
+  transition: width 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.exp-card:hover .exp-line { width: 64px; }
+.exp-num { transition: color 0.45s ease, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1); }
+.exp-card:hover .exp-num { color: var(--color-cedar); transform: translateY(-2px); }
+
+/* ─── LINKS · UNDERLINE GROWS FROM THE LEFT ─────────────────
+   Their .link-luxury::after, scaleX(0) → scaleX(1) from the
+   left edge. Used on every navigation link they have. */
+.nav-links a,
+.footer-nav-links a,
+.mobile-nav-link { position: relative; }
+.nav-links a::after,
+.footer-nav-links a::after {
+  content: '';
+  position: absolute; left: 0; bottom: -4px;
+  height: 1px; width: 100%;
+  background: currentColor;
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.nav-links a:hover::after,
+.footer-nav-links a:hover::after { transform: scaleX(1); }
+
+@media (prefers-reduced-motion: reduce) {
+  .ume-line { width: 200px !important; opacity: 1 !important; }
+  .ume-mark { transform: none !important; opacity: 0.7 !important; }
 }
