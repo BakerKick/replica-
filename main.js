@@ -158,73 +158,166 @@ function katomadoPath(x, y, w, h) {
 }
 
 // ─── THE TORII ──────────────────────────────────────────────
-// Traced off the gate standing in hero-day.jpg by drawing the outline over
-// the photograph and correcting until it sat on the stone. Every number is
-// a fraction of the photograph itself (1376 x 752), not of some box, so
-// there is only one conversion between here and the screen and only one
-// place for an error to hide. hero-night.jpg is framed identically — the
-// two register to within a third of a percent — so one tracing serves both.
+// Traced off the gate standing in hero-day.jpg. Every number is a fraction
+// of the photograph itself (1376 x 752), so there is one conversion between
+// here and the screen and one place for an error to hide.
 //
-// The posts lean, as a real torii does, so their edges are not vertical and
-// the opening between them is a quadrilateral rather than a rectangle.
+// The heights were settled by drawing candidate horizontals straight across
+// the picture and reading which line landed on which member — an earlier
+// tracing put the crossbeam on a shadow band below the real one, and that
+// was invisible until the lines were laid on bare.
+//
+// hero-night.jpg is framed identically, to within a third of a percent, so
+// one tracing serves both.
 const TORII = {
-  span:   { u0: 0.251, u1: 0.752, vTop: 0.043, vFoot: 0.783 },
-  kasagi: { uL: 0.251, uR: 0.752, topEnd: 0.043, topMid: 0.068, botEnd: 0.115, botMid: 0.130 },
-  nuki:   { u0: 0.275, u1: 0.694, v0: 0.212, v1: 0.258 },
-  plaque: { u0: 0.481, u1: 0.542, v0: 0.067, v1: 0.200 },
-  postTopV: 0.108,
-  postBotV: 0.775,
-  left:   { outTop: 0.3543, outBot: 0.3431, inTop: 0.3937, inBot: 0.3961 },
-  right:  { inTop: 0.6062, inBot: 0.6123, outTop: 0.6487, outBot: 0.6608 },
-  daiwa:  { v0: 0.111, v1: 0.158, left: [0.347, 0.404], right: [0.600, 0.657] },
-  base:   { left: { u0: 0.321, u1: 0.415, v0: 0.728, v1: 0.783 },
-            right: { u0: 0.603, u1: 0.670, v0: 0.717, v1: 0.772 } },
+  span: { u0: 0.245, u1: 0.755, vTop: 0.024, vFoot: 0.783 },
+
+  // The top is two members: the kasagi, which lifts at both ends, and the
+  // shimaki packed beneath it following the same sweep. Their ends are cut
+  // on the slant, which is why the underside is shorter than the top.
+  //
+  // Each sweep is a cubic, not a quadratic. A quadratic bends evenly and
+  // gave a shallow bow; the real sori is flat across the middle and lifts
+  // hard in the last part of the span, which is what two controls buy.
+  top: {
+    uL: 0.245, uR: 0.755, uLb: 0.258, uRb: 0.742, cIn: 0.17,
+    topEnd: 0.024, topMid: 0.060,   // upper face
+    midEnd: 0.056, midMid: 0.096,   // kasagi over shimaki
+    botEnd: 0.086, botMid: 0.127,   // underside
+  },
+
+  // The rope slung under the crossbeam, with its paper streamers. It is the
+  // most particular thing about this gate and the reason it reads as this
+  // torii rather than a torii.
+  rope: {
+    v0End: 0.248, v0Mid: 0.256, v1End: 0.262, v1Mid: 0.270,
+    shide: [0.12, 0.30, 0.50, 0.70, 0.88], shideW: 0.0038, shideH: 0.046,   // along the rope, 0..1
+  },
+
+  // The crossbeam reads as passing in front of both posts, so the posts are
+  // drawn only below it and the beam is unbroken.
+  nuki: { u0: 0.272, u1: 0.700, u0b: 0.276, u1b: 0.697, v0: 0.184, v1: 0.237 },
+
+  // The name board hangs between the two, in front of the crossbeam.
+  plaque: { u0: 0.478, u1: 0.520, v0: 0.085, v1: 0.215, inset: 0.005 },
+
+  // Each post head widens into a collar that meets the underside of the
+  // shimaki and stands on the crossbeam — so its lower edge is not drawn.
+  daiwa: { v0: 0.125, v1: 0.185, r: 0.009, left: [0.344, 0.402], right: [0.598, 0.657] },
+
+  // Shafts, from under the crossbeam to the plinths. They lean, as a real
+  // torii does, so the opening between them is a quadrilateral.
+  shaftTopV: 0.237, shaftBotV: 0.775,
+  left:  { outTop: 0.3521, outBot: 0.3431, inTop: 0.3942, inBot: 0.3961 },
+  right: { inTop: 0.6074, inBot: 0.6123, outTop: 0.6510, outBot: 0.6608 },
+
+  base: { left:  { u0: 0.334, u1: 0.408, v0: 0.735, v1: 0.783 },
+          right: { u0: 0.601, u1: 0.672, v0: 0.723, v1: 0.772 } },
 };
 
-// Follow a leaning post edge to any depth, including past the foot of the
-// gate — which the opening needs, since it runs off the bottom of the screen.
+// Follow a leaning shaft edge to any depth, including past the plinths —
+// which the opening needs, since it runs off the bottom of the screen.
 function postEdge(top, bot, v) {
-  return top + (bot - top) * (v - TORII.postTopV) / (TORII.postBotV - TORII.postTopV);
+  return top + (bot - top) * (v - TORII.shaftTopV) / (TORII.shaftBotV - TORII.shaftTopV);
 }
 
 // `f` is where the photograph is painted: {x, y, w, h} in screen pixels.
+// Only edges that can actually be seen are drawn — where one member passes
+// in front of another the hidden line is left out, which is the difference
+// between a drawing of a gate and a wireframe of one.
 function toriiParts(f) {
   const X = (u) => (f.x + u * f.w).toFixed(2);
   const Y = (v) => (f.y + v * f.h).toFixed(2);
-  const K = TORII.kasagi;
+  const T = TORII.top, N = TORII.nuki, P = TORII.plaque, D = TORII.daiwa, B = TORII.base;
+  const ctrl = (endV, midV) => 2 * midV - endV;   // quadratic through three points
 
-  // A quadratic through three points needs its control lifted to twice the
-  // middle less the average of the ends; the ends here sit at equal height.
-  const ctrl = (endV, midV) => 2 * midV - endV;
-  const kasagi =
-    `M${X(K.uL)},${Y(K.topEnd)}` +
-    ` Q${X(0.5)},${Y(ctrl(K.topEnd, K.topMid))} ${X(K.uR)},${Y(K.topEnd)}` +
-    ` L${X(K.uR)},${Y(K.botEnd)}` +
-    ` Q${X(0.5)},${Y(ctrl(K.botEnd, K.botMid))} ${X(K.uL)},${Y(K.botEnd)} Z`;
+  // A cubic whose two controls sit at cIn from each end, lifted so the curve
+  // passes through midV at the half-way point.
+  const sweep = (uA, uB, endV, midV) => {
+    const c = (8 * midV - endV - endV) / 6;
+    return `M${X(uA)},${Y(endV)} C${X(uA + T.cIn)},${Y(c)} ${X(uB - T.cIn)},${Y(c)} ${X(uB)},${Y(endV)}`;
+  };
+  const sweepBack = (uA, uB, endV, midV) => {
+    const c = (8 * midV - endV - endV) / 6;
+    return `C${X(uB - T.cIn)},${Y(c)} ${X(uA + T.cIn)},${Y(c)} ${X(uA)},${Y(endV)}`;
+  };
 
-  const box = (u0, u1, v0, v1) =>
+  const topAssembly =
+    sweep(T.uL, T.uR, T.topEnd, T.topMid) +
+    ` L${X(T.uRb)},${Y(T.botEnd)} ` +
+    sweepBack(T.uLb, T.uRb, T.botEnd, T.botMid) + ' Z';
+
+  const shimakiLine = sweep(T.uL + 0.006, T.uR - 0.006, T.midEnd, T.midMid);
+
+  const nuki =
+    `M${X(N.u0)},${Y(N.v0)} L${X(N.u1)},${Y(N.v0)} L${X(N.u1b)},${Y(N.v1)} L${X(N.u0b)},${Y(N.v1)} Z`;
+
+  const rect = (u0, u1, v0, v1) =>
     `M${X(u0)},${Y(v0)} L${X(u1)},${Y(v0)} L${X(u1)},${Y(v1)} L${X(u0)},${Y(v1)} Z`;
 
-  const post = (p) =>
-    `M${X(p.outTop)},${Y(TORII.postTopV)} L${X(p.inTop)},${Y(TORII.postTopV)}` +
-    ` L${X(p.inBot)},${Y(TORII.postBotV)} L${X(p.outBot)},${Y(TORII.postBotV)} Z`;
+  const plaque = rect(P.u0, P.u1, P.v0, P.v1) + ' ' +
+                 rect(P.u0 + P.inset, P.u1 - P.inset, P.v0 + P.inset * 2, P.v1 - P.inset * 2);
 
-  const N = TORII.nuki, P = TORII.plaque;
-  // Posts, crossbeam, lintel, plaque — and nothing else. The collar at each
-  // post head and the footing stones are really there in the photograph, but
-  // as hairline boxes they turned the gate into a wireframe. Four pieces is
-  // what a torii needs to be read as one.
+  // Collar: shoulders rounded, lower edge omitted where it meets the beam.
+  const collar = (u) => {
+    const r = D.r;
+    return `M${X(u[0])},${Y(D.v1)} L${X(u[0])},${Y(D.v0 + r)}` +
+           ` Q${X(u[0])},${Y(D.v0)} ${X(u[0] + r)},${Y(D.v0)}` +
+           ` L${X(u[1] - r)},${Y(D.v0)}` +
+           ` Q${X(u[1])},${Y(D.v0)} ${X(u[1])},${Y(D.v0 + r)}` +
+           ` L${X(u[1])},${Y(D.v1)}`;
+  };
+
+  // Shaft: two edges only. Its head is behind the beam and its foot stands
+  // on the plinth, so neither is drawn — and the edges stop at the plinth's
+  // top rather than running down through it.
+  const shaft = (p, plinthV) => {
+    const e = (top, bot) => postEdge(top, bot, plinthV);
+    return `M${X(p.outTop)},${Y(TORII.shaftTopV)} L${X(e(p.outTop, p.outBot))},${Y(plinthV)}` +
+           ` M${X(p.inTop)},${Y(TORII.shaftTopV)} L${X(e(p.inTop, p.inBot))},${Y(plinthV)}`;
+  };
+
+  // The rope hangs between the shafts, sagging under its own weight, with
+  // folded paper streamers along it. Drawn last, the way it is hung last.
+  const R = TORII.rope;
+  const lIn = postEdge(TORII.left.inTop, TORII.left.inBot, R.v0End);
+  const rIn = postEdge(TORII.right.inTop, TORII.right.inBot, R.v0End);
+  const sag = (endV, midV) => (8 * midV - endV - endV) / 6;
+  const rope =
+    `M${X(lIn)},${Y(R.v0End)} C${X(lIn + 0.09)},${Y(sag(R.v0End, R.v0Mid))} ${X(rIn - 0.09)},${Y(sag(R.v0End, R.v0Mid))} ${X(rIn)},${Y(R.v0End)}` +
+    ` L${X(rIn)},${Y(R.v1End)}` +
+    ` C${X(rIn - 0.09)},${Y(sag(R.v1End, R.v1Mid))} ${X(lIn + 0.09)},${Y(sag(R.v1End, R.v1Mid))} ${X(lIn)},${Y(R.v1End)} Z`;
+
+  // Each streamer: a narrow strip folded twice, stepping left then right.
+  const shide = R.shide.map((t) => {
+    const u = lIn + (rIn - lIn) * t;
+    const hang = R.v1End + (R.v1Mid - R.v1End) * Math.sin(Math.PI * t);   // follows the sag
+    const w = R.shideW, h = R.shideH;
+    return `M${X(u - w)},${Y(hang)} L${X(u + w)},${Y(hang)} L${X(u + w)},${Y(hang + h * 0.34)}` +
+           ` L${X(u)},${Y(hang + h * 0.34)} L${X(u)},${Y(hang + h * 0.67)}` +
+           ` L${X(u + w)},${Y(hang + h * 0.67)} L${X(u + w)},${Y(hang + h)} L${X(u - w)},${Y(hang + h)} Z`;
+  }).join(' ');
+
+  // Raised the way a gate is raised: plinths, shafts, collars, crossbeam,
+  // lintel, board — and the rope hung last.
   return [
-    { d: post(TORII.left),            delay: 0.35, dur: 1.00 },
-    { d: post(TORII.right),           delay: 0.45, dur: 1.00 },
-    { d: box(N.u0, N.u1, N.v0, N.v1), delay: 1.10, dur: 0.55 },
-    { d: kasagi,                      delay: 1.45, dur: 0.90 },
-    { d: box(P.u0, P.u1, P.v0, P.v1), delay: 2.05, dur: 0.45 },
+    { d: rect(B.left.u0, B.left.u1, B.left.v0, B.left.v1),     delay: 0.22, dur: 0.30 },
+    { d: rect(B.right.u0, B.right.u1, B.right.v0, B.right.v1), delay: 0.30, dur: 0.30 },
+    { d: shaft(TORII.left, B.left.v0),   delay: 0.45, dur: 0.85 },
+    { d: shaft(TORII.right, B.right.v0), delay: 0.54, dur: 0.85 },
+    { d: collar(D.left),      delay: 1.05, dur: 0.32 },
+    { d: collar(D.right),     delay: 1.11, dur: 0.32 },
+    { d: nuki,                delay: 1.25, dur: 0.50 },
+    { d: topAssembly,         delay: 1.60, dur: 0.80 },
+    { d: shimakiLine,         delay: 2.05, dur: 0.45 },
+    { d: plaque,              delay: 2.25, dur: 0.40 },
+    { d: rope,                delay: 2.45, dur: 0.45 },
+    { d: shide,               delay: 2.72, dur: 0.38 },
   ];
 }
 
 // What opens: the space you would walk through — the inner faces of the two
-// posts, the underside of the crossbeam, and the bottom of the screen.
+// shafts, the underside of the crossbeam, and the bottom of the screen.
 function toriiOpening(f, viewH) {
   const X = (u) => f.x + u * f.w, Y = (v) => f.y + v * f.h;
   const n = (v) => v.toFixed(2);
@@ -287,7 +380,7 @@ function fittedFrame(vw, vh) {
   const h = w * (HERO_IMG.h / HERO_IMG.w);
 
   let y = top - 38 - TORII.nuki.v1 * h;                 // crossbeam clears the wordmark
-  const foot = y + TORII.postBotV * h;
+  const foot = y + TORII.shaftBotV * h;
   if (foot < bot + 24) y += (bot + 24 - foot);          // posts reach past the words
   if (y + S.vTop * h < 26) y = 26 - S.vTop * h;         // lintel stays on screen
   return { x: vw / 2 - 0.5015 * w, y, w, h };
@@ -393,9 +486,9 @@ function revealHero() {
       if (splashDone) return;
       hideTagline(() => {
         if (splashDone) return;
-        animateTagline(TAGLINE_EN, () => setTimeout(dismissSplash, 300), 200, 'ltr', 22);
+        animateTagline(TAGLINE_EN, () => setTimeout(dismissSplash, 300), 300, 'ltr', 28);
       });
-    }, 120, null, 60);
+    }, 260, null, 80);
   }, 300);
   // Safety: never trap the visitor on the splash
   setTimeout(dismissSplash, 12000);
