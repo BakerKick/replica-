@@ -129,9 +129,12 @@ function hideTagline(onDone) {
 }
 
 // ─── THE GATE ───────────────────────────────────────────────
-// The katomado silhouette, in fractions of its own box, so one set of
-// numbers drives the hole and the outline at whatever size the gate ends
-// up. Same curve as the frames around the two photographs.
+// Which gate the splash draws. 'torii' traces the shrine gate that stands
+// in the hero photograph, aligned onto it; 'katomado' traces the temple
+// window that frames the two feature photographs. One word to switch.
+const SPLASH_GATE = 'torii';
+
+// The katomado silhouette, in fractions of its own box.
 const KATOMADO = [
   [0, 1], ['L', 0, 0.42],
   ['C', 0.015, 0.2607, 0.11, 0.1666, 0.25, 0.1195],
@@ -147,50 +150,203 @@ function katomadoPath(x, y, w, h) {
   let d = `M${px(KATOMADO[0][0])},${py(KATOMADO[0][1])}`;
   for (let i = 1; i < KATOMADO.length; i++) {
     const seg = KATOMADO[i];
-    const cmd = seg[0];
     const nums = [];
     for (let k = 1; k < seg.length; k += 2) nums.push(`${px(seg[k])},${py(seg[k + 1])}`);
-    d += ` ${cmd}${nums.join(' ')}`;
+    d += ` ${seg[0]}${nums.join(' ')}`;
   }
   return d + ' Z';
 }
 
-// Size the doorway around whatever the splash is actually showing, rather
-// than to fixed numbers: measure the logo and tagline, leave headroom above
-// them for the crown, and drop the sill just below the bottom edge so the
-// gate reads as standing on the floor of the screen instead of floating.
-function layoutGate() {
-  const gate = document.getElementById('gate');
-  if (!gate) return;
-  const vw = window.innerWidth, vh = window.innerHeight;
+// ─── THE TORII ──────────────────────────────────────────────
+// Traced off the gate standing in hero-day.jpg by drawing the outline over
+// the photograph and correcting until it sat on the stone. Every number is
+// a fraction of the photograph itself (1376 x 752), not of some box, so
+// there is only one conversion between here and the screen and only one
+// place for an error to hide. hero-night.jpg is framed identically — the
+// two register to within a third of a percent — so one tracing serves both.
+//
+// The posts lean, as a real torii does, so their edges are not vertical and
+// the opening between them is a quadrilateral rather than a rectangle.
+const TORII = {
+  span:   { u0: 0.251, u1: 0.752, vTop: 0.043, vFoot: 0.783 },
+  kasagi: { uL: 0.251, uR: 0.752, topEnd: 0.043, topMid: 0.068, botEnd: 0.115, botMid: 0.130 },
+  nuki:   { u0: 0.275, u1: 0.694, v0: 0.212, v1: 0.258 },
+  plaque: { u0: 0.481, u1: 0.542, v0: 0.067, v1: 0.200 },
+  postTopV: 0.108,
+  postBotV: 0.775,
+  left:   { outTop: 0.3543, outBot: 0.3431, inTop: 0.3937, inBot: 0.3961 },
+  right:  { inTop: 0.6062, inBot: 0.6123, outTop: 0.6487, outBot: 0.6608 },
+  daiwa:  { v0: 0.111, v1: 0.158, left: [0.347, 0.404], right: [0.600, 0.657] },
+  base:   { left: { u0: 0.321, u1: 0.415, v0: 0.728, v1: 0.783 },
+            right: { u0: 0.603, u1: 0.670, v0: 0.717, v1: 0.772 } },
+};
 
-  let top = vh * 0.5, bottom = vh * 0.5, left = vw * 0.5, right = vw * 0.5;
+// Follow a leaning post edge to any depth, including past the foot of the
+// gate — which the opening needs, since it runs off the bottom of the screen.
+function postEdge(top, bot, v) {
+  return top + (bot - top) * (v - TORII.postTopV) / (TORII.postBotV - TORII.postTopV);
+}
+
+// `f` is where the photograph is painted: {x, y, w, h} in screen pixels.
+function toriiParts(f) {
+  const X = (u) => (f.x + u * f.w).toFixed(2);
+  const Y = (v) => (f.y + v * f.h).toFixed(2);
+  const K = TORII.kasagi;
+
+  // A quadratic through three points needs its control lifted to twice the
+  // middle less the average of the ends; the ends here sit at equal height.
+  const ctrl = (endV, midV) => 2 * midV - endV;
+  const kasagi =
+    `M${X(K.uL)},${Y(K.topEnd)}` +
+    ` Q${X(0.5)},${Y(ctrl(K.topEnd, K.topMid))} ${X(K.uR)},${Y(K.topEnd)}` +
+    ` L${X(K.uR)},${Y(K.botEnd)}` +
+    ` Q${X(0.5)},${Y(ctrl(K.botEnd, K.botMid))} ${X(K.uL)},${Y(K.botEnd)} Z`;
+
+  const box = (u0, u1, v0, v1) =>
+    `M${X(u0)},${Y(v0)} L${X(u1)},${Y(v0)} L${X(u1)},${Y(v1)} L${X(u0)},${Y(v1)} Z`;
+
+  const post = (p) =>
+    `M${X(p.outTop)},${Y(TORII.postTopV)} L${X(p.inTop)},${Y(TORII.postTopV)}` +
+    ` L${X(p.inBot)},${Y(TORII.postBotV)} L${X(p.outBot)},${Y(TORII.postBotV)} Z`;
+
+  const N = TORII.nuki, P = TORII.plaque;
+  // Posts, crossbeam, lintel, plaque — and nothing else. The collar at each
+  // post head and the footing stones are really there in the photograph, but
+  // as hairline boxes they turned the gate into a wireframe. Four pieces is
+  // what a torii needs to be read as one.
+  return [
+    { d: post(TORII.left),            delay: 0.35, dur: 1.00 },
+    { d: post(TORII.right),           delay: 0.45, dur: 1.00 },
+    { d: box(N.u0, N.u1, N.v0, N.v1), delay: 1.10, dur: 0.55 },
+    { d: kasagi,                      delay: 1.45, dur: 0.90 },
+    { d: box(P.u0, P.u1, P.v0, P.v1), delay: 2.05, dur: 0.45 },
+  ];
+}
+
+// What opens: the space you would walk through — the inner faces of the two
+// posts, the underside of the crossbeam, and the bottom of the screen.
+function toriiOpening(f, viewH) {
+  const X = (u) => f.x + u * f.w, Y = (v) => f.y + v * f.h;
+  const n = (v) => v.toFixed(2);
+  const vTop = TORII.nuki.v1;
+  const vBot = (viewH + 80 - f.y) / f.h;
+  const lT = postEdge(TORII.left.inTop, TORII.left.inBot, vTop);
+  const lB = postEdge(TORII.left.inTop, TORII.left.inBot, vBot);
+  const rT = postEdge(TORII.right.inTop, TORII.right.inBot, vTop);
+  const rB = postEdge(TORII.right.inTop, TORII.right.inBot, vBot);
+  return {
+    d: `M${n(X(lT))},${n(Y(vTop))} L${n(X(rT))},${n(Y(vTop))}` +
+       ` L${n(X(rB))},${n(Y(vBot))} L${n(X(lB))},${n(Y(vBot))} Z`,
+    cx: X((lT + rT) / 2),
+    cy: Y(vTop + (Math.min(vBot, 1.15) - vTop) * 0.4),
+  };
+}
+
+// Where the hero paints the photograph. background-size:cover, so the same
+// arithmetic reproduces the crop exactly and the tracing lands on the stone.
+const HERO_IMG = { w: 1376, h: 752 };
+function heroCover() {
+  const hero = document.getElementById('hero');
+  if (!hero) return null;
+  const r = hero.getBoundingClientRect();
+  if (!r.width || !r.height) return null;
+  const scale = Math.max(r.width / HERO_IMG.w, r.height / HERO_IMG.h);
+  const dw = HERO_IMG.w * scale, dh = HERO_IMG.h * scale;
+  return { x: r.left + (r.width - dw) / 2, y: r.top + (r.height - dh) / 2, w: dw, h: dh };
+}
+
+// On a narrow window the photograph is scaled up hard to fill a tall frame,
+// which pushes both posts off the sides. There the gate is composed for the
+// screen instead — the same drawing, given a frame invented to suit it.
+//
+// It is sized from the words rather than from the window: the opening has to
+// clear the wordmark, and the posts have to run below it, or the beams cut
+// straight through the name. A gate wider than the screen is fine — you are
+// simply standing closer to it — but a gate that crosses the logo is not.
+function fittedFrame(vw, vh) {
+  const S = TORII.span;
+  let top = vh * 0.5, bot = vh * 0.5, left = vw * 0.5, right = vw * 0.5;
   document.querySelectorAll('.splash-logo, .splash-tagline').forEach((el) => {
     const r = el.getBoundingClientRect();
     if (!r.width && !r.height) return;
-    top = Math.min(top, r.top); bottom = Math.max(bottom, r.bottom);
+    top = Math.min(top, r.top); bot = Math.max(bot, r.bottom);
     left = Math.min(left, r.left); right = Math.max(right, r.right);
   });
 
-  const w = Math.min(Math.max(right - left + 190, vw * 0.42), vw * 0.86, 660);
-  const y = Math.max(Math.min(top - 120, vh * 0.34), vh * 0.06);
-  const h = vh - y + 44;                 // sill sits just off the bottom edge
-  const x = (left + right) / 2 - w / 2;
+  // Only the wordmark has to clear the posts. The tagline sitting across
+  // them is fine — it reads as words on the path in front of the gate —
+  // and insisting it fit inside the opening made the gate enormous.
+  let logoW = 0;
+  const lg = document.querySelector('.splash-logo');
+  if (lg) logoW = lg.getBoundingClientRect().width;
+
+  const openW = TORII.right.inTop - TORII.left.inTop;   // opening, as a fraction of the photograph
+  const spanW = S.u1 - S.u0;
+  let w = Math.max((logoW + 44) / openW, (vw * 0.98) / spanW);
+  w = Math.min(w, (vw * 1.3) / spanW);
+  const h = w * (HERO_IMG.h / HERO_IMG.w);
+
+  let y = top - 38 - TORII.nuki.v1 * h;                 // crossbeam clears the wordmark
+  const foot = y + TORII.postBotV * h;
+  if (foot < bot + 24) y += (bot + 24 - foot);          // posts reach past the words
+  if (y + S.vTop * h < 26) y = 26 - S.vTop * h;         // lintel stays on screen
+  return { x: vw / 2 - 0.5015 * w, y, w, h };
+}
+
+function layoutGate() {
+  const gate = document.getElementById('gate');
+  const draw = document.getElementById('gate-draw');
+  const hole = document.getElementById('gate-hole');
+  if (!gate || !draw || !hole) return;
+  const vw = window.innerWidth, vh = window.innerHeight;
 
   gate.setAttribute('viewBox', `0 0 ${vw} ${vh}`);
-  const rect = document.getElementById('gate-rect');
-  const fill = document.getElementById('gate-fill');
-  [rect, fill].forEach((r) => {
+  [document.getElementById('gate-rect'), document.getElementById('gate-fill')].forEach((r) => {
     if (!r) return;
     r.setAttribute('x', 0); r.setAttribute('y', 0);
     r.setAttribute('width', vw); r.setAttribute('height', vh);
   });
 
-  const d = katomadoPath(x, y, w, h);
-  const hole = document.getElementById('gate-hole');
-  const line = document.getElementById('gate-line');
-  if (hole) hole.setAttribute('d', d);
-  if (line) line.setAttribute('d', d);
+  const setOrigin = (x, y) => {
+    gate.style.setProperty('--gx', x + 'px');
+    gate.style.setProperty('--gy', y + 'px');
+  };
+
+  if (SPLASH_GATE === 'katomado') {
+    let top = vh * 0.5, left = vw * 0.5, right = vw * 0.5;
+    document.querySelectorAll('.splash-logo, .splash-tagline').forEach((el) => {
+      const r = el.getBoundingClientRect();
+      if (!r.width && !r.height) return;
+      top = Math.min(top, r.top); left = Math.min(left, r.left); right = Math.max(right, r.right);
+    });
+    const w = Math.min(Math.max(right - left + 190, vw * 0.42), vw * 0.86, 660);
+    const y = Math.max(Math.min(top - 120, vh * 0.34), vh * 0.06);
+    const h = vh - y + 44;
+    const x = (left + right) / 2 - w / 2;
+    const d = katomadoPath(x, y, w, h);
+    hole.setAttribute('d', d);
+    draw.innerHTML = `<path d="${d}" pathLength="1" style="--dl:0.45s;--dd:1.75s"></path>`;
+    setOrigin(x + w / 2, y + h * 0.43);
+    return;
+  }
+
+  // Lay the tracing over the photograph when the whole gate is on screen;
+  // compose it for the window when the crop has pushed the posts off.
+  const cov = heroCover();
+  const S = TORII.span;
+  let frame = cov;
+  if (cov) {
+    const l = cov.x + S.u0 * cov.w, r = cov.x + S.u1 * cov.w;
+    if (l < -vw * 0.02 || r > vw * 1.02) frame = null;
+  }
+  if (!frame) frame = fittedFrame(vw, vh);
+
+  draw.innerHTML = toriiParts(frame)
+    .map((p) => `<path d="${p.d}" pathLength="1" style="--dl:${p.delay}s;--dd:${p.dur}s"></path>`)
+    .join('');
+  const op = toriiOpening(frame, vh);
+  hole.setAttribute('d', op.d);
+  setOrigin(op.cx, op.cy);
 }
 
 let tickerStarted = false;

@@ -946,26 +946,36 @@ button[disabled] { opacity: 0.6; cursor: default; }
 }
 #gate-fill { fill: #f7f3ec; }
 
-/* Both the hole and the drawn line share one bounding box, so one
-   transform-origin serves both and they open in perfect register. */
-#gate-hole, #gate-line {
-  transform-box: fill-box;
-  transform-origin: 50% 43%;
+/* The hole and the drawing are different shapes now, so they cannot share a
+   bounding box. transform-box: view-box puts both in the SVG's own
+   coordinate space and JS pins the origin to the centre of the opening, so
+   they still move as one. */
+#gate-hole, #gate-draw {
+  transform-box: view-box;
+  transform-origin: var(--gx, 50%) var(--gy, 50%);
 }
 #gate-hole { transform: scale(0); }
 
-#gate-line {
-  stroke: rgba(139, 74, 47, 0.45);
+/* Each piece of the gate traces itself, in the order it would be built:
+   the posts rise, the beams cross them, then the plaque and the footings.
+   pathLength="1" lets one rule cover pieces of very different lengths. */
+#gate-draw path {
+  stroke: rgba(139, 74, 47, 0.62);
+  stroke-linejoin: round;
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
-  animation: gateTrace 1.75s cubic-bezier(0.22, 1, 0.36, 1) 0.45s forwards;
+  animation: gateTrace var(--dd, 1.6s) cubic-bezier(0.22, 1, 0.36, 1) var(--dl, 0s) forwards;
 }
 @keyframes gateTrace { to { stroke-dashoffset: 0; } }
 
 /* Everything that belongs to the cream world sits above the gate and
    fades as the doorway opens. */
 .splash-kanji-wrap { z-index: 1; }
-.splash-logo, .splash-tagline, .splash-skip { position: relative; z-index: 2; }
+.splash-logo, .splash-tagline { position: relative; z-index: 2; }
+/* The skip is pinned to the foot of the screen by .splash-skip above; give
+   it a stacking level without disturbing that, or it drops back into the
+   flow and lands on top of the tagline. */
+.splash-skip { z-index: 2; }
 
 /* ─── OPENING ───────────────────────────────────────────────
    One continuous move: the hole grows from nothing to exactly the
@@ -973,13 +983,11 @@ button[disabled] { opacity: 0.6; cursor: default; }
    the screen. The line rides with it from that moment and fades. */
 #splash.opening { pointer-events: none; }
 #splash.opening #gate-hole { animation: gateOpen 2.2s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
-/* The opening animation replaces gateTrace, and with it the forwards fill
-   that was holding the line drawn — so the offset has to be pinned here or
-   the outline blinks out the instant the doorway starts to move. */
-#splash.opening #gate-line {
-  stroke-dashoffset: 0;
-  animation: gateLineOpen 2.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
+#splash.opening #gate-draw { animation: gateLineOpen 2.2s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+/* The opening animation would replace gateTrace on each piece, and with it
+   the forwards fill holding the lines drawn — so the offset is pinned here
+   or the whole gate blinks out the instant it starts to move. */
+#splash.opening #gate-draw path { stroke-dashoffset: 0; animation: none; }
 #splash.opening .splash-kanji-wrap,
 #splash.opening .splash-logo,
 #splash.opening .splash-tagline,
@@ -1002,7 +1010,7 @@ button[disabled] { opacity: 0.6; cursor: default; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  #gate-line { animation: none; stroke-dashoffset: 0; }
+  #gate-draw path { animation: none; stroke-dashoffset: 0; }
 }
 
 /* ─── THE GATE AT NIGHT ─────────────────────────────────────
@@ -1010,7 +1018,7 @@ button[disabled] { opacity: 0.6; cursor: default; }
    a cream doorway would flash white in front of a dark site. The gate,
    the ink mark and the lettering all turn over together. */
 .dark #gate-fill { fill: #17150f; }
-.dark #gate-line { stroke: rgba(184, 149, 106, 0.5); }
+.dark #gate-draw path { stroke: rgba(184, 149, 106, 0.5); }
 .dark .splash-ink-img,
 .dark .splash-ink-img[style] { filter: brightness(0) invert(0.92); }
 .dark .splash-en { color: #f4f0e8; }
@@ -1024,4 +1032,17 @@ button[disabled] { opacity: 0.6; cursor: default; }
   6%    { opacity: 1; }
   90%   { filter: brightness(0) invert(0.92) blur(0px); }
   100%  { --sweep: 360deg; opacity: 1; filter: brightness(0) invert(0.92) blur(0px); -webkit-mask-image: none; mask-image: none; }
+}
+
+/* ─── THE SPLASH ON A SMALL SCREEN ──────────────────────────
+   This gate has a wide lintel and a comparatively narrow opening, so on a
+   phone a torii large enough to hold the wordmark at full size would run
+   right off both edges and stop reading as a gate. The wordmark comes down
+   instead, which lets the whole gate fit on the screen around it. */
+@media (max-width: 560px) {
+  .splash-ink-mark { width: 74px; height: 74px; }
+  .splash-logo { gap: 0.85rem; margin-bottom: 1.1rem; }
+  .splash-en { font-size: 1.55rem; }
+  .splash-sub { font-size: 0.6rem; letter-spacing: 0.22em; }
+  .splash-tagline { font-size: 0.82rem; letter-spacing: 0.1em; min-height: 2em; }
 }
