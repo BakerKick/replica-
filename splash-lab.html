@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Shiraume — splash reveals compared</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Serif+JP:wght@200;300;400&family=Work+Sans:wght@300..600&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════════════════════
+   SPLASH LAB — two ways of putting the gate on the paper
+
+   Both reveals share one gate, one clock and one ending. The only
+   difference is how the gate arrives:
+
+     bloom  — no moving tip anywhere. Each member soaks into the paper
+              the way sumi ink does: it lands soft and wide, then draws
+              itself tight and dark. Painted, not plotted.
+     sweep  — the gate is already standing in the dark from the first
+              frame. A band of light crosses the paper and leaves it lit
+              behind. Nothing is made; something is found.
+
+   Everything after the arrival is common: dawn comes up, lacquer floods
+   the gate, the seal is stamped, and the sheet flies at the camera so
+   the visitor passes through the opening rather than watching a fade.
+   ═══════════════════════════════════════════════════════════════════ */
+
+@property --reveal { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
+@property --flood  { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+  background: #0b0a08;
+  font-family: 'Work Sans', system-ui, sans-serif;
+  overflow: hidden;
+}
+
+/* ─── the hero, sitting behind everything ─────────────────────── */
+#hero {
+  position: fixed; inset: 0;
+  background-image: url('assets/img/hero-day.jpg');
+  background-size: cover; background-position: center;
+}
+#hero.night { background-image: url('assets/img/hero-night.jpg'); }
+#hero::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(20,18,14,.55), rgba(20,18,14,.15) 45%, rgba(20,18,14,.05));
+}
+
+/* ─── the splash ──────────────────────────────────────────────── */
+#sp {
+  --ink:      #efe7d6;    /* wet ink, while the paper is still dark */
+  --ink-day:  #4a3a2c;    /* the same ink once dawn has arrived     */
+  --paper:    #b0a389;    /* dawn stops well short of white         */
+  --paper-nt: #17130d;
+  --urushi:   #6b2a24;    /* aged lacquer, not a saturated red      */
+  --gold:     #b8956a;
+
+  --t-arrive: 0.35s;      /* the gate begins to come                */
+  --t-dawn:   3.00s;      /* light starts to come up                */
+  --t-go:     4.35s;      /* the sheet starts toward the camera     */
+
+  position: fixed; inset: 0; z-index: 900;
+  overflow: hidden;
+  perspective: 900px;
+  perspective-origin: 50% 46%;
+}
+#sp.gone { opacity: 0; pointer-events: none; transition: opacity .5s ease; }
+
+/* The paper. Both fields carry the cut-out, so the gateway is a real hole
+   through every layer of the sheet — which is the only way the mountain
+   can be seen through it. */
+#skyDawn { opacity: 0; animation: dawn 2.2s var(--t-dawn) cubic-bezier(.4,0,.4,1) forwards; }
+@keyframes dawn { to { opacity: 1; } }
+#veil { opacity: .96; animation: veilUp 2.4s calc(var(--t-dawn) - .35s) cubic-bezier(.4,0,.4,1) forwards; }
+@keyframes veilUp { to { opacity: .10; } }
+#grain { opacity: .38; mix-blend-mode: overlay; }
+
+/* The sheet of paper, with the gateway cut out of it, and the gate drawn
+   on it. Both live in the same 3D group so they fly together. */
+.sheet {
+  position: absolute; inset: 0;
+  transform-style: preserve-3d;
+  animation: dolly 1.5s var(--t-go) cubic-bezier(.55,0,.85,.55) forwards;
+}
+@keyframes dolly {
+  0%   { transform: translateZ(0);      opacity: 1; }
+  72%  { opacity: 1; }
+  100% { transform: translateZ(880px);  opacity: 0; }
+}
+
+.gate { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+
+/* ─── the gate, as filled mass ────────────────────────────────── */
+#mass path { fill: var(--ink); animation: inkDay 2.3s var(--t-dawn) cubic-bezier(.4,0,.4,1) forwards; }
+@keyframes inkDay { to { fill: var(--ink-day); } }
+#mass .gilt { fill: var(--gold); animation: none; }
+
+/* Lacquer: filled copies of the gate, uncovered by a soft edge that
+   climbs from the plinths to the lintel. */
+#lacquer {
+  fill: var(--urushi); opacity: 0; --flood: 0%;
+  -webkit-mask-image: linear-gradient(to top, #000 0%, #000 var(--flood), transparent calc(var(--flood) + 10%));
+          mask-image: linear-gradient(to top, #000 0%, #000 var(--flood), transparent calc(var(--flood) + 10%));
+  animation: lacIn .5s calc(var(--t-dawn) - .3s) ease forwards,
+             flood 1.7s calc(var(--t-dawn) - .3s) cubic-bezier(.35,0,.25,1) forwards;
+}
+@keyframes lacIn { to { opacity: .92; } }
+@keyframes flood { to { --flood: 108%; } }
+
+/* ═══ REVEAL A · INK BLOOM ═════════════════════════════════════
+   Every member lands soft, wide and pale, then pulls itself tight and
+   dark — the way ink behaves when it meets sized paper. There is no
+   travelling tip, which is the whole point: nothing is being drawn. */
+#sp.bloom #mass path {
+  opacity: 0;
+  transform-box: fill-box; transform-origin: 50% 50%;
+  animation:
+    bloomIn .95s calc(var(--t-arrive) + var(--dl, 0s)) cubic-bezier(.2,.85,.3,1) forwards,
+    inkDay 2.3s var(--t-dawn) cubic-bezier(.4,0,.4,1) forwards;
+}
+@keyframes bloomIn {
+  0%   { opacity: 0;   filter: blur(16px); transform: scale(1.10); }
+  22%  { opacity: .55; filter: blur(10px); }
+  70%  { opacity: .96; filter: blur(2.2px); transform: scale(1.005); }
+  100% { opacity: 1;   filter: blur(0);     transform: scale(1); }
+}
+/* A second, wider copy that stays soft and dries away — the halo a wet
+   stroke leaves in the paper around it. */
+#sp.bloom #halo { display: block; }
+#halo {
+  display: none; fill: var(--ink); opacity: 0;
+  filter: blur(13px);
+  animation: haloIn .8s calc(var(--t-arrive) + .1s) ease forwards,
+             haloDry 1.8s var(--t-dawn) ease forwards;
+}
+@keyframes haloIn  { to { opacity: .17; } }
+@keyframes haloDry { to { opacity: 0; } }
+
+/* ═══ REVEAL B · LIGHT SWEEP ═══════════════════════════════════
+   The gate never arrives, because it was there all along. A band of
+   light crosses the paper; where it has passed, the gate can be seen. */
+#sp.sweep #mass {
+  --reveal: -12%;
+  -webkit-mask-image: linear-gradient(101deg, #000 0%, #000 var(--reveal), transparent calc(var(--reveal) + 15%));
+          mask-image: linear-gradient(101deg, #000 0%, #000 var(--reveal), transparent calc(var(--reveal) + 15%));
+  animation: sweepMask 2.15s var(--t-arrive) cubic-bezier(.36,.05,.28,1) forwards;
+}
+@keyframes sweepMask { to { --reveal: 116%; } }
+
+/* The light itself, travelling just ahead of the edge. */
+#sp.sweep .beam { opacity: 1; }
+.beam {
+  position: absolute; top: -30%; bottom: -30%; left: 0;
+  width: 46%; opacity: 0; pointer-events: none;
+  background: linear-gradient(101deg, transparent 0%, rgba(255,246,226,.10) 38%, rgba(255,248,232,.34) 56%, rgba(255,246,226,.07) 74%, transparent 100%);
+  mix-blend-mode: screen; filter: blur(14px);
+  transform: translateX(-130%);
+  animation: beamGo 2.15s var(--t-arrive) cubic-bezier(.36,.05,.28,1) forwards;
+}
+@keyframes beamGo {
+  0%   { transform: translateX(-130%); }
+  100% { transform: translateX(258%); }
+}
+
+/* ─── the name, the seal, the branches ────────────────────────── */
+.plate {
+  position: absolute; left: 50%; top: 52%;
+  transform: translate(-50%, -50%);
+  text-align: center; z-index: 4;
+  opacity: 0; animation: fadeUp .9s calc(var(--t-dawn) + .1s) cubic-bezier(.22,1,.36,1) forwards;
+}
+@keyframes fadeUp { from { opacity:0; transform: translate(-50%, calc(-50% + 14px)); } to { opacity:1; transform: translate(-50%,-50%); } }
+/* The name stands in the gateway, over the mountain rather than over the
+   paper, so it is set in light with just enough shadow to hold its edge. */
+.name {
+  font-family: 'Cormorant Garamond', serif; font-weight: 500;
+  font-size: clamp(1.9rem, 4.2vw, 3rem); color: #f6f0e4; letter-spacing: .02em; line-height: 1;
+  text-shadow: 0 2px 26px rgba(10,9,7,.75), 0 1px 3px rgba(10,9,7,.5);
+}
+.sub {
+  font-size: .66rem; letter-spacing: .34em; text-transform: uppercase;
+  color: rgba(246,240,228,.72); margin-top: .5rem;
+  text-shadow: 0 1px 14px rgba(10,9,7,.7);
+}
+
+.hanko {
+  position: absolute; left: 50%; top: 52%; z-index: 4;
+  transform: translate(calc(-50% + 118px), calc(-50% + 8px)) rotate(-6deg) scale(.4);
+  width: 46px; height: 46px; opacity: 0;
+  animation: stamp .42s calc(var(--t-dawn) + .85s) cubic-bezier(.2,1.5,.4,1) forwards;
+}
+@keyframes stamp {
+  0%   { opacity: 0; transform: translate(calc(-50% + 118px), calc(-50% + 8px)) rotate(-6deg) scale(.55); }
+  55%  { opacity: 1; transform: translate(calc(-50% + 118px), calc(-50% + 8px)) rotate(-6deg) scale(1.06); }
+  100% { opacity: .9; transform: translate(calc(-50% + 118px), calc(-50% + 8px)) rotate(-6deg) scale(1); }
+}
+.hanko rect { fill: #8e2f26; }
+.hanko text { fill: #f3e9d8; font-family: 'Noto Serif JP', serif; font-size: 15px; }
+
+.branch { position: absolute; z-index: 3; opacity: 0; pointer-events: none; }
+.branch.tl { top: -2%;  left: -3%;  width: 30%; animation: branchIn 1.5s calc(var(--t-dawn) + .35s) cubic-bezier(.22,1,.36,1) forwards; }
+.branch.br { bottom: -3%; right: -2%; width: 26%; transform: rotate(180deg); animation: branchIn 1.5s calc(var(--t-dawn) + .6s) cubic-bezier(.22,1,.36,1) forwards; }
+@keyframes branchIn { to { opacity: .8; } }
+.branch path { stroke: #4a3a2c; fill: none; stroke-width: 1.4; stroke-linecap: round; }
+.branch circle { fill: #d9b8b4; }
+
+/* The warm flash as the sheet passes the camera. */
+.flash {
+  position: absolute; inset: 0; z-index: 6; pointer-events: none; opacity: 0;
+  background: radial-gradient(68% 58% at 50% 46%, rgba(255,243,222,.9), rgba(255,231,197,.3) 60%, rgba(255,226,178,0) 100%);
+  mix-blend-mode: screen;
+  animation: flash .95s calc(var(--t-go) + .55s) ease-out forwards;
+}
+@keyframes flash { 0%{opacity:0} 40%{opacity:.85} 100%{opacity:0} }
+
+/* ─── lab chrome ──────────────────────────────────────────────── */
+.bar {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 9999;
+  display: flex; gap: .5rem; align-items: center; justify-content: center;
+  padding: .8rem; background: rgba(10,9,7,.82); backdrop-filter: blur(8px);
+  border-top: 1px solid rgba(255,255,255,.08);
+}
+.bar button {
+  font: inherit; font-size: .7rem; letter-spacing: .16em; text-transform: uppercase;
+  padding: .62rem 1.15rem; cursor: pointer;
+  background: transparent; color: rgba(244,240,232,.72);
+  border: 1px solid rgba(244,240,232,.26); border-radius: 2px;
+  transition: color .25s, border-color .25s, background .25s;
+}
+.bar button:hover { color: #fff; border-color: rgba(244,240,232,.6); }
+.bar button.on { background: #3a6344; border-color: #3a6344; color: #fff; }
+.bar .gap { width: 1.4rem; }
+.bar .note { font-size: .66rem; letter-spacing: .1em; color: rgba(244,240,232,.4); margin-left: .8rem; }
+</style>
+</head>
+<body>
+
+<div id="hero"></div>
+
+<div id="sp" class="bloom">
+  <div class="sheet">
+    <svg class="gate" id="gateSvg" preserveAspectRatio="none" aria-hidden="true">
+      <defs>
+        <mask id="cut" maskUnits="userSpaceOnUse">
+          <rect id="cutRect" fill="#fff"></rect>
+          <path id="cutHole" fill="#000"></path>
+        </mask>
+        <!-- The same cut, inverted: everything the gateway shows and
+             nothing else. The veil below rides on it. -->
+        <mask id="cutInv" maskUnits="userSpaceOnUse">
+          <rect id="cutRectInv" fill="#000"></rect>
+          <path id="cutHoleInv" fill="#fff"></path>
+        </mask>
+
+        <!-- The paper, before and after the light comes. Two fields that
+             cross-fade, because a gradient cannot tween. -->
+        <radialGradient id="gNight" cx="0.5" cy="0.96" r="1.25">
+          <stop offset="0"    stop-color="#1b1d28"/>
+          <stop offset="0.55" stop-color="#0d0e14"/>
+          <stop offset="1"    stop-color="#08080b"/>
+        </radialGradient>
+        <radialGradient id="gDawn" cx="0.5" cy="0.88" r="1.3">
+          <stop offset="0"    stop-color="#d9bd96"/>
+          <stop offset="0.34" stop-color="#bfa07c"/>
+          <stop offset="0.62" stop-color="#8f7960"/>
+          <stop offset="1"    stop-color="#55503f"/>
+        </radialGradient>
+
+        <!-- One lighting pass over the whole sheet. Flat fills read as
+             vector art; a little fall-off top to bottom reads as stone. -->
+        <linearGradient id="gShade" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0"    stop-color="#ffffff" stop-opacity="0.07"/>
+          <stop offset="0.42" stop-color="#000000" stop-opacity="0"/>
+          <stop offset="1"    stop-color="#000000" stop-opacity="0.30"/>
+        </linearGradient>
+
+        <pattern id="grainPat" width="160" height="160" patternUnits="userSpaceOnUse">
+          <image width="160" height="160" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23g)' opacity='.24'/%3E%3C/svg%3E"/>
+        </pattern>
+      </defs>
+
+      <!-- Before the light comes there is nothing to see through the
+           gateway either. The veil lifts with the dawn, so the mountain
+           arrives rather than sitting there from the first frame giving
+           the ending away. -->
+      <rect id="veil" mask="url(#cutInv)" fill="#0b0d14"></rect>
+      <rect id="skyNight" mask="url(#cut)" fill="url(#gNight)"></rect>
+      <rect id="skyDawn"  mask="url(#cut)" fill="url(#gDawn)"></rect>
+      <g id="halo"></g>
+      <g id="mass"></g>
+      <g id="lacquer"></g>
+      <rect id="shade" mask="url(#cut)" fill="url(#gShade)"></rect>
+      <rect id="grain" mask="url(#cut)" fill="url(#grainPat)"></rect>
+    </svg>
+
+  <div class="plate">
+    <div class="name">Shiraume</div>
+    <div class="sub">Lodge · 白梅</div>
+  </div>
+
+  <svg class="hanko" viewBox="0 0 46 46" aria-hidden="true">
+    <rect x="1" y="1" width="44" height="44" rx="3"></rect>
+    <text x="23" y="19" text-anchor="middle">白</text>
+    <text x="23" y="37" text-anchor="middle">梅</text>
+  </svg>
+
+  <svg class="branch tl" viewBox="0 0 300 200" aria-hidden="true">
+    <path d="M-10 8 C60 26 108 52 150 96 M46 22 C70 34 84 52 92 74 M112 58 C132 74 142 96 146 118 M150 96 C176 112 196 134 208 160"/>
+    <circle cx="92" cy="76" r="5"/><circle cx="104" cy="64" r="4"/><circle cx="146" cy="120" r="5"/>
+    <circle cx="158" cy="108" r="4"/><circle cx="50" cy="24" r="4"/><circle cx="208" cy="162" r="5"/>
+  </svg>
+  <svg class="branch br" viewBox="0 0 300 200" aria-hidden="true">
+    <path d="M-10 8 C60 26 108 52 150 96 M46 22 C70 34 84 52 92 74 M112 58 C132 74 142 96 146 118"/>
+    <circle cx="92" cy="76" r="5"/><circle cx="146" cy="120" r="5"/><circle cx="50" cy="24" r="4"/>
+  </svg>
+  </div>
+
+  <div class="beam"></div>
+
+
+  <div class="flash"></div>
+</div>
+
+<div class="bar">
+  <button id="bBloom" class="on">Ink bloom</button>
+  <button id="bSweep">Light sweep</button>
+  <span class="gap"></span>
+  <button id="bReplay">Replay</button>
+  <button id="bNight">Night hero</button>
+  <span class="note" id="note">no travelling tip — the ink soaks in</span>
+</div>
+
+<script>
+/* ───────────────────────────────────────────────────────────────
+   The gate, as filled mass rather than outline. Same tracing as the
+   site: fractions of the hero photograph (1376 x 752), so the drawn
+   gate can be laid over the photographed one.
+
+   Every member here is a closed shape. An outline made of two parallel
+   lines reads as a diagram; a filled silhouette reads as ink.
+   ─────────────────────────────────────────────────────────────── */
+var IMG = { w: 1376, h: 752 };
+
+var T = {
+  span: { u0: 0.245, u1: 0.755, vTop: 0.024, vFoot: 0.783 },
+  top:  { uL: 0.245, uR: 0.755, uLb: 0.258, uRb: 0.742, cIn: 0.17,
+          topEnd: 0.024, topMid: 0.060, botEnd: 0.086, botMid: 0.127 },
+  nuki:   { u0: 0.272, u1: 0.700, u0b: 0.276, u1b: 0.697, v0: 0.184, v1: 0.237 },
+  plaque: { u0: 0.478, u1: 0.520, v0: 0.085, v1: 0.215 },
+  daiwa:  { v0: 0.125, v1: 0.190, r: 0.009, left: [0.344, 0.402], right: [0.598, 0.657] },
+  shaftTopV: 0.232, shaftBotV: 0.778,
+  left:   { outTop: 0.3521, outBot: 0.3431, inTop: 0.3942, inBot: 0.3961 },
+  right:  { inTop: 0.6074, inBot: 0.6123, outTop: 0.6510, outBot: 0.6608 },
+  base:   { left:  { u0: 0.334, u1: 0.408, v0: 0.735, v1: 0.783 },
+            right: { u0: 0.601, u1: 0.672, v0: 0.723, v1: 0.772 } },
+  rope:   { v0End: 0.248, v0Mid: 0.256, v1End: 0.264, v1Mid: 0.272,
+            shide: [0.12, 0.30, 0.50, 0.70, 0.88], shideW: 0.0042, shideH: 0.046 },
+};
+
+function edge(top, bot, v) {
+  return top + (bot - top) * (v - T.shaftTopV) / (T.shaftBotV - T.shaftTopV);
+}
+
+/* Where the photograph is painted, so the gate can sit on the real one.
+   On a narrow window the crop pushes the posts off the sides, so there
+   the gate is composed for the screen instead. */
+function frame(vw, vh) {
+  var scale = Math.max(vw / IMG.w, vh / IMG.h);
+  var dw = IMG.w * scale, dh = IMG.h * scale;
+  var f = { x: (vw - dw) / 2, y: (vh - dh) / 2, w: dw, h: dh };
+  var l = f.x + T.span.u0 * f.w, r = f.x + T.span.u1 * f.w;
+  if (l > -vw * 0.02 && r < vw * 1.02) return f;
+  var band = T.span.vFoot - T.span.vTop;
+  var h = Math.min(vh * 0.86 / band, (vw * 0.96) / (T.span.u1 - T.span.u0) * (IMG.h / IMG.w));
+  var w = h * (IMG.w / IMG.h);
+  var yTop = (vh - band * h) * 0.44;
+  return { x: vw / 2 - 0.5015 * w, y: yTop - T.span.vTop * h, w: w, h: h };
+}
+
+function build(f) {
+  var X = function (u) { return (f.x + u * f.w).toFixed(2); };
+  var Y = function (v) { return (f.y + v * f.h).toFixed(2); };
+  var box = function (u0, u1, v0, v1) {
+    return 'M' + X(u0) + ',' + Y(v0) + ' L' + X(u1) + ',' + Y(v0) +
+           ' L' + X(u1) + ',' + Y(v1) + ' L' + X(u0) + ',' + Y(v1) + ' Z';
+  };
+  /* A cubic whose controls sit cIn from each end, lifted so the curve
+     passes through midV halfway. A quadratic bows evenly; the real sori
+     is flat across the middle and lifts hard at the ends. */
+  var ctl = function (endV, midV) { return (8 * midV - endV - endV) / 6; };
+  var Tp = T.top;
+
+  var lintel =
+    'M' + X(Tp.uL) + ',' + Y(Tp.topEnd) +
+    ' C' + X(Tp.uL + Tp.cIn) + ',' + Y(ctl(Tp.topEnd, Tp.topMid)) +
+     ' ' + X(Tp.uR - Tp.cIn) + ',' + Y(ctl(Tp.topEnd, Tp.topMid)) +
+     ' ' + X(Tp.uR) + ',' + Y(Tp.topEnd) +
+    ' L' + X(Tp.uRb) + ',' + Y(Tp.botEnd) +
+    ' C' + X(Tp.uRb - Tp.cIn) + ',' + Y(ctl(Tp.botEnd, Tp.botMid)) +
+     ' ' + X(Tp.uLb + Tp.cIn) + ',' + Y(ctl(Tp.botEnd, Tp.botMid)) +
+     ' ' + X(Tp.uLb) + ',' + Y(Tp.botEnd) + ' Z';
+
+  var N = T.nuki;
+  var beam = 'M' + X(N.u0) + ',' + Y(N.v0) + ' L' + X(N.u1) + ',' + Y(N.v0) +
+             ' L' + X(N.u1b) + ',' + Y(N.v1) + ' L' + X(N.u0b) + ',' + Y(N.v1) + ' Z';
+
+  var D = T.daiwa;
+  var collar = function (u) {
+    var r = D.r;
+    return 'M' + X(u[0]) + ',' + Y(D.v1) + ' L' + X(u[0]) + ',' + Y(D.v0 + r) +
+           ' Q' + X(u[0]) + ',' + Y(D.v0) + ' ' + X(u[0] + r) + ',' + Y(D.v0) +
+           ' L' + X(u[1] - r) + ',' + Y(D.v0) +
+           ' Q' + X(u[1]) + ',' + Y(D.v0) + ' ' + X(u[1]) + ',' + Y(D.v0 + r) +
+           ' L' + X(u[1]) + ',' + Y(D.v1) + ' Z';
+  };
+  var shaft = function (p, footV) {
+    return 'M' + X(p.outTop) + ',' + Y(T.shaftTopV) + ' L' + X(p.inTop) + ',' + Y(T.shaftTopV) +
+           ' L' + X(edge(p.inTop, p.inBot, footV)) + ',' + Y(footV) +
+           ' L' + X(edge(p.outTop, p.outBot, footV)) + ',' + Y(footV) + ' Z';
+  };
+
+  var R = T.rope;
+  var lIn = edge(T.left.inTop, T.left.inBot, R.v0End);
+  var rIn = edge(T.right.inTop, T.right.inBot, R.v0End);
+  var sag = function (endV, midV) { return (8 * midV - endV - endV) / 6; };
+  var rope =
+    'M' + X(lIn) + ',' + Y(R.v0End) +
+    ' C' + X(lIn + 0.09) + ',' + Y(sag(R.v0End, R.v0Mid)) + ' ' + X(rIn - 0.09) + ',' + Y(sag(R.v0End, R.v0Mid)) + ' ' + X(rIn) + ',' + Y(R.v0End) +
+    ' L' + X(rIn) + ',' + Y(R.v1End) +
+    ' C' + X(rIn - 0.09) + ',' + Y(sag(R.v1End, R.v1Mid)) + ' ' + X(lIn + 0.09) + ',' + Y(sag(R.v1End, R.v1Mid)) + ' ' + X(lIn) + ',' + Y(R.v1End) + ' Z';
+
+  var shide = R.shide.map(function (t) {
+    var u = lIn + (rIn - lIn) * t;
+    var hang = R.v1End + (R.v1Mid - R.v1End) * Math.sin(Math.PI * t);
+    var w = R.shideW, h = R.shideH;
+    return 'M' + X(u - w) + ',' + Y(hang) + ' L' + X(u + w) + ',' + Y(hang) +
+           ' L' + X(u + w) + ',' + Y(hang + h * 0.34) + ' L' + X(u) + ',' + Y(hang + h * 0.34) +
+           ' L' + X(u) + ',' + Y(hang + h * 0.67) + ' L' + X(u + w) + ',' + Y(hang + h * 0.67) +
+           ' L' + X(u + w) + ',' + Y(hang + h) + ' L' + X(u - w) + ',' + Y(hang + h) + ' Z';
+  }).join(' ');
+
+  var B = T.base;
+  /* Order is the order it would be raised, and the stagger follows it. */
+  return [
+    { d: box(B.left.u0, B.left.u1, B.left.v0, B.left.v1),     dl: 0.00 },
+    { d: box(B.right.u0, B.right.u1, B.right.v0, B.right.v1), dl: 0.06 },
+    { d: shaft(T.left,  B.left.v0),  dl: 0.16 },
+    { d: shaft(T.right, B.right.v0), dl: 0.22 },
+    { d: collar(D.left),  dl: 0.40 },
+    { d: collar(D.right), dl: 0.45 },
+    { d: beam,   dl: 0.56 },
+    { d: lintel, dl: 0.72 },
+    { d: box(T.plaque.u0, T.plaque.u1, T.plaque.v0, T.plaque.v1), dl: 0.92, gilt: true },
+    { d: rope,  dl: 1.02 },
+    { d: shide, dl: 1.12 },
+  ];
+}
+
+function opening(f, vh) {
+  var X = function (u) { return (f.x + u * f.w).toFixed(2); };
+  var Y = function (v) { return (f.y + v * f.h).toFixed(2); };
+  var vTop = T.nuki.v1;
+  var vBot = (vh + 90 - f.y) / f.h;
+  return 'M' + X(edge(T.left.inTop,  T.left.inBot,  vTop)) + ',' + Y(vTop) +
+         ' L' + X(edge(T.right.inTop, T.right.inBot, vTop)) + ',' + Y(vTop) +
+         ' L' + X(edge(T.right.inTop, T.right.inBot, vBot)) + ',' + Y(vBot) +
+         ' L' + X(edge(T.left.inTop,  T.left.inBot,  vBot)) + ',' + Y(vBot) + ' Z';
+}
+
+function layout() {
+  var vw = window.innerWidth, vh = window.innerHeight;
+  var svg = document.getElementById('gateSvg');
+  svg.setAttribute('viewBox', '0 0 ' + vw + ' ' + vh);
+  ['cutRect', 'cutRectInv', 'veil', 'skyNight', 'skyDawn', 'shade', 'grain'].forEach(function (id) {
+    var r = document.getElementById(id);
+    r.setAttribute('x', 0); r.setAttribute('y', 0);
+    r.setAttribute('width', vw); r.setAttribute('height', vh);
+  });
+  var f = frame(vw, vh);
+  var parts = build(f);
+  var html = parts.map(function (p) {
+    return '<path d="' + p.d + '"' + (p.gilt ? ' class="gilt"' : '') + ' style="--dl:' + p.dl + 's"></path>';
+  }).join('');
+  document.getElementById('mass').innerHTML = html;
+  document.getElementById('halo').innerHTML = html;
+  document.getElementById('lacquer').innerHTML = html;
+  var hole = opening(f, vh);
+  document.getElementById('cutHole').setAttribute('d', hole);
+  document.getElementById('cutHoleInv').setAttribute('d', hole);
+}
+
+/* ─── lab controls ─── */
+var sp = document.getElementById('sp');
+var note = document.getElementById('note');
+var NOTES = {
+  bloom: 'no travelling tip — the ink soaks in',
+  sweep: 'the gate was always there — the light finds it',
+};
+function replay(mode) {
+  if (mode) sp.className = mode;
+  var clone = sp.cloneNode(true);
+  sp.parentNode.replaceChild(clone, sp);
+  sp = clone;
+  layout();
+  note.textContent = NOTES[sp.className] || '';
+}
+document.getElementById('bBloom').addEventListener('click', function () {
+  this.classList.add('on'); document.getElementById('bSweep').classList.remove('on'); replay('bloom');
+});
+document.getElementById('bSweep').addEventListener('click', function () {
+  this.classList.add('on'); document.getElementById('bBloom').classList.remove('on'); replay('sweep');
+});
+document.getElementById('bReplay').addEventListener('click', function () { replay(); });
+document.getElementById('bNight').addEventListener('click', function () {
+  var h = document.getElementById('hero');
+  h.classList.toggle('night');
+  this.classList.toggle('on', h.classList.contains('night'));
+});
+window.addEventListener('resize', layout);
+layout();
+</script>
+</body>
+</html>
