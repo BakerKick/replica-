@@ -1046,3 +1046,11 @@ button[disabled] { opacity: 0.6; cursor: default; }
   .splash-sub { font-size: 0.6rem; letter-spacing: 0.22em; }
   .splash-tagline { font-size: 0.82rem; letter-spacing: 0.1em; min-height: 2em; }
 }
+
+/* ─── SCROLL LOCK WITHOUT A JUMP ────────────────────────────
+   The splash locks scrolling while it plays. Removing the scrollbar
+   changes the viewport width, which fires a resize in the middle of the
+   sequence — the gate is measured from the viewport, so it would step
+   sideways as the camera started moving. Reserving the gutter for good
+   means locking and releasing changes nothing about the layout. */
+html { scrollbar-gutter: stable; }

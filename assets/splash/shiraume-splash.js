@@ -168,9 +168,42 @@
 
   function q(sel) { return el ? el.querySelector(sel) : null; }
 
+  /* ── LOCAL FIX · keeping the drawing running ────────────────────────
+     layout() used to replace the contents of every stroke group. Replacing
+     an element destroys and recreates it, and a recreated element starts
+     its CSS animations again from zero — so anything that called layout()
+     mid-sequence threw the whole painting back to the first frame.
+
+     Three things called it: a genuine resize, the scroll lock removing the
+     scrollbar, and document.fonts.ready. The last one is why it looked
+     intermittent: webfonts land at whatever moment the network and the
+     cache decide, so on some reloads they arrived mid-trace and on others
+     they did not.
+
+     Two changes. Nothing happens at all unless the viewport really
+     changed size, which covers the fonts and the scrollbar; and when it
+     has changed, only the `d` attributes are rewritten. Every stroke's
+     width, delay and duration is a constant, so `d` is the only thing a
+     resize can affect — and setting an attribute leaves the animation
+     alone. The drawing now survives a window being dragged mid-paint. */
+  var lastW = 0, lastH = 0;
+
+  function reshape(node, list, make) {
+    var kids = node.children;
+    if (kids.length === list.length) {
+      for (var i = 0; i < list.length; i++) {
+        if (kids[i].getAttribute('d') !== list[i].d) kids[i].setAttribute('d', list[i].d);
+      }
+      return;
+    }
+    node.innerHTML = list.map(make).join('');
+  }
+
   function layout() {
-    if (!el) return;
+    if (!el) return false;
     var vw = window.innerWidth, vh = window.innerHeight;
+    if (vw === lastW && vh === lastH) return false;
+    lastW = vw; lastH = vh;
     var svg = q('.sp2-gate');
     /* The sheet is drawn 28% larger than the viewport; extending the
        viewBox by the same amount keeps user space at 1 unit = 1 CSS px,
@@ -188,23 +221,21 @@
     var ps = parts(f);
     var op = opening(f, vh);
 
-    q('#sp2-strokes').innerHTML = ps.map(function (p) {
+    reshape(q('#sp2-strokes'), ps, function (p) {
       return '<path d="' + p.d + '" pathLength="1"' + (p.gold ? ' class="sp2-gold-stroke"' : '') +
              ' stroke-width="' + p.w +
              '" style="--dl:' + p.delay + 's;--dd:' + p.dur + 's"></path>';
-    }).join('');
+    });
     /* Same geometry and same clock, three times the width — the halo
        spreads as each stroke is laid down rather than arriving after. */
-    q('#sp2-bleed').innerHTML = ps.map(function (p) {
+    reshape(q('#sp2-bleed'), ps, function (p) {
       return '<path d="' + p.d + '" pathLength="1" stroke-width="' + (p.w * 3.2).toFixed(1) +
              '" style="--dl:' + p.delay + 's;--dd:' + p.dur + 's"></path>';
-    }).join('');
-    q('#sp2-lacquer').innerHTML = ps.filter(function (p) { return p.lacquer; })
-      .map(function (p) { return '<path d="' + p.d + '"></path>'; }).join('');
-    q('#sp2-gilt').innerHTML = ps.filter(function (p) { return p.gilt; })
-      .map(function (p) { return '<path d="' + p.d + '"></path>'; }).join('');
-    q('#sp2-stone').innerHTML = ps.filter(function (p) { return p.stone; })
-      .map(function (p) { return '<path d="' + p.d + '"></path>'; }).join('');
+    });
+    var plain = function (p) { return '<path d="' + p.d + '"></path>'; };
+    reshape(q('#sp2-lacquer'), ps.filter(function (p) { return p.lacquer; }), plain);
+    reshape(q('#sp2-gilt'),    ps.filter(function (p) { return p.gilt; }),    plain);
+    reshape(q('#sp2-stone'),   ps.filter(function (p) { return p.stone; }),   plain);
 
     var hole = q('#sp2-hole');
     hole.setAttribute('d', op.d);
@@ -264,6 +295,7 @@
     var lac = q('#sp2-lac');
     lac.setAttribute('y1', (f.y + TORII.span.vTop * f.h).toFixed(0));
     lac.setAttribute('y2', (f.y + TORII.span.vFoot * f.h).toFixed(0));
+    return true;
   }
 
   /* Mostly soft flecks, with roughly one in five a five-petal blossom.
@@ -367,6 +399,41 @@
     '</div>' +
     '<button class="sp2-skip" type="button">Enter \u2193</button>';
 
+  /* ── LOCAL FIX · smooth on whatever it lands on ─────────────────────
+     The sequence asks a lot of a compositor: a full-screen photograph
+     coming out of an 18px blur, paper grain over the whole sheet, blend
+     modes, two dozen petals on their own transforms. On a machine that can
+     keep up, all of it is worth having. On one that cannot, the same list
+     is what turns a slow frame into a stutter.
+
+     So it is measured rather than assumed. Frame intervals are sampled for
+     the first couple of seconds — well inside the trace, with the expensive
+     beats still ahead — and if more than half of them are slower than
+     45ms, which is a machine visibly struggling rather than merely short
+     of sixty, the decoration is shed and the sequence carries on. The gate,
+     the lacquer, the dawn and the walk-through are never touched: what
+     goes is grain, the photo blur and most of the petals. */
+  function watchFrames() {
+    if (!el) return;
+    var n = 0, slow = 0, last = performance.now(), begin = last, mine = gen;
+    function tick(t) {
+      var d = t - last; last = t;
+      if (mine !== gen || !el || exited) return;
+      /* The first frames cover layout and decode and say nothing about
+         how the machine will cope, so they are not counted. */
+      if (t - begin > 220) { n++; if (d > 45) slow++; }
+      /* A proportion, not a tally: a slow machine produces fewer frames to
+         judge, so counting them would make the test weaker exactly where
+         it needs to be strongest. Decided as soon as there is enough to
+         decide on, and kept watching until then rather than judged once. */
+      if (n >= 8 && slow / n > 0.5) { el.classList.add('sp2-lite'); return; }
+      if (t - begin < 2200) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  var bound = false;
+
   var API = {
     duration: 5.35,          /* the painting; the walk-through follows */
 
@@ -412,8 +479,18 @@
 
       layout();
       petals(opts.petals == null ? 22 : opts.petals);
-      if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
-      window.addEventListener('resize', function () { if (!exited) { layout(); petals(opts.petals == null ? 22 : opts.petals); } });
+      /* Both of these used to restart the painting. layout() now returns
+         false when the viewport has not moved, so webfonts landing is a
+         no-op, and the petals are only scattered again on a real resize —
+         22 elements re-randomising mid-sequence is its own flicker. */
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { layout(); });
+      if (!bound) {
+        bound = true;
+        window.addEventListener('resize', function () {
+          if (exited) return;
+          if (layout()) petals(opts.petals == null ? 22 : opts.petals);
+        });
+      }
 
       var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (reduced || opts.autoplay === false) {
@@ -444,6 +521,7 @@
       });
       var mine = gen;
       hideTimer = setTimeout(function () { if (mine === gen) API.exit(); }, API.duration * 1000);
+      watchFrames();
     },
 
     /* The walk-through. Ending it is driven by the dolly's own

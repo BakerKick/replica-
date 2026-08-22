@@ -578,3 +578,32 @@
   .sp2-branch-tr { width: 56vw; height: 58vw; }
   .sp2-branch-bl { width: 30vw; height: 32vw; }
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   LOCAL FIX · sp2-lite — the same sequence, on a machine that is
+   struggling. Set by the frame watch in the JS after three quarters of a
+   second of measuring, never by guessing at the device.
+
+   What goes is decoration only. The gate still paints, the lacquer still
+   floods, dawn still comes and the camera still walks through — those are
+   the sequence. Grain over a full-screen sheet, an 18px blur resolving on
+   a full-screen bitmap, and two dozen independently transformed petals
+   are the three things that cost the most and are missed the least.
+   ═══════════════════════════════════════════════════════════════════ */
+#shiraume-splash.sp2-lite .sp2-grain,
+#shiraume-splash.sp2-lite .sp2-paper-grain { display: none; }
+
+/* The photograph arrives sharp rather than resolving out of mist. */
+#shiraume-splash.sp2-lite .sp2-photo { filter: brightness(0.16) saturate(0.3); }
+#shiraume-splash.sp2-lite .sp2-photo,
+#shiraume-splash.sp2-lite.sp2-exit .sp2-photo { animation-name: sp2-photo-lite; }
+@keyframes sp2-photo-lite {
+  0%   { opacity: 0; transform: scale(1.07); filter: brightness(0.16) saturate(0.3); }
+  100% { opacity: 1; transform: scale(1);    filter: brightness(1) saturate(1); }
+}
+
+/* A few petals still read as wind; twenty-two do not read as more. */
+#shiraume-splash.sp2-lite .sp2-petal:nth-child(n + 7) { display: none; }
+
+/* The brush wobble is a per-frame filter over the whole drawing. */
+#shiraume-splash.sp2-lite #sp2-strokes { filter: none; }
