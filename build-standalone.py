@@ -29,6 +29,7 @@ OUT = sys.argv[1] if len(sys.argv) > 1 else os.path.join(HERE, 'Shiraume-Lodge-c
 read = lambda *p: open(os.path.join(HERE, *p), encoding='utf-8').read()
 html, style, enhance, js = read('index.html'), read('style.css'), read('enhance.css'), read('main.js')
 fonts_css = read('assets', 'fonts-subset.css')
+splash_css, splash_js = read('assets', 'splash', 'shiraume-splash.css'), read('assets', 'splash', 'shiraume-splash.js')
 
 # Max render width and JPEG quality per image, from how large each one ever
 # appears: hero and room headers go full-bleed, gallery seconds never do.
@@ -47,7 +48,15 @@ IMG = {
 def encode(name):
     im = Image.open(os.path.join(HERE, 'assets/img', name))
     buf = io.BytesIO()
-    if name.endswith('.png'):
+    if name.startswith('ume-branch'):
+        # The branch artwork is used as a mask and tinted underneath, so the
+        # only channel that carries anything is alpha. Flattening luminance
+        # to black keeps the shape exactly and compresses to almost nothing;
+        # the size is left alone, because the detail is the point.
+        flat = Image.merge('LA', (Image.new('L', im.size, 0), im.convert('RGBA').getchannel('A')))
+        flat.save(buf, 'PNG', optimize=True)
+        mime = 'image/png'
+    elif name.endswith('.png'):
         # The ink logo is recoloured with CSS filters, so luminance plus alpha
         # is all the page ever uses — half the channels, same appearance.
         im.convert('LA').resize((320, 320), Image.LANCZOS).save(buf, 'PNG', optimize=True)
@@ -62,7 +71,7 @@ def encode(name):
 
 
 key = lambda n: re.sub(r'[^a-z0-9]+', '-', n.rsplit('.', 1)[0].lower())
-used = sorted(set(re.findall(r'assets/img/([\w.-]+\.(?:jpg|png))', html + style + enhance + js)))
+used = sorted(set(re.findall(r'assets/img/([\w.-]+\.(?:jpg|png))', html + style + enhance + js + splash_css + splash_js)))
 assets = {key(n): encode(n) for n in used}
 
 # Point every reference at the single embedded copy.
@@ -105,11 +114,18 @@ html = html.replace('<link rel="stylesheet" href="./style.css">',
                     '<style>\n' + fonts_css + '\n</style>\n  <style>\n' + style + '\n</style>')
 html = html.replace('<link rel="stylesheet" href="./enhance.css">',
                     '<style>\n' + enhance + '\n</style>')
+html = html.replace('<link rel="stylesheet" href="./assets/splash/shiraume-splash.css">',
+                    '<style>\n' + splash_css + '\n</style>')
+html = html.replace('<script src="./assets/splash/shiraume-splash.js"></script>',
+                    '<script>\n' + splash_js + '\n</script>')
 # The asset map has to be in place before anything paints or reads it.
 html = html.replace('<body class="hero-enhanced">',
                     '<body class="hero-enhanced">\n<script>\n' + asset_js + '</script>')
 html = html.replace('<script src="./main.js"></script>', '<script>\n' + js + '\n</script>')
 
-assert 'href="./style.css"' not in html and 'src="./main.js"' not in html
+for tag in ('href="./style.css"', 'src="./main.js"',
+            'href="./assets/splash/shiraume-splash.css"',
+            'src="./assets/splash/shiraume-splash.js"'):
+    assert tag not in html, f'not inlined: {tag}'
 open(OUT, 'w', encoding='utf-8').write(html)
 print(f'{OUT}  {os.path.getsize(OUT) / 1024 / 1024:.2f} MB')

@@ -469,7 +469,18 @@ function revealHero() {
   });
 }
 
+const CINEMATIC_SPLASH = typeof ShiraumeSplash !== 'undefined';
+
 (function () {
+  // The cinematic splash supersedes this one. It covers the screen anyway,
+  // so the old sheet is taken down immediately rather than painting a
+  // second gate nobody will see, and dismissSplash is left for it to call
+  // when the camera starts moving — that is still what reveals the hero.
+  if (CINEMATIC_SPLASH) {
+    const s = document.getElementById('splash');
+    if (s) s.style.display = 'none';
+    return;
+  }
   if (REDUCED_MOTION) { dismissSplash(); return; }
 
   // The outline starts tracing at 0.55s, so the gate has to know its size
@@ -1040,4 +1051,64 @@ function submitInq(e) {
       b.setAttribute('aria-label', 'Play ambient sound · 環境音');
     }
   });
+})();
+
+
+// ─── CINEMATIC SPLASH ───────────────────────────────────────
+// The gate is painted in wet ink on dark paper, lacquer floods up it,
+// dawn breaks, and the camera walks through the gateway into the
+// photograph. Geometry, timeline and the engineering notes behind it are
+// in assets/splash/SPLASH-SPEC.md; the two files are dropped in whole.
+//
+// Mounted from here rather than from a tag in the page so the standalone
+// build can swap the asset paths for embedded copies the same way it does
+// everywhere else.
+(function () {
+  if (!CINEMATIC_SPLASH) return;
+
+  // Japan time already decided whether the site opens by day or at night;
+  // the splash has to arrive at the same photograph or the walk-through
+  // lands somewhere the visitor has not been.
+  const night = document.documentElement.classList.contains('dark');
+
+  // These paths end up inside custom properties that the splash stylesheet
+  // reads, and a relative url() in a custom property resolves against the
+  // stylesheet rather than the page — which sent every one of them looking
+  // in assets/splash/. Resolving here fixes it wherever the site is served
+  // from, subfolder or not, and leaves the embedded copies in the
+  // standalone build untouched, since a data URI is already absolute.
+  const at = (u) => new URL(u, document.baseURI).href;
+
+  // Handing the site back: scrolling is released, the old sheet is retired,
+  // and the hero animates in so it is arriving as the visitor arrives.
+  // dismissSplash guards itself, so calling this more than once is free.
+  function release() {
+    document.documentElement.style.overflow = '';
+    dismissSplash(true);
+  }
+
+  // Listen before mounting. Reduced motion holds the final frame and can
+  // finish the sequence inside mount(), and a listener attached afterwards
+  // would miss it — which left the page scroll-locked with no way out.
+  document.addEventListener('shiraume:splash-open', release);
+  document.addEventListener('shiraume:splash-done', release);
+
+  document.documentElement.style.overflow = 'hidden';
+
+  ShiraumeSplash.mount({
+    photo: at(night ? 'assets/img/hero-night.jpg' : 'assets/img/hero-day.jpg'),
+    mark: at('assets/img/logo-ink.png'),
+    branch: at('assets/img/ume-branch.png'),
+    branchGhost: at('assets/img/ume-branch-ghost.png'),
+    name: 'Shiraume',
+    sub: '',
+    seal: false,
+    petals: 22,
+    tagline: TAGLINE_JP,
+    kanji: '白梅',
+  });
+
+  if (REDUCED_MOTION) release();
+  // Nothing about an intro is worth trapping a visitor on the page for.
+  setTimeout(release, 12000);
 })();
