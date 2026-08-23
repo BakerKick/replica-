@@ -55,6 +55,12 @@
   --input:             #c5bfb0;
   --ring:              #3a6344;
   --radius:            0.5rem;
+  /* Referenced in six places and defined in none, so every one of those
+     border-radius declarations was invalid and dropped — pills came out
+     as rectangles. All six users are pill-shaped controls: the language
+     and theme toggles, Inquire, the room feature tags, the room concept
+     badge and the footer's Private Presentation mark. */
+  --radius-full:       999px;
 
   /* Custom tokens */
   --color-bg:              #f4f0e8;
@@ -599,7 +605,7 @@
   padding: 0.85rem 2rem;
   background: var(--color-primary);
   color: var(--color-text-inverse);
-  border-radius: 0;
+  border-radius: var(--radius-full);
   border: 1px solid var(--color-primary);
   transition: all var(--transition-interactive);
   display: inline-flex;
@@ -620,7 +626,7 @@
   padding: 0.85rem 2rem;
   background: transparent;
   color: #ffffff;
-  border-radius: 0;
+  border-radius: var(--radius-full);
   border: 1px solid #ffffff;
   transition: all var(--transition-interactive);
   display: inline-flex;
@@ -632,6 +638,16 @@
   transform: translateY(-1px);
 }
 .hero-scroll {
+  /* Centred on the hero rather than hanging off the left margin. The line
+     stays where it was, immediately before the word.
+
+     The box is shrunk to its contents and centred, rather than left full
+     width with the contents centred inside it — the travelling segment
+     below is positioned from this box's left edge, and against a
+     full-width box that edge is the far side of the screen. */
+  width: fit-content;
+  margin-inline: auto;
+  position: relative;
   font-family: var(--font-body);
   font-size: var(--text-xs);
   letter-spacing: 0.15em;
@@ -642,12 +658,37 @@
   gap: var(--space-3);
   text-shadow: 0 1px 6px rgba(10,8,6,0.5);
 }
+/* The track: the full line, held back so the travelling segment reads
+   against it rather than competing with it. */
 .hero-scroll::before {
   content: '';
   display: block;
   width: 1px;
   height: 2.5rem;
-  background: rgba(253,252,249,0.55);
+  background: rgba(253,252,249,0.28);
+}
+/* And the segment that runs down it — the gesture of scrolling, made
+   once every two and a half seconds. Absolutely positioned over the
+   track, so the flex row's own layout is untouched. */
+.hero-scroll::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: calc(50% - 1.25rem);
+  width: 1px;
+  height: 0.95rem;
+  background: linear-gradient(to bottom, rgba(253,252,249,0), #fdfcf9);
+  animation: hero-scroll-run 2.5s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+@keyframes hero-scroll-run {
+  0%        { transform: translateY(-0.95rem); opacity: 0; }
+  18%       { opacity: 1; }
+  70%       { opacity: 1; }
+  100%      { transform: translateY(2.5rem); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-scroll::after { animation: none; opacity: 0; }
+  .hero-scroll::before { background: rgba(253,252,249,0.55); }
 }
 
 /* ── STATS BAR ───────────────────────────────────────────── */
