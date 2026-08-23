@@ -357,7 +357,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: var(--radius-full);
+  /* Written out rather than var(--radius-full): that token is referenced
+     in several places but never defined anywhere, so the declaration was
+     invalid and dropped, and the hover state came up as a hard square. */
+  border-radius: 999px;
   color: var(--color-text-muted);
   transition: color var(--transition-interactive), background var(--transition-interactive);
 }
@@ -396,6 +399,14 @@
 }
 .site-header:not(.scrolled) .lang-toggle:hover {
   border-color: #fdfcf9;
+  color: #ffffff;
+}
+/* Over the hero photograph the header controls are white, so the hover
+   surface has to be translucent. --color-surface-offset is an opaque
+   near-white in light mode, which landed as a bright panel sitting on
+   top of the photograph rather than as a hover state. */
+.site-header:not(.scrolled) .theme-toggle:hover {
+  background: rgba(253, 252, 249, 0.16);
   color: #ffffff;
 }
 .btn-inquire {
