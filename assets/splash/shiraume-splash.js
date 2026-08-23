@@ -29,8 +29,17 @@
     shaftTopV: 0.237, shaftBotV: 0.775,
     left:  { outTop: 0.3521, outBot: 0.3431, inTop: 0.3942, inBot: 0.3961 },
     right: { inTop: 0.6074, inBot: 0.6123, outTop: 0.6510, outBot: 0.6608 },
+    /* The plinths were traced off the photograph, where the ground slopes
+       away to the right and the right foot genuinely does sit higher —
+       faithful to the photo, and wrong as a drawing: on flat paper it
+       just reads as a gate that is not standing level. The right foot was
+       13px high on a thousand-pixel screen, which took the right post 14px
+       short with it.
+
+       Both feet now sit on the same line, and v1 is span.vFoot, which is
+       where the table says the gate meets the ground. */
     base: { left:  { u0: 0.334, u1: 0.408, v0: 0.735, v1: 0.783 },
-            right: { u0: 0.601, u1: 0.672, v0: 0.723, v1: 0.772 } }
+            right: { u0: 0.5959, u1: 0.6699, v0: 0.735, v1: 0.783 } }
   };
   var IMG = { w: 1376, h: 752 };
 

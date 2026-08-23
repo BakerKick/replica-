@@ -101,93 +101,25 @@
    being a trimmed edge and becomes a stray line. */
 @media (max-width: 700px) { #lux-plate { display: none; } }
 
-/* ─── 3b · THE PLATE NEEDS A MARGIN ──────────────────────────────────
-   The gate is drawn almost to the bottom edge — its feet land at 942px on
-   a thousand-pixel screen — which is why the composition feels cramped
-   and why there was nowhere to put a name except inside the gateway.
-
-   Easing it back gives the sheet a margin under the gate, the way a print
-   is mounted with more paper below it than above.
-
-   Only the drawing and the opening move. Scaling the whole SVG was the
-   obvious way to do it and the wrong one: the element is already sized
-   128% and offset to match, so shrinking it shrinks the sheet as well and
-   the photograph appears around all four edges. The paper is left exactly
-   where it was; the members and the hole in the mask take the same
-   transform, so the opening still lands on the gate. */
-#shiraume-splash.lux #sp2-lacquer,
-#shiraume-splash.lux #sp2-stone,
-#shiraume-splash.lux #sp2-gilt,
-#shiraume-splash.lux #sp2-bleed,
-#shiraume-splash.lux #sp2-strokes,
-#shiraume-splash.lux #sp2-hole {
-  transform-box: view-box;
-  transform-origin: var(--lux-ox, 50%) var(--lux-oy, 20%);
-  transform: scale(var(--lux-plate-scale, 0.72));
-}
-
-/* ─── 4 · THE WORDMARK, ON THE PAPER ─────────────────────────────────
-   It used to sit inside the gateway in white, over whatever the
-   photograph happened to be doing — which by the last beat is sunlit
-   gravel. It sits on the paper below the gate now, in the paper's own
-   ink: dark on light, legible at every frame, and reading as the title
-   block of a plate rather than a caption floating on a picture.
-
-   Its top is set by the luxe JS from the plinths' measured position, so
-   it follows the gate at any size. The veil it needed is gone. */
-#shiraume-splash.lux .sp2-veil { display: none; }
-
-#shiraume-splash.lux .sp2-word {
-  /* The base file writes `top` as an inline style every layout, and an
-     inline style beats a stylesheet — so this has to be !important or the
-     wordmark never leaves the gateway. */
-  top: var(--lux-word-top, 74%) !important;
-  bottom: auto;
-  transform: translate(-50%, 0) translateZ(6px);
-  text-align: center;
-}
-#shiraume-splash.lux .sp2-mark-slot { display: none; }
-
-/* The base file raises the name at 2.15s, before the gate is even
-   painted — which is right when the name floats in the gateway, and
-   wrong once it is the title block under a finished plate. A caption is
-   struck after the print, not before it. Both lines are moved to the end
-   of the painting and are settled by 5.3s, just before the walk-through
-   at 5.35s — where the tagline previously began fading in at 4.6s over
-   1.2s and so was never actually seen. */
-#shiraume-splash.lux .sp2-name {
-  animation-delay: 3.9s;
-  animation-duration: 1s;
-  font-size: var(--lux-name-size, 30px);
-  letter-spacing: 0.30em;      /* set wide: a name, not a word */
-  text-indent: 0.30em;         /* tracking adds a trailing gap; put it back */
-  text-transform: uppercase;
-  font-weight: 400;
-  text-shadow: none;
-}
+/* ─── 4 · THE NAME STAYS WHERE IT WAS ───────────────────────────────
+   An earlier build eased the gate back to buy a band of paper under it
+   and set the name there as the title block of a plate. At full size
+   there is no such band — the feet land 58px from the bottom edge — so
+   the name is left in the gateway, over the photograph, with the veil
+   the base file gives it for legibility. Nothing in this file touches
+   it any more. */
 
 /* ─── 5 · TYPE ───────────────────────────────────────────────────────
    The tagline sat under the gate at whatever size fitted. Given a rule
    above it and honest tracking, it becomes a colophon line. */
+/* The one thing worth keeping from that pass: the tagline used to begin
+   at 4.6s over 1.2s against a walk-through at 5.35s, so it was never
+   actually on screen. It is simply moved earlier — same place, same
+   size, same shadow as the base file gives it. */
 #shiraume-splash.lux .sp2-tag {
   animation-delay: 4.3s;
   animation-duration: 1s;
-  top: var(--lux-tag-top, 84%) !important;
-  bottom: auto;
-  letter-spacing: 0.42em;
-  text-indent: 0.42em;
-  font-size: var(--lux-tag-size, 11px);
-  text-shadow: none;
 }
-#shiraume-splash.lux .sp2-tag::before {
-  content: '';
-  display: block;
-  width: 34px; height: 1px;
-  margin: 0 auto 1.15rem;
-  background: currentColor;
-  opacity: 0.42;
-}
-
 #shiraume-splash.lux .sp2-skip {
   font-size: 0.58rem;
   letter-spacing: 0.34em;
@@ -232,8 +164,6 @@
 #shiraume-splash.lux-night #sp2-stone { fill: url(#lux-stone-night); }
 
 /* Ink on a dark ground has to be light. */
-#shiraume-splash.lux-night .sp2-name { color: rgba(246, 240, 226, 0.94); }
-#shiraume-splash.lux-night .sp2-tag  { color: rgba(246, 240, 226, 0.62); }
 #shiraume-splash.lux-night #lux-plate { border-color: rgba(244, 236, 220, 0.13); }
 
 /* Nothing casts a long shadow at this hour, but a foot still darkens the
@@ -258,9 +188,6 @@
   100% { fill: #9d8f74; }
 }
 
-#shiraume-splash.lux-day .sp2-name { color: #2b1f16; }
-#shiraume-splash.lux-day .sp2-tag  { color: rgba(43, 31, 22, 0.68); }
-#shiraume-splash.lux-day .sp2-skip { color: rgba(43, 31, 22, 0.6); }
 #shiraume-splash.lux-day #lux-plate { border-color: rgba(43, 31, 22, 0.14); }
 
 /* ─── the sequence still has to leave ────────────────────────────── */
@@ -270,4 +197,49 @@
 @media (prefers-reduced-motion: reduce) {
   #lux-plate, #lux-shadow { animation: none; opacity: 1; }
   #shiraume-splash.lux #sp2-strokes { animation: none; }
+}
+
+/* ═══ DRAW · THE GOLD LINE ═══════════════════════════════════════════
+   An alternative to the brush. Added with .lux-goldline; without it the
+   gate paints itself exactly as it does now.
+
+   This is the katomado ring off the site itself, applied to the gate.
+   What makes that line read as drafted rather than hand-drawn is not the
+   colour — it is four things together:
+
+     one continuous trace, not a sequence of separate gestures
+     a single uniform hairline, held at 1px whatever the screen
+     one smooth ease, start to finish
+     no brush texture and no wet bleed
+
+   So all four are done here, and the gold is the last of them.
+
+   The base file writes --dl and --dd as inline styles per member, and an
+   inline custom property beats a stylesheet — so the animation shorthand
+   is replaced outright rather than the variables overridden. Replacing it
+   also drops sp2-ink-day, which is what would otherwise turn the line to
+   day ink halfway through and take the gold with it. */
+#shiraume-splash.lux-goldline #sp2-strokes {
+  filter: none;                 /* the brush wobble is the hand */
+  animation: none;
+  opacity: 1;
+}
+#shiraume-splash.lux-goldline #sp2-strokes path,
+#shiraume-splash.lux-goldline #sp2-strokes path.sp2-gold-stroke {
+  stroke: url(#lux-line-gold);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+  animation: sp2-trace 2.6s cubic-bezier(0.33, 1, 0.68, 1) var(--sp2-draw-in) forwards;
+}
+
+/* The wet bleed is the brush's own signature — a drafted line has none. */
+#shiraume-splash.lux-goldline .sp2-bleed { display: none; }
+
+/* The line lands at 2.95s (0.35 + 2.6). The lacquer used to start at
+   2.85s, which would have had colour arriving before the drawing was
+   finished. */
+#shiraume-splash.lux-goldline #sp2-lacquer { animation-delay: 3.05s; }
+
+@media (prefers-reduced-motion: reduce) {
+  #shiraume-splash.lux-goldline #sp2-strokes path { animation: none; stroke-dashoffset: 0; }
 }

@@ -14,7 +14,7 @@
 (function (root) {
   'use strict';
 
-  var el, treatment = 'night', bound = false;
+  var el, treatment = 'night', draw = 'brush', bound = false;
 
   function q(sel) { return el ? el.querySelector(sel) : null; }
 
@@ -76,6 +76,18 @@
       '<linearGradient id="lux-stone-night" gradientUnits="userSpaceOnUse" x1="0" y1="' + (span.bot - (span.bot - span.top) * 0.12) + '" x2="0" y2="' + span.bot + '">' +
         '<stop offset="0" stop-color="#4a463e"></stop>' +
         '<stop offset="1" stop-color="#2b2822"></stop>' +
+      '</linearGradient>' +
+      /* The gold used by the drawn line, over the whole height of the
+         gate rather than the plaque's few percent — so a single hairline
+         running from the crossbeam to the plinths catches the light near
+         the top and falls away at the foot, the way leaf does. Brighter
+         overall than the plaque gold, because a 1px line has almost no
+         area to carry a colour with. */
+      '<linearGradient id="lux-line-gold" gradientUnits="userSpaceOnUse" x1="0" y1="' + span.top + '" x2="0" y2="' + span.bot + '">' +
+        '<stop offset="0"    stop-color="#f3ddab"></stop>' +
+        '<stop offset="0.34" stop-color="#d8b678"></stop>' +
+        '<stop offset="0.72" stop-color="#bd9755"></stop>' +
+        '<stop offset="1"    stop-color="#9a7742"></stop>' +
       '</linearGradient>';
     d.appendChild(g);
   }
@@ -110,94 +122,13 @@
     host.innerHTML = html;
   }
 
-  /* ── 3 · the name, on the paper ─────────────────────────────────────
-     It used to sit inside the gateway in white over whatever the
-     photograph was doing, which by the last beat is sunlit gravel. Set
-     below the gate on the paper it is dark on light and legible at every
-     frame — and it reads as the title block of a printed plate rather
-     than a caption floating on a picture.
+  /* ── 3 · the name ──────────────────────────────────────────────────
+     Nothing here. The name sits in the gateway where the base file puts
+     it, which is where it started and where it belongs at full size —
+     there is no paper under a full-size gate to put a title block on.
 
-     Placed from the plinths, so it follows the gate rather than a
-     guessed percentage of the window. */
-  function lockup() {
-    var plane = q('.sp2-paper-plane');
-    if (!plane) return;
-    var planeTop = plane.getBoundingClientRect().top;
-    var vh = window.innerHeight, vw = window.innerWidth;
-
-    /* The sheet is drawn 128% of the viewport and offset to match, so
-       anything positioned from its bottom edge lands well below the
-       screen. Everything here is set from the plane's own top, with the
-       measurement taken in viewport space and converted once. */
-    /* The ground line: the lowest point of the plinths, which is where
-       the gate meets whatever it is standing on.
-
-       The opening is closed exactly there. Anywhere lower and the
-       photograph continues past the feet and then stops dead in mid-air
-       on a horizontal cut — which is what the first build did, and it
-       reads as a mistake rather than as a window. Closed on the feet, the
-       plinths sit on the edge of the mount and the gate is standing on
-       the sheet. */
-    var footY = vh * 0.80, low = 0;
-    Array.prototype.forEach.call(el.querySelectorAll('#sp2-stone path'), function (f) {
-      var r = f.getBoundingClientRect();
-      if (r.height && r.bottom > low) low = r.bottom;
-    });
-    if (low) footY = Math.min(low, vh * 0.86);
-
-    var bandTop = footY;
-    mount(bandTop);
-
-    /* The title block is centred in the band rather than hung off the
-       feet, so it never crowds the ground line at one size and the plate
-       mark at another. The band runs from the ground line to a little
-       inside the plate mark, and the block is name, air, colophon. */
-    var nameSize = Math.max(16, Math.min(32, vw / 48));
-    var plateInset = vw <= 700 ? 14 : 26;
-    var bandBot = vh - plateInset - Math.max(18, vh * 0.026);
-    var lead = nameSize * 1.9;                       /* name to rule      */
-    var tagBlock = Math.max(30, nameSize * 1.15);    /* rule, air, line   */
-    var blockH = nameSize + lead + tagBlock;
-    var clear = Math.max(18, vh * 0.024);
-    var wordY = footY + Math.max(clear, (bandBot - footY - blockH) / 2);
-    if (wordY + blockH > bandBot) wordY = Math.max(footY + 8, bandBot - blockH);
-    var tagY = wordY + nameSize + lead;
-
-    el.style.setProperty('--lux-word-top', (wordY - planeTop).toFixed(0) + 'px');
-    el.style.setProperty('--lux-tag-top', (tagY - planeTop).toFixed(0) + 'px');
-    el.style.setProperty('--lux-name-size', nameSize.toFixed(1) + 'px');
-    el.style.setProperty('--lux-tag-size', Math.max(9.5, Math.min(12.5, vw / 130)).toFixed(1) + 'px');
-  }
-
-  /* ── the mount ──────────────────────────────────────────────────────
-     The opening is cut all the way off the bottom of the screen so the
-     path can be seen leading away, which means there is no paper beneath
-     it and nowhere for a name to sit that is not on the photograph.
-
-     A white rectangle appended to the mask paints the paper back in below
-     a chosen line — white shows, black hides, and it is added after the
-     hole so it wins. The opening becomes a window that stops short of the
-     edge, with a band of paper under it: the mount a print sits in, and
-     the place the title block belongs.
-
-     Deliberately not transformed with the plate. The band is a property
-     of the sheet, not of the drawing. */
-  function mount(bandTop) {
-    var mask = q('#sp2-mask');
-    if (!mask) return;
-    var band = mask.querySelector('#lux-band');
-    if (!band) {
-      band = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-      band.setAttribute('id', 'lux-band');
-      band.setAttribute('fill', '#fff');
-      mask.appendChild(band);
-    }
-    var vw = window.innerWidth, vh = window.innerHeight;
-    band.setAttribute('x', (-vw * 0.2).toFixed(0));
-    band.setAttribute('y', bandTop.toFixed(0));
-    band.setAttribute('width', (vw * 1.4).toFixed(0));
-    band.setAttribute('height', (vh * 0.6).toFixed(0));
-  }
+     This is what the earlier build used a plate shrink and a paper band
+     to buy, and both are gone with it. */
 
   function scaffold() {
     /* The plate mark hangs off the root, not the paper plane. The plane
@@ -219,69 +150,33 @@
     }
   }
 
-  /* The plate transform, in the SVG's own user space.
-
-     The view-box is overscanned and starts at (-ox, -oy), so a point at
-     viewport (x, y) sits at (x + ox, y + oy) inside it — the same
-     conversion the base file does for its own transform origin.
-
-     The brush filter's region is pinned in user space to the gate's
-     bounding box, so it has to travel with the drawing or it clips it.
-     The same affine goes on the region rather than simply widening it,
-     because a region larger than the drawing is exactly the cost the base
-     file went to some trouble to avoid. */
-  function plate() {
-    var vw = window.innerWidth, vh = window.innerHeight;
-
-    /* The plate shrink exists to buy a margin under the gate on a wide
-       screen, where the drawing runs almost to the bottom edge. On a
-       phone it buys nothing: the gate is already sized by the viewport
-       width, so a torii's proportions cap it at about a third of a tall
-       screen and there is a third of a screen of paper under it before
-       anything is scaled. Shrinking there only made a small gate smaller.
-       Left at 1, the transform is the identity and the phone keeps the
-       base file's own layout, crossbeam running the full width. */
-    var scale = vw <= 700 ? 1 : 0.72;
-    var pivotY = vw <= 700 ? 0.30 : 0.20;
-    var ox = vw * 0.14, oy = vh * 0.14;
-    var originX = vw / 2 + ox, originY = vh * pivotY + oy;
-
-    el.style.setProperty('--lux-plate-scale', scale);
-    el.style.setProperty('--lux-ox', originX.toFixed(1) + 'px');
-    el.style.setProperty('--lux-oy', originY.toFixed(1) + 'px');
-
-    var fb = q('#sp2-brush');
-    if (!fb) return;
-    if (!fb.getAttribute('data-lux-base')) {
-      fb.setAttribute('data-lux-base', [fb.getAttribute('x'), fb.getAttribute('y'),
-                                        fb.getAttribute('width'), fb.getAttribute('height')].join(','));
-    }
-    var b = fb.getAttribute('data-lux-base').split(',').map(parseFloat);
-    if (!b.every(isFinite)) return;
-    var px = originX - ox, py = originY - oy;   // pivot, in the same space the region uses
-    fb.setAttribute('x', (px + (b[0] - px) * scale).toFixed(0));
-    fb.setAttribute('y', (py + (b[1] - py) * scale).toFixed(0));
-    fb.setAttribute('width', (b[2] * scale).toFixed(0));
-    fb.setAttribute('height', (b[3] * scale).toFixed(0));
-  }
+  /* The gate is drawn at the size the base file draws it. An earlier
+     build eased it back to buy a margin under the feet for a title block;
+     that is gone, so the transform is gone with it and nothing here
+     touches the geometry. The brush filter region is left exactly as the
+     base file pinned it. */
 
   function paint() {
     if (!el) return;
     scaffold();
-    plate();
     defs(gateSpan());
     shadows();
-    lockup();
   }
 
   var API = {
-    apply: function (which) {
+    /* apply('night' | 'day', { draw: 'brush' | 'gold' })
+
+       The treatment is the light; the draw is how the gate arrives. They
+       are independent — either light works with either draw. */
+    apply: function (which, opts) {
       el = document.getElementById('shiraume-splash');
       if (!el) return API;
       if (which) treatment = which;
+      if (opts && opts.draw) draw = opts.draw;
       el.classList.add('lux');
       el.classList.remove('lux-night', 'lux-day');
       el.classList.add('lux-' + treatment);
+      el.classList.toggle('lux-goldline', draw === 'gold');
 
       /* The base file rebuilds the gate on a real resize, which replaces
          the plinths these measurements come from — so this runs again
@@ -297,6 +192,7 @@
     },
     repaint: paint,
     get treatment() { return treatment; },
+    get draw() { return draw; },
   };
 
   root.ShiraumeLuxe = API;
