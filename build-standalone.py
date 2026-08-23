@@ -30,6 +30,7 @@ read = lambda *p: open(os.path.join(HERE, *p), encoding='utf-8').read()
 html, style, enhance, js = read('index.html'), read('style.css'), read('enhance.css'), read('main.js')
 fonts_css = read('assets', 'fonts-subset.css')
 splash_css, splash_js = read('assets', 'splash', 'shiraume-splash.css'), read('assets', 'splash', 'shiraume-splash.js')
+luxe_css, luxe_js = read('assets', 'splash', 'splash-luxe.css'), read('assets', 'splash', 'splash-luxe.js')
 
 # Max render width and JPEG quality per image, from how large each one ever
 # appears: hero and room headers go full-bleed, gallery seconds never do.
@@ -116,8 +117,12 @@ html = html.replace('<link rel="stylesheet" href="./enhance.css">',
                     '<style>\n' + enhance + '\n</style>')
 html = html.replace('<link rel="stylesheet" href="./assets/splash/shiraume-splash.css">',
                     '<style>\n' + splash_css + '\n</style>')
+html = html.replace('<link rel="stylesheet" href="./assets/splash/splash-luxe.css">',
+                    '<style>\n' + luxe_css + '\n</style>')
 html = html.replace('<script src="./assets/splash/shiraume-splash.js"></script>',
                     '<script>\n' + splash_js + '\n</script>')
+html = html.replace('<script src="./assets/splash/splash-luxe.js"></script>',
+                    '<script>\n' + luxe_js + '\n</script>')
 # The asset map has to be in place before anything paints or reads it.
 html = html.replace('<body class="hero-enhanced">',
                     '<body class="hero-enhanced">\n<script>\n' + asset_js + '</script>')
@@ -125,7 +130,9 @@ html = html.replace('<script src="./main.js"></script>', '<script>\n' + js + '\n
 
 for tag in ('href="./style.css"', 'src="./main.js"',
             'href="./assets/splash/shiraume-splash.css"',
-            'src="./assets/splash/shiraume-splash.js"'):
+            'src="./assets/splash/shiraume-splash.js"',
+            'href="./assets/splash/splash-luxe.css"',
+            'src="./assets/splash/splash-luxe.js"'):
     assert tag not in html, f'not inlined: {tag}'
 open(OUT, 'w', encoding='utf-8').write(html)
 print(f'{OUT}  {os.path.getsize(OUT) / 1024 / 1024:.2f} MB')

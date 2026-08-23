@@ -477,6 +477,11 @@
       ks[0].textContent = k[0] || ''; ks[1].textContent = k[1] || '';
       q('.sp2-skip').addEventListener('click', function () { API.exit(); });
 
+      /* A fresh mount always lays out, whatever the last one measured.
+         The size guard below is module state and survives remounting, so
+         mounting again at the same size would otherwise skip the layout
+         and leave the gate with no strokes in it at all. */
+      lastW = lastH = 0;
       layout();
       petals(opts.petals == null ? 22 : opts.petals);
       /* Both of these used to restart the painting. layout() now returns

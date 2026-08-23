@@ -1108,6 +1108,12 @@ function submitInq(e) {
     kanji: '白梅',
   });
 
+  // The luxe layer goes on after the mount, because it measures the gate
+  // the base file has just drawn rather than recomputing any of it. Two
+  // treatments are built; 'day' is the other one, and it is the only
+  // change needed to switch. See assets/splash/splash-luxe.css.
+  if (typeof ShiraumeLuxe !== 'undefined') ShiraumeLuxe.apply('night');
+
   if (REDUCED_MOTION) release();
   // Nothing about an intro is worth trapping a visitor on the page for.
   setTimeout(release, 12000);
