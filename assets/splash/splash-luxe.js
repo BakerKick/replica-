@@ -122,7 +122,45 @@
     host.innerHTML = html;
   }
 
-  /* ── 3 · the name ──────────────────────────────────────────────────
+  /* ── 3 · the opening stops at the ground ────────────────────────────
+     The base file cuts the opening 420px below the bottom of the screen
+     on purpose, so the path can be seen leading away. What it actually
+     produces is a photograph that runs off the bottom edge and, because
+     the posts splay outward as they descend, a shape whose lower corners
+     reach out past the feet and into the pillars.
+
+     A white rectangle appended to the mask paints the paper back in below
+     the ground line — white shows, black hides, and it is added after the
+     hole so it wins. The opening becomes a window that closes where the
+     gate meets the ground.
+
+     Additive on purpose: the base geometry is untouched, so this is one
+     call to undo. */
+  function mount() {
+    var mask = q('#sp2-mask');
+    if (!mask) return;
+    var low = 0;
+    Array.prototype.forEach.call(el.querySelectorAll('#sp2-stone path'), function (f) {
+      var r = f.getBoundingClientRect();
+      if (r.height && r.bottom > low) low = r.bottom;
+    });
+    if (!low) return;
+
+    var band = mask.querySelector('#lux-band');
+    if (!band) {
+      band = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+      band.setAttribute('id', 'lux-band');
+      band.setAttribute('fill', '#fff');
+      mask.appendChild(band);
+    }
+    var vw = window.innerWidth, vh = window.innerHeight;
+    band.setAttribute('x', (-vw * 0.4).toFixed(0));
+    band.setAttribute('y', low.toFixed(0));
+    band.setAttribute('width', (vw * 1.8).toFixed(0));
+    band.setAttribute('height', (vh * 0.8).toFixed(0));
+  }
+
+  /* ── 4 · the name ──────────────────────────────────────────────────
      Nothing here. The name sits in the gateway where the base file puts
      it, which is where it started and where it belongs at full size —
      there is no paper under a full-size gate to put a title block on.
@@ -161,6 +199,7 @@
     scaffold();
     defs(gateSpan());
     shadows();
+    mount();
   }
 
   var API = {

@@ -1109,10 +1109,15 @@ function submitInq(e) {
   });
 
   // The luxe layer goes on after the mount, because it measures the gate
-  // the base file has just drawn rather than recomputing any of it. Two
-  // treatments are built; 'day' is the other one, and it is the only
-  // change needed to switch. See assets/splash/splash-luxe.css.
-  if (typeof ShiraumeLuxe !== 'undefined') ShiraumeLuxe.apply('night');
+  // the base file has just drawn rather than recomputing any of it.
+  //
+  // The gate is drawn as one continuous gold hairline — the katomado ring
+  // from the site itself, applied to the torii — rather than laid down
+  // member by member with a brush. 'brush' is the other draw. Two lights
+  // are built too; 'day' is the other one. See splash-luxe.css.
+  if (typeof ShiraumeLuxe !== 'undefined') {
+    ShiraumeLuxe.apply('night', { draw: 'gold' });
+  }
 
   if (REDUCED_MOTION) release();
   // Nothing about an intro is worth trapping a visitor on the page for.

@@ -243,3 +243,19 @@
 @media (prefers-reduced-motion: reduce) {
   #shiraume-splash.lux-goldline #sp2-strokes path { animation: none; stroke-dashoffset: 0; }
 }
+
+/* ─── THE BRANCH, 15% SMALLER ────────────────────────────────────────
+   The top-right spray was reading as the largest object on the screen,
+   which put it in competition with the gate. Its anchor is unchanged —
+   it is pinned past the top-right corner — so the art simply draws in
+   toward that corner rather than moving. */
+#shiraume-splash.lux .sp2-branch-tr {
+  width: 30.6vw;      /* was 36vw   */
+  height: 32.13vw;    /* was 37.8vw */
+}
+@media (max-width: 700px) {
+  #shiraume-splash.lux .sp2-branch-tr {
+    width: 47.6vw;    /* was 56vw   */
+    height: 49.3vw;   /* was 58vw   */
+  }
+}

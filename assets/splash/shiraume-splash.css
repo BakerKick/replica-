@@ -473,8 +473,18 @@
   color: rgba(240, 234, 222, 0.55);
   text-shadow: 0 1px 16px rgba(20, 16, 10, 0.7);
   cursor: pointer; z-index: 4;
-  opacity: 0; animation: sp2-rise 1s 2.8s ease forwards;
+  /* Its own keyframes, because sp2-rise ends on `transform: none` and this
+     is the one element that carries its centring in a transform of its
+     own. Sharing them threw the translateX(-50%) away the moment the
+     animation started: the button jumped right by exactly half its width,
+     sat there, and jumped back when the walk-through set animation:none
+     and the base rule returned. .sp2-tag already has the same fix. */
+  opacity: 0; animation: sp2-rise-skip 1s 2.8s ease forwards;
   transition: color 0.25s;
+}
+@keyframes sp2-rise-skip {
+  from { opacity: 0; transform: translateX(-50%) translateY(14px); }
+  to   { opacity: 1; transform: translateX(-50%); }
 }
 .sp2-skip:hover { color: var(--sp2-gold); }
 
