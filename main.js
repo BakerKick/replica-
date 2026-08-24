@@ -719,7 +719,7 @@ const ROOMS = {
     price: 'From ¥35,000 / night · inc. breakfast',
     priceBadge: 'From ¥35,000 / night',
     cap: 10,
-    lead: 'The largest room in the inn — 18 tatami mats accommodating up to eight to ten guests, anchored by a circular window original to the building.',
+    lead: 'The largest room in the inn, with 18 tatami mats accommodating up to eight to ten guests, anchored by a circular window original to the building.',
     descEn: 'Large enough for group dining within the room on request, Higashiyama sits within the inn’s preserved original architecture and looks out across the forested ridge of Hikosan. The room shares the second-floor balcony, engawa, and mountain-viewing lounge. Private ensuite ofuro bath.',
     descJp: '宿最大の客室──18畳、最大8〜10名まで対応。建物本来の円窓が特徴です。ご希望に応じて、室内での団体でのお食事にも対応できる広さです。バルコニー、縁側、ラウンジを共有。専用露天風呂付き。',
     feats: ['18-Mat Tatami · 18畳', 'Up to 8–10 Guests · 最大8〜10名', 'Circular Window · 円窓', 'Group Dining Option · 団体お食事対応', 'Shared Balcony & Engawa · バルコニー・縁側', 'Ensuite Ofuro · 専用露天風呂', 'Yukata · 浴衣'],
