@@ -12,29 +12,35 @@ Plain steps. Nothing here needs you to understand the security review.
 | `_headers` | Security settings. You never need to open this. |
 | `archive/` | An older draft, kept in case you want it. Not part of the live site. |
 
-## Step 1 — Reconnect the contact form
+## Step 1 — Deploy first, then get your form code
 
-**Right now the forms do not send anything.** Do this first or you will launch a
-site nobody can contact you through.
+FormSubmit will not give you a code until a form has actually been submitted.
+So the order is: put the site online, submit your own form once, then swap the
+code in. The form is already set up to work on the first deploy — do step 3
+before this one if you like, it makes no difference.
 
-1. Go to **formsubmit.co**
-2. Enter your Gmail address and submit
-3. FormSubmit emails you to confirm — click the link
-4. They give you a **random code** that looks like `a1b2c3d4e5f6...`
-5. Open `index.html`, find the line near the bottom that says:
-
-   ```js
-   const FORM_ENDPOINT = '';   // ← paste the hashed endpoint here before launch
-   ```
-
-6. Change it to (using your own code):
+1. With the site online, open it and **send yourself a message through the
+   contact form.**
+2. FormSubmit emails you. That email has two things: an **activation link**
+   and a **random code**.
+3. Click the activation link. Your form is now live — messages start arriving.
+4. Open `index.html` and find this line near the bottom:
 
    ```js
-   const FORM_ENDPOINT = 'https://formsubmit.co/ajax/a1b2c3d4e5f6';
+   const FORM_ENDPOINT = 'https://formsubmit.co/ajax/bakeyalrawi@gmail.com';
    ```
 
-Use the code, **not** your email address. That is the whole point — the code
-delivers to your inbox without putting your address on the page.
+5. Replace your email address with the random code, so it reads:
+
+   ```js
+   const FORM_ENDPOINT = 'https://formsubmit.co/ajax/YOUR-RANDOM-CODE';
+   ```
+
+6. Push the change. The site updates itself.
+
+Step 5 is the part that takes your email address off the page. Until you do it,
+anyone reading the page source can see your Gmail. That is not dangerous —
+it just means more spam over time.
 
 ## Step 2 — Fill in the privacy policy
 

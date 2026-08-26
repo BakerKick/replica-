@@ -7181,7 +7181,14 @@ document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLight
 // say plainly that the form is not live yet and point at CONTACT_EMAIL.
 // Then rerun build-standalone.py if you are sending the single-file version
 // around.
-const FORM_ENDPOINT = '';   // ← paste the hashed endpoint here before launch
+// STEP 1 (now):  leave the line below as it is and deploy. Submit the
+//                contact form once, yourself. FormSubmit will email you an
+//                activation link and a random code.
+// STEP 2 (then): click the activation link, then replace the whole address
+//                below with the code, so the line reads:
+//                https://formsubmit.co/ajax/YOUR-RANDOM-CODE
+//                That is what keeps your email address off the page.
+const FORM_ENDPOINT = 'https://formsubmit.co/ajax/bakeyalrawi@gmail.com';
 const FORM_EXTRA_FIELDS = { _template: 'table', _captcha: 'true' };
 const CONTACT_EMAIL = 'bakeyalrawi@gmail.com';   // shown if delivery ever fails
 
