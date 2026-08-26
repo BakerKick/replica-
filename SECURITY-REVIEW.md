@@ -29,7 +29,7 @@ markup would do if the room data ever stopped being hardcoded.
 
 ## Findings
 
-### 1. The enquiry endpoint embeds a personal address and is open to anyone — Medium
+### 1. The enquiry endpoint embeds a personal address and is open to anyone — Medium, partly fixed
 
 ```js
 const FORM_ENDPOINT = 'https://formsubmit.co/ajax/bakeyalrawi@gmail.com';  // line 7174
@@ -42,17 +42,22 @@ keyed on the address itself, anyone who reads it can POST to that URL directly
 from anywhere — curl, a script, a competitor — without ever loading the page.
 None of the page's own defences apply to a request that never touches the page.
 
-Fix, in order of importance:
+Decision taken: move to the hashed endpoint, keep the same Gmail as the
+destination.
 
-- Activate the address with the form service and switch to the random hashed
-  endpoint it issues (`https://formsubmit.co/ajax/<hash>`). Same inbox, address
-  no longer in the source, and the endpoint is no longer guessable from it.
-- Point it at a role address on the lodge's own domain rather than a personal
-  Gmail. A public contact address on a launched site will attract spam and
-  targeted phishing; that should land somewhere disposable, not in a personal
-  inbox.
+`FORM_ENDPOINT` is now empty, with the instructions for obtaining the hash in
+the comment above it. FormSubmit only issues the hash once the address is
+activated, so that string has to be pasted in by hand — it is the one step left
+before launch. Until then the forms fail honestly rather than silently: they say
+the form is not connected and point the visitor at the contact address.
 
-Both are one-line changes at line 7174/7176, then a rebuild.
+`CONTACT_EMAIL` still holds the Gmail (line 7186). That is deliberate — it is
+the address shown to a visitor when delivery fails, and the `mailto:` target
+when someone opens a downloaded copy of the file, so emptying it would remove a
+working fallback. It does mean the address remains in the page source for
+scrapers, even though the openly-postable endpoint is gone. Setting it to `''`
+closes that too; the code already handles the empty case in every branch, at the
+cost of those two fallbacks.
 
 ### 2. Captcha was switched off — Fixed
 
@@ -151,22 +156,27 @@ an accessibility problem for anyone who needs to magnify text.
 
 ## Applied in this review
 
-Four changes, made to a copy of the single-file build:
+Five changes, made to a copy of the single-file build:
 
 | # | Change | Location |
 |---|--------|----------|
-| 2 | `_captcha: 'false'` → `'true'` | line 7175 |
+| 1 | `FORM_ENDPOINT` moved off the address-keyed URL to an empty hashed-endpoint slot | line 7184 |
+| 2 | `_captcha: 'false'` → `'true'` | line 7185 |
 | 6 | Added `<meta name="referrer" content="strict-origin-when-cross-origin">` | line 9 |
 | 5 | Privacy notice reworded, English | line 5390 |
 | 5 | Privacy notice reworded, Japanese | line 5391 |
+
+All four script blocks were re-parsed after editing and are syntactically clean.
 
 Because the single-file build is generated (`build-standalone.py`), make these
 same edits in the source tree or the next rebuild will drop them.
 
 ## Before launch
 
-1. Move the form to a hashed endpoint on a non-personal address (finding 1).
-2. Carry the four fixes above into the source tree.
+1. Paste the hashed endpoint into `FORM_ENDPOINT` and send one test enquiry
+   through both forms to confirm it arrives (finding 1). The site cannot receive
+   enquiries until this is done.
+2. Carry the five fixes above into the source tree.
 3. Set the security headers at the host (finding 8).
 4. Decide whether the site needs password protection, not just `noindex`
    (finding 7).
