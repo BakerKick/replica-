@@ -92,6 +92,70 @@ push to that branch updates the site automatically.
   the 404 page, not an error.
 - Click **Privacy Policy** in the footer and check it loads.
 
+## Step 5 — Point concept.shiraumehikosan.com at it
+
+This is what Brendon approved: the existing site stays exactly where it is,
+and the concept site appears at its own address alongside it.
+
+**The existing site is not affected by this.** A domain can have many
+addresses under it. `shiraumehikosan.com` and `www.shiraumehikosan.com` keep
+pointing where they already point. You are only adding a new one called
+`concept`, which currently points nowhere. Nothing is replaced, nothing is
+deleted, and it can be removed later with no trace.
+
+### In Cloudflare
+
+1. Open your Pages project
+2. **Custom domains** → **Set up a domain**
+3. Type `concept.shiraumehikosan.com` and continue
+4. Cloudflare shows you a **CNAME record** to add. It looks like:
+
+   ```
+   Type:  CNAME
+   Name:  concept
+   Value: your-project.pages.dev
+   ```
+
+   Leave that page open — you need the Value in a moment.
+
+### In GoDaddy
+
+5. Sign in and go to **My Products**
+6. Find `shiraumehikosan.com` → **DNS** (or "Manage DNS")
+7. **Add New Record**:
+   - **Type**: CNAME
+   - **Name**: `concept`  ← just the word, not the full address
+   - **Value**: the `.pages.dev` address Cloudflare gave you
+   - **TTL**: leave as default
+8. **Save**
+
+Do not change or delete any record already in that list. You are only adding
+one new row.
+
+### Then wait
+
+Come back to Cloudflare after 10–30 minutes. It will verify the record and
+issue the HTTPS certificate automatically. Once it says Active, the site is
+live at `https://concept.shiraumehikosan.com`.
+
+If it still says pending after an hour, the usual cause is the Name field —
+it should be `concept`, not `concept.shiraumehikosan.com`.
+
+## A note on the GoDaddy password
+
+Ellis sent the account password by email. Two things worth knowing:
+
+- **Do not forward it again**, and delete it from your inbox once you are
+  done. Email is not a safe place for a password to sit — that account
+  controls the domain itself.
+- GoDaddy has a feature called **Delegate Access** (Account Settings →
+  Delegate Access) that lets Ellis grant you access to the domain without
+  anyone sharing a password. If you will be doing this more than once, ask
+  for that instead. Access can then be revoked in one click.
+
+Whoever holds that password can move or sell the domain, so it deserves more
+care than a normal login.
+
 ## Optional — Lock it behind a password
 
 Your site says "Private Presentation" but anyone with the link can read it.
