@@ -6,11 +6,16 @@ Plain steps. Nothing here needs you to understand the security review.
 
 | File | What it is |
 |------|-----------|
-| `index.html` | **The site.** This is what visitors see. |
-| `privacy.html` | The privacy policy, linked from the footer. |
-| `404.html` | Shown when someone types a wrong address. |
-| `_headers` | Security settings. You never need to open this. |
-| `archive/` | An older draft, kept in case you want it. Not part of the live site. |
+| `public/index.html` | **The site.** This is what visitors see. |
+| `public/privacy.html` | The privacy policy, linked from the footer. |
+| `public/404.html` | Shown when someone types a wrong address. |
+| `public/_headers` | Security settings. You never need to open this. |
+| `archive/` | An older draft, kept in case you want it. |
+| `DEPLOY.md`, `SECURITY-REVIEW.md` | Notes for you. |
+
+Only the `public/` folder goes online. Everything else stays in the repository
+where visitors cannot read it — which is deliberate, since the security notes
+describe your setup and are nobody else's business.
 
 ## Step 1 — Deploy first, then get your form code
 
@@ -57,17 +62,27 @@ Also replace `[DATE]` / `[日付]` with today's date.
 ## Step 3 — Put it online with Cloudflare Pages
 
 1. Make a free account at **dash.cloudflare.com**
-2. In the sidebar: **Workers & Pages** → **Create** → **Pages** →
-   **Connect to Git**
+2. Sidebar: **Workers & Pages** → **Create** → **Pages** → **Connect to Git**
 3. Authorise GitHub and pick the **replica-** repository
-4. When it asks for build settings, leave everything blank:
+4. **Production branch** — this one matters. Change it to:
+
+   ```
+   claude/website-security-review-ubn9u2
+   ```
+
+   The branch it offers you by default is an older one that does not have
+   the real site on it. If you leave it alone you will publish the wrong
+   version.
+
+5. Build settings:
    - Framework preset: **None**
    - Build command: **leave empty**
-   - Output directory: **leave empty** (or `/`)
-5. Click **Save and Deploy**
+   - Output directory: **`public`** ← type this in, do not leave it blank
 
-Done. You get a free address like `replica.pages.dev` with HTTPS already on.
-Every time you push to GitHub, the site updates itself.
+6. **Save and Deploy**
+
+You get a free address like `replica.pages.dev` with HTTPS already on. Every
+push to that branch updates the site automatically.
 
 ## Step 4 — Test it before telling anyone
 
