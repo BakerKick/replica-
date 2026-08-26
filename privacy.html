@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy Policy — Shiraume Lodge</title>
+<meta name="description" content="How Shiraume Ryokan KK handles the personal information you send through this site.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="theme-color" content="#f4f0e8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#15130f" media="(prefers-color-scheme: dark)">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=Noto+Serif+JP:wght@300;400;500&family=Work+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --color-bg:           #f4f0e8;
+  --color-surface:      #f7f4ed;
+  --color-text:         #1e1c18;
+  --color-text-muted:   #6b6860;
+  --color-border:       #c5bfb0;
+  --color-divider:      #cfc9bc;
+  --color-primary:      #3a6344;
+  --color-primary-hover:#2a4f34;
+  --color-text-inverse: #f5f2ec;
+  --color-note-bg:      #edeae0;
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body:    'Work Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-jp:      'Noto Serif JP', serif;
+}
+html.dark {
+  --color-bg:           #15130f;
+  --color-surface:      #1a1814;
+  --color-text:         #e8e4db;
+  --color-text-muted:   #8a8680;
+  --color-border:       #3a3730;
+  --color-divider:      #282520;
+  --color-primary:      #7eaa8a;
+  --color-primary-hover:#5a8c6a;
+  --color-text-inverse: #1e1c18;
+  --color-note-bg:      #1f1d18;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-weight: 300;
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color .4s ease, color .4s ease;
+}
+html[data-lang="en"] .ja, html[data-lang="ja"] .en { display: none; }
+html[data-lang="ja"] body { font-family: var(--font-jp); }
+
+.bar {
+  position: sticky; top: 0; z-index: 10;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem clamp(1.25rem, 5vw, 2.5rem);
+  background: color-mix(in srgb, var(--color-bg) 88%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--color-divider);
+}
+.bar a.back { color: var(--color-text-muted); text-decoration: none; font-size: .875rem; letter-spacing: .04em; }
+.bar a.back:hover { color: var(--color-primary); }
+.toggle {
+  font: inherit; font-size: .8rem; letter-spacing: .06em;
+  padding: .4rem 1rem; border-radius: 999px; cursor: pointer;
+  background: transparent; color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+}
+.toggle:hover { color: var(--color-primary); border-color: var(--color-primary); }
+.toggle:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+
+main { max-width: 46rem; margin: 0 auto; padding: clamp(2.5rem,7vw,4.5rem) clamp(1.25rem,5vw,2.5rem) 6rem; }
+
+h1 {
+  font-family: var(--font-display); font-weight: 400;
+  font-size: clamp(2rem,6vw,3rem); line-height: 1.15;
+  margin: 0 0 .5rem; letter-spacing: .01em;
+}
+html[data-lang="ja"] h1 { font-family: var(--font-jp); font-weight: 500; font-size: clamp(1.6rem,5vw,2.2rem); }
+.updated { color: var(--color-text-muted); font-size: .85rem; margin: 0 0 2.5rem; letter-spacing: .03em; }
+
+h2 {
+  font-family: var(--font-display); font-weight: 500;
+  font-size: clamp(1.25rem,3.2vw,1.6rem);
+  margin: 3rem 0 .85rem; padding-top: 1.75rem;
+  border-top: 1px solid var(--color-divider);
+  letter-spacing: .01em;
+}
+html[data-lang="ja"] h2 { font-family: var(--font-jp); font-size: clamp(1.05rem,2.8vw,1.25rem); }
+h2:first-of-type { border-top: 0; padding-top: 0; margin-top: 2rem; }
+
+p { margin: 0 0 1rem; color: var(--color-text-muted); }
+p.lead { color: var(--color-text); font-size: 1.05rem; }
+strong { font-weight: 500; color: var(--color-text); }
+a { color: var(--color-primary); text-decoration: underline; text-underline-offset: 2px; }
+a:hover { color: var(--color-primary-hover); }
+
+ul { margin: 0 0 1rem; padding-left: 1.15rem; color: var(--color-text-muted); }
+li { margin-bottom: .5rem; }
+
+table { width: 100%; border-collapse: collapse; margin: 0 0 1.25rem; font-size: .92rem; }
+th, td { text-align: left; padding: .7rem .6rem; border-bottom: 1px solid var(--color-divider); vertical-align: top; color: var(--color-text-muted); }
+th { font-weight: 500; color: var(--color-text); white-space: nowrap; }
+.scroll { overflow-x: auto; }
+
+.note {
+  background: var(--color-note-bg);
+  border-left: 2px solid var(--color-primary);
+  padding: 1rem 1.15rem; margin: 0 0 1.25rem;
+  border-radius: 0 4px 4px 0;
+}
+.note p:last-child { margin-bottom: 0; }
+
+/* Anything still to be filled in before this goes live. Deliberately loud. */
+.fill {
+  background: #ffe9a8; color: #4a3c00;
+  padding: .05em .4em; border-radius: 3px;
+  font-weight: 500; font-family: var(--font-body);
+}
+html.dark .fill { background: #4a3c00; color: #ffe9a8; }
+
+footer.end { margin-top: 4rem; padding-top: 1.75rem; border-top: 1px solid var(--color-divider); font-size: .85rem; color: var(--color-text-muted); }
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <a class="back" href="/"><span class="en">← Shiraume Lodge</span><span class="ja">← 白梅ロッジ</span></a>
+  <button class="toggle" id="lang" type="button"><span class="en">日本語</span><span class="ja">English</span></button>
+</div>
+
+<main>
+
+<!-- ══════════════════ ENGLISH ══════════════════ -->
+<div class="en">
+  <h1>Privacy Policy</h1>
+  <p class="updated">Last updated: <span class="fill">[DATE]</span></p>
+
+  <p class="lead">This site is a private concept presentation for Shiraume Lodge. It has no accounts, no analytics, and no advertising. The only personal information it handles is what you choose to type into one of its two forms.</p>
+
+  <h2>Who is responsible</h2>
+  <p><strong>Shiraume Ryokan KK</strong> is the data controller for the information described here.</p>
+  <div class="scroll"><table>
+    <tr><th>Registered address</th><td><span class="fill">[REGISTERED ADDRESS]</span></td></tr>
+    <tr><th>Privacy contact</th><td><span class="fill">[PRIVACY CONTACT EMAIL]</span></td></tr>
+  </table></div>
+
+  <h2>What we collect</h2>
+  <p>Only what you submit through a form. Both forms are optional — you can read the entire site without sending anything.</p>
+
+  <p><strong>Partner introduction form</strong></p>
+  <ul>
+    <li>First and last name</li>
+    <li>Email address</li>
+    <li>Your background or role (from a fixed list)</li>
+    <li>Relevant experience, and what draws you to the project — free text</li>
+  </ul>
+
+  <p><strong>Room booking enquiry form</strong></p>
+  <ul>
+    <li>Arrival and departure dates, number of guests, and the room enquired about</li>
+    <li>Full name and email address</li>
+    <li>Special requests — free text</li>
+  </ul>
+
+  <div class="note">
+    <p><strong>A note on special requests.</strong> That field invites dietary requirements and accessibility needs. Information of that kind can reveal your health or your religious beliefs, which the law treats as especially sensitive. You are never required to give it. Anything you do write there is used only to prepare for your stay, is seen only by the people arranging it, and is deleted on the same schedule as the rest of your enquiry.</p>
+  </div>
+
+  <p>We do not collect payment details anywhere on this site. We do not buy personal information from anyone, and we do not sell, rent, or trade yours.</p>
+
+  <h2>Why we use it, and on what basis</h2>
+  <div class="scroll"><table>
+    <tr><th>Purpose</th><th>Legal basis (UK/EU GDPR)</th></tr>
+    <tr><td>Answering a booking enquiry and arranging a possible stay</td><td>Steps taken at your request before entering a contract — Article 6(1)(b)</td></tr>
+    <tr><td>Replying to a partner or investor introduction</td><td>Our legitimate interest in responding to people who contact us about the project — Article 6(1)(f)</td></tr>
+    <tr><td>Dietary, accessibility, or similar details you volunteer</td><td>Your explicit consent, given by choosing to write them — Article 9(2)(a)</td></tr>
+  </table></div>
+  <p>We do not use your information to make automated decisions, and we will not send you marketing you did not ask for.</p>
+
+  <h2>Who else sees it</h2>
+  <p>Your submission passes through a small number of services before it reaches us:</p>
+  <div class="scroll"><table>
+    <tr><th>Service</th><th>Role</th><th>Where</th></tr>
+    <tr><td>FormSubmit</td><td>Relays the form to our inbox. It does not store your enquiry as a record for us.</td><td>United States</td></tr>
+    <tr><td>Google</td><td>Hosts the mailbox the enquiry arrives in.</td><td>United States</td></tr>
+    <tr><td>Google Fonts</td><td>Serves the typefaces. Your browser's request reveals your IP address.</td><td>United States</td></tr>
+    <tr><td>Unsplash</td><td>Serves four photographs. Your browser's request reveals your IP address.</td><td>United States</td></tr>
+    <tr><td><span class="fill">[HOSTING PROVIDER]</span></td><td>Serves the site itself and keeps standard server logs.</td><td><span class="fill">[REGION]</span></td></tr>
+  </table></div>
+  <p>Because we are based in Japan and these services are in the United States, your information is handled outside the UK and EEA. Where those transfers need a safeguard under UK or EU law, they rely on the standard contractual clauses each provider offers.</p>
+  <p>Beyond these, we share your information with nobody — unless we are legally required to.</p>
+
+  <h2>Cookies</h2>
+  <p><strong>This site sets no cookies at all.</strong> There is no analytics, no advertising network, and no tracking pixel, which is why you were not asked to accept anything when you arrived.</p>
+  <p>One item is stored in your browser: a note of whether you last viewed the site in its day or night appearance. It never leaves your device, it identifies nobody, and clearing your browser data removes it.</p>
+
+  <h2>How long we keep it</h2>
+  <p>Enquiries live in an email inbox. We keep them for <span class="fill">[RETENTION PERIOD]</span> after our last exchange with you, and delete them after that unless a booking or a working relationship has begun — in which case we keep only what that relationship needs.</p>
+  <p>You can ask us to delete yours sooner. See below.</p>
+
+  <h2>Your rights</h2>
+  <p>Depending on where you live, you may ask us to:</p>
+  <ul>
+    <li>Give you a copy of what we hold about you</li>
+    <li>Correct it if it is wrong</li>
+    <li>Delete it</li>
+    <li>Restrict or object to how we use it, including where we rely on legitimate interests</li>
+    <li>Provide it in a portable form</li>
+    <li>Withdraw consent you gave — which does not undo anything done before you withdrew it</li>
+  </ul>
+  <p>Write to <span class="fill">[PRIVACY CONTACT EMAIL]</span> and we will respond within one month. There is no charge.</p>
+  <p>If you are in the UK or EEA and think we have handled this badly, you may complain to your national data protection authority. In Japan, the relevant body is the Personal Information Protection Commission (個人情報保護委員会).</p>
+
+  <h2>Security</h2>
+  <p>The site is served over HTTPS, and no enquiry is ever stored on the site itself — there is no database here to breach. Once an enquiry reaches our inbox it is protected by that mailbox's own access controls.</p>
+  <p>No transmission over the internet is completely secure, and we cannot promise otherwise. Please do not send us anything highly sensitive through a web form.</p>
+
+  <h2>Children</h2>
+  <p>This site is meant for hospitality professionals, prospective partners, and adults planning a stay. It is not directed at children, and we do not knowingly collect information from anyone under 16. If you believe a child has sent us something, write to us and we will delete it.</p>
+
+  <h2>Changes</h2>
+  <p>If this policy changes we will update the date at the top. Material changes will be described here rather than made quietly.</p>
+
+  <footer class="end">
+    <p>Shiraume Ryokan KK · <span class="fill">[REGISTERED ADDRESS]</span> · <span class="fill">[PRIVACY CONTACT EMAIL]</span></p>
+  </footer>
+</div>
+
+<!-- ══════════════════ 日本語 ══════════════════ -->
+<div class="ja">
+  <h1>プライバシーポリシー</h1>
+  <p class="updated">最終更新日：<span class="fill">[日付]</span></p>
+
+  <p class="lead">本サイトは白梅ロッジの非公開コンセプト資料です。会員登録機能、アクセス解析、広告配信はいずれも設けておりません。当方が取り扱う個人情報は、サイト内の二つのフォームにご入力いただいた内容に限られます。</p>
+
+  <h2>事業者の名称</h2>
+  <p>本ポリシーに記載する個人情報の管理責任者は<strong>白梅旅館株式会社</strong>です。</p>
+  <div class="scroll"><table>
+    <tr><th>所在地</th><td><span class="fill">[登記上の所在地]</span></td></tr>
+    <tr><th>お問い合わせ窓口</th><td><span class="fill">[個人情報に関する連絡先メールアドレス]</span></td></tr>
+  </table></div>
+
+  <h2>取得する情報</h2>
+  <p>フォームにご入力いただいた内容のみを取得します。どちらのフォームも任意であり、何も送信せずにサイト全体をご覧いただけます。</p>
+
+  <p><strong>パートナー用お問い合わせフォーム</strong></p>
+  <ul>
+    <li>お名前（姓・名）</li>
+    <li>メールアドレス</li>
+    <li>ご経歴・お立場（選択式）</li>
+    <li>関連するご経験、および本プロジェクトへのご関心の理由（自由記述）</li>
+  </ul>
+
+  <p><strong>客室予約お問い合わせフォーム</strong></p>
+  <ul>
+    <li>チェックイン日・チェックアウト日、ご人数、対象の客室</li>
+    <li>お名前、メールアドレス</li>
+    <li>ご要望（自由記述）</li>
+  </ul>
+
+  <div class="note">
+    <p><strong>ご要望欄について。</strong>本欄では食事制限やバリアフリーに関するご要望を承っております。これらの情報は、健康状態や信仰に関わる場合があり、法令上とくに配慮を要する個人情報として扱われます。ご記入は任意です。ご記入いただいた内容は滞在準備の目的にのみ使用し、準備を担当する者以外は閲覧せず、他のお問い合わせ内容と同じ期間の経過後に削除いたします。</p>
+  </div>
+
+  <p>本サイトではお支払い情報を一切取得しません。また、個人情報の購入は行わず、お客様の情報を販売・貸与・交換することもありません。</p>
+
+  <h2>利用目的と法的根拠</h2>
+  <div class="scroll"><table>
+    <tr><th>利用目的</th><th>法的根拠（EU / 英国 GDPR）</th></tr>
+    <tr><td>予約に関するお問い合わせへの回答および滞在の手配</td><td>契約締結に先立つ、ご本人の求めに応じた措置（第6条1項(b)）</td></tr>
+    <tr><td>パートナー・投資家の方からのお問い合わせへの回答</td><td>本プロジェクトについてご連絡いただいた方に応答するという正当な利益（第6条1項(f)）</td></tr>
+    <tr><td>食事制限・バリアフリー等、任意でご提供いただく情報</td><td>ご記入という行為による明示的な同意（第9条2項(a)）</td></tr>
+  </table></div>
+  <p>個人情報を用いた自動的な意思決定は行いません。また、ご請求のない広告・宣伝の送付もいたしません。</p>
+
+  <h2>第三者への提供・委託</h2>
+  <p>送信内容は、当方に届くまでに以下のサービスを経由します。</p>
+  <div class="scroll"><table>
+    <tr><th>サービス</th><th>役割</th><th>所在国</th></tr>
+    <tr><td>FormSubmit</td><td>フォーム内容を当方のメールボックスへ中継します。当方向けの記録としての保存は行いません。</td><td>米国</td></tr>
+    <tr><td>Google</td><td>お問い合わせが届くメールボックスを提供します。</td><td>米国</td></tr>
+    <tr><td>Google Fonts</td><td>書体を配信します。ブラウザからの通信によりIPアドレスが送信されます。</td><td>米国</td></tr>
+    <tr><td>Unsplash</td><td>写真4点を配信します。ブラウザからの通信によりIPアドレスが送信されます。</td><td>米国</td></tr>
+    <tr><td><span class="fill">[ホスティング事業者]</span></td><td>サイト本体の配信および標準的なサーバーログの保存を行います。</td><td><span class="fill">[地域]</span></td></tr>
+  </table></div>
+  <p>当方は日本に所在し、上記サービスは米国に所在するため、お客様の情報は英国およびEEA域外で取り扱われます。英国法・EU法上、当該移転に保護措置が必要となる場合は、各事業者が提供する標準契約条項に基づき実施されます。</p>
+  <p>上記以外の第三者への提供は、法令に基づき求められる場合を除き、一切行いません。</p>
+
+  <h2>クッキーについて</h2>
+  <p><strong>本サイトはクッキーを一切使用していません。</strong>アクセス解析、広告ネットワーク、トラッキングピクセルのいずれも設置していないため、ご来訪時に同意を求める表示はありません。</p>
+  <p>ブラウザに保存される項目は一つのみで、サイトを昼と夜のどちらの表示でご覧になったかの記録です。お客様の端末から送信されることはなく、個人を識別しません。ブラウザのデータを消去すれば削除されます。</p>
+
+  <h2>保存期間</h2>
+  <p>お問い合わせ内容はメールボックス内に保存されます。最後のやり取りから<span class="fill">[保存期間]</span>保管し、その後は削除します。ただし、ご予約またはお取引が開始した場合は、その関係に必要な範囲の情報のみを保管します。</p>
+  <p>より早い削除をご希望の場合は、下記のとおりご連絡ください。</p>
+
+  <h2>お客様の権利</h2>
+  <p>お住まいの地域に応じて、以下をご請求いただけます。</p>
+  <ul>
+    <li>当方が保有するお客様の情報の開示</li>
+    <li>内容が誤っている場合の訂正</li>
+    <li>削除</li>
+    <li>利用の停止または利用への異議（正当な利益を根拠とする場合を含みます）</li>
+    <li>移行可能な形式での提供</li>
+    <li>同意の撤回（撤回前に行われた処理の適法性には影響しません）</li>
+  </ul>
+  <p><span class="fill">[個人情報に関する連絡先メールアドレス]</span>までご連絡ください。1か月以内に回答いたします。手数料はいただきません。</p>
+  <p>英国またはEEA域内にお住まいの方で、当方の対応に問題があるとお考えの場合は、各国のデータ保護監督機関に苦情を申し立てることができます。日本国内では個人情報保護委員会が窓口となります。</p>
+
+  <h2>安全管理</h2>
+  <p>本サイトはHTTPSにより配信され、お問い合わせ内容がサイト上に保存されることはありません。侵害の対象となるデータベースは存在しません。当方のメールボックスに到達した後は、当該メールボックスのアクセス制御により保護されます。</p>
+  <p>インターネットを介した通信に完全な安全性はなく、その旨をお約束することはできません。機微性の高い情報をウェブフォームからお送りになることはお控えください。</p>
+
+  <h2>お子様の個人情報</h2>
+  <p>本サイトは、宿泊業に携わる方、パートナー候補の方、およびご滞在を検討される成人の方を対象としています。お子様を対象としたものではなく、16歳未満の方から意図的に情報を取得することはありません。お子様が送信されたと思われる場合は、ご連絡いただければ削除いたします。</p>
+
+  <h2>本ポリシーの変更</h2>
+  <p>本ポリシーを変更する場合は、冒頭の更新日を改めます。重要な変更については、黙って差し替えることなく本ページに記載します。</p>
+
+  <footer class="end">
+    <p>白梅旅館株式会社 · <span class="fill">[登記上の所在地]</span> · <span class="fill">[個人情報に関する連絡先メールアドレス]</span></p>
+  </footer>
+</div>
+
+</main>
+
+<script>
+(function () {
+  var html = document.documentElement;
+  // Follow the mode chosen on the main site; otherwise the hour in Japan.
+  var night;
+  try { var m = localStorage.getItem('shiraume-hero-mode'); if (m) night = m === 'night'; } catch (e) {}
+  if (night === undefined) {
+    try {
+      var h = parseInt(new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Tokyo', hour: '2-digit', hour12: false }).format(new Date()), 10);
+      night = h >= 18 || h < 6;
+    } catch (e) { night = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches; }
+  }
+  if (night) html.classList.add('dark');
+
+  // Remember the language choice too, so it survives a reload.
+  try { var l = localStorage.getItem('shiraume-lang'); if (l === 'ja' || l === 'en') html.setAttribute('data-lang', l); } catch (e) {}
+  html.setAttribute('lang', html.getAttribute('data-lang') === 'ja' ? 'ja' : 'en');
+
+  document.getElementById('lang').addEventListener('click', function () {
+    var next = html.getAttribute('data-lang') === 'ja' ? 'en' : 'ja';
+    html.setAttribute('data-lang', next);
+    html.setAttribute('lang', next);
+    try { localStorage.setItem('shiraume-lang', next); } catch (e) {}
+  });
+})();
+</script>
+
+</body>
+</html>
