@@ -17,7 +17,7 @@ That is GitHub. It is free storage on the internet, and the files are
 already there; it is where all the work has been saved. GitHub also has a
 switch that says *"show these files to the public as a website."* That
 switch is off right now. Turning it on gives a free address like
-`bakerkick.github.io/replica-/`. It works, it is just ugly.
+`bakerkick.github.io/shiraume-lodge/`. It works, it is just ugly.
 
 **Job 2 — a nice name that points at it.**
 That is the domain. A domain is a signpost. We add one line to the
@@ -27,40 +27,62 @@ Storage locker, then signpost. That is the whole thing.
 
 ---
 
-## Before you start: check the domain name
+## The address being built
 
-Log in to GoDaddy and read the domain name **exactly** as it is written
-there, character by character.
+    concept.shiraumehikosan.com
 
-Three different spellings have come up in conversation:
+Confirmed against the GoDaddy account.
 
-  - shiraumehikosan.com
-  - shiraume.com
-  - hikosanshiraume.com
+## Which file becomes the website
 
-Those are three different addresses owned by three different people, the
-same way `john@gmail.com` and `gmail@john.com` are different people. A
-subdomain can only be added to the domain you actually own.
+You do not choose. GitHub always serves the file called **index.html**,
+and that is the site — every change made so far is in it.
 
-Everywhere below that says `YOURDOMAIN.com`, put the exact name GoDaddy
-shows you.
+Two HTML files are on GitHub in this branch:
+
+  - `index.html`      ← the website
+  - `splash-lab.html` ← a testing page for comparing splash treatments,
+                        reachable at /splash-lab.html if someone types it
+
+`Shiraume-Lodge-concept.html` is **not** on GitHub. It is excluded on
+purpose: it is a 3.7 MB file rebuilt from the others by
+`build-standalone.py` whenever a copy needs emailing.
+
+---
+
+## Job 0 — rename the repository (do this first)
+
+Renaming after Pages is switched on means redoing the later steps, so it
+goes first.
+
+1. Open **github.com**, sign in top right. The account is **BakerKick**.
+2. On the left, click **replica-** (a repository is a folder of files).
+3. Click **Settings** (last tab along the top).
+4. The first box is **Repository name**. Change `replica-` to
+   `shiraume-lodge` and click **Rename**.
+
+Old links keep working — GitHub redirects them automatically.
+
+**What this does and does not do.** It tidies the free link to
+`bakerkick.github.io/shiraume-lodge/`. It does **not** remove your
+username from what the boss would see in GoDaddy: the DNS row's Value
+field has to say `bakerkick.github.io`, and that is the username, not the
+repository name. Hiding that would mean moving to a host where you pick
+the name yourself, such as Netlify.
+
+**Tell me once you have renamed it.** My copy still points at the old
+address and I cannot push changes until I update it.
 
 ---
 
 ## Job 1 — turn on the GitHub switch
 
-1. Open **github.com** in a browser.
-2. Sign in, top right. The account is called **BakerKick**. Sign in with
-   the email you used to set it up.
-3. On the left you will see a list of repositories. Click **replica-**
-   (a repository is just a folder of files).
-4. Along the top of the page there is a row of tabs: Code, Issues, Pull
-   requests, and so on. Click the last one, **Settings**.
-5. Down the left-hand sidebar there is a long list. Scroll down and click
+1. Still in **Settings**, on the repository (now `shiraume-lodge`).
+2. Down the left-hand sidebar there is a long list. Scroll down and click
    **Pages**.
-6. Under **Build and deployment → Source**, choose **Deploy from a
+3. Under **Build and deployment → Source**, choose **Deploy from a
    branch**.
-7. Under **Branch** there are two dropdowns. The first says *None*.
+4. Under **Branch** there are two dropdowns. The first says *None*.
    Click it and choose:
 
        claude/merge-two-websites-96jt72
@@ -69,11 +91,11 @@ shows you.
    called `claude/shiraume-lodge-website-c9awyy`. If you leave it on the
    default you will publish a months-old version of the site.
 
-8. The second dropdown is the folder. Choose **/ (root)**.
-9. Click **Save**.
-10. Wait a minute or two, then reload the page. A box appears at the top:
-    *"Your site is live at https://bakerkick.github.io/replica-/"*
-11. Click that link. The site should load.
+5. The second dropdown is the folder. Choose **/ (root)**.
+6. Click **Save**.
+7. Wait a minute or two, then reload the page. A box appears at the top:
+    *"Your site is live at https://bakerkick.github.io/shiraume-lodge/"*
+8. Click that link. The site should load.
 
 **Stop here and check it works before doing Job 2.** If this link is
 broken, pointing the domain at it will not help.
@@ -115,7 +137,7 @@ keeps working exactly as before.
 8. Return to **Settings → Pages**.
 9. In the **Custom domain** box, type the full address:
 
-       concept.YOURDOMAIN.com
+       concept.shiraumehikosan.com
 
 10. Click **Save**. GitHub checks the signpost. This can take anywhere
     from ten minutes to an hour to go through — if it complains at first,
@@ -124,7 +146,7 @@ keeps working exactly as before.
     is what puts the padlock in the browser bar. It may be greyed out for
     a few minutes while a certificate is issued.
 
-Done. The site is at `https://concept.YOURDOMAIN.com`.
+Done. The site is at `https://concept.shiraumehikosan.com`.
 
 ---
 
