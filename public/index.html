@@ -4703,6 +4703,249 @@ html { scrollbar-gutter: stable; }
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Yuji+Syuku&display=swap" rel="stylesheet">
 <style>
+/* ═══════════════════════════════════════════════════════════════
+   SHIRAUME LODGE · COLOUR BANDS, ROOM PALETTES, SHOJI TRANSITION
+
+   The site is token-driven, so a coloured section re-declares tokens
+   on itself rather than restyling its children — everything inside
+   inherits correct text, border and accent colours with no overrides.
+
+   Rhythm, light and dark alike. Cream is the calm the colour is
+   measured against; it returns between every band:
+     story      cream
+     rooms      moss      苔
+     area       cream
+     seasons    indigo    藍
+     experience cream
+     marumado   sumi      墨
+     journal    cream
+     inquiry    vermilion 朱
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─── Shared treatment for every coloured band ──────────────────── */
+.rooms-section,
+.seasons-section,
+.inquiry-section,
+.view-room-tinted .rdh {
+  --color-text:            #f4f0e8;
+  --color-text-muted:      rgba(244, 240, 232, 0.68);
+  --color-text-faint:      rgba(244, 240, 232, 0.42);
+  --color-text-inverse:    #1e1c18;
+  --color-divider:         rgba(217, 192, 143, 0.26);
+  --color-border:          rgba(217, 192, 143, 0.3);
+  --color-primary:         #d9c08f;
+  --color-primary-hover:   #f0e0be;
+  --color-primary-active:  #b8956a;
+  --color-primary-highlight: rgba(217, 192, 143, 0.16);
+  --color-gold:            #d9c08f;
+  --color-gold-highlight:  rgba(217, 192, 143, 0.2);
+  --color-cedar:           #e0b39a;
+  --color-cedar-highlight: rgba(224, 179, 154, 0.18);
+  --foreground:            #f4f0e8;
+  --muted-foreground:      rgba(244, 240, 232, 0.68);
+  --border:                rgba(217, 192, 143, 0.3);
+  --primary:               #d9c08f;
+  color: var(--color-text);
+  transition: background-color 0.6s ease;
+}
+
+/* Surfaces inside a coloured band lift rather than going pale. */
+.rooms-section   { --color-surface: #35503b; --color-surface-2: #3b5941; --color-surface-offset: #294029; --color-surface-offset-2: #24382a; --color-surface-dynamic: #3b5941; --card: #35503b; --background: #2f4634; }
+.seasons-section { --color-surface: #24354f; --color-surface-2: #2a3d5a; --color-surface-offset: #1a2740; --color-surface-offset-2: #16223a; --color-surface-dynamic: #2a3d5a; --card: #24354f; --background: #1e2d44; }
+.inquiry-section { --color-surface: #7d3229; --color-surface-2: #8a3a30; --color-surface-offset: #632521; --color-surface-offset-2: #57201d; --color-surface-dynamic: #8a3a30; --card: #7d3229; --background: #6f2b26; }
+
+/* ─── Moss · 苔 · the rooms, under an asanoha wash ──────────────── */
+.rooms-section {
+  background-color: #2f4634;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='104' viewBox='0 0 60 104'%3E%3Cg stroke='%23ffffff' stroke-opacity='0.045' fill='none' stroke-width='1'%3E%3Cpath d='M30 0v52M0 26l30 26 30-26M0 78l30-26 30 26M30 52v52M0 26V78M60 26V78'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* ─── Indigo · 藍 · the seasons, under a seigaiha wash ──────────── */
+.seasons-section {
+  background-color: #1e2d44;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='40' viewBox='0 0 80 40'%3E%3Cg stroke='%23ffffff' stroke-opacity='0.05' fill='none' stroke-width='1'%3E%3Cpath d='M0 40a40 40 0 0180 0M-40 40a40 40 0 0180 0M40 40a40 40 0 0180 0'/%3E%3Cpath d='M0 40a28 28 0 0156 0M-40 40a28 28 0 0156 0M40 40a28 28 0 0156 0'/%3E%3Cpath d='M0 40a16 16 0 0132 0M-40 40a16 16 0 0132 0M40 40a16 16 0 0132 0'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* ─── Vermilion · 朱 · the closing enquiry ──────────────────────── */
+.inquiry-section { background-color: #6f2b26; }
+
+.dark .rooms-section   { background-color: #1c2a20; }
+.dark .seasons-section { background-color: #141d2b; }
+.dark .inquiry-section { background-color: #52201c; }
+.dark .rooms-section,
+.dark .seasons-section,
+.dark .inquiry-section {
+  --color-text: #e8e4db;
+  --color-text-muted: rgba(232, 228, 219, 0.62);
+  --color-primary: #b8956a;
+  --color-gold: #b8956a;
+  --foreground: #e8e4db;
+}
+
+/* The kanji watermarks already in the markup need re-tinting once
+   their section goes dark, or they disappear into it. */
+.rooms-section .kanji-bg,
+.seasons-section .kanji-bg,
+.journal-section .journal-kanji { color: rgba(244, 240, 232, 0.05); }
+
+/* ─── Noren · 暖簾 · the divider into a coloured band ───────────── */
+.ume-noren { position: relative; height: 4.5rem; overflow: hidden; background: var(--color-bg); }
+.ume-noren::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, rgba(184,149,106,0.2), #b8956a 12%, #b8956a 88%, rgba(184,149,106,0.2));
+}
+.ume-noren-panels { position: absolute; top: 3px; left: 0; right: 0; bottom: -1px; display: flex; gap: 0.55rem; }
+.ume-noren-panels span { flex: 1; }
+.ume-noren-moss   .ume-noren-panels span { background: linear-gradient(180deg, #35503b, #2a4030); }
+.ume-noren-indigo .ume-noren-panels span { background: linear-gradient(180deg, #24354f, #1a2740); }
+.ume-noren-verm   .ume-noren-panels span { background: linear-gradient(180deg, #6f2b26, #59211d); }
+.dark .ume-noren-moss   .ume-noren-panels span { background: linear-gradient(180deg, #1c2a20, #16211a); }
+.dark .ume-noren-indigo .ume-noren-panels span { background: linear-gradient(180deg, #141d2b, #101724); }
+.dark .ume-noren-verm   .ume-noren-panels span { background: linear-gradient(180deg, #52201c, #3d1815); }
+
+/* ═══ ROOM PALETTES ══════════════════════════════════════════════
+   Each room carries a colour taken from its own name, so opening a
+   different room is visibly a different place rather than the same
+   page with the photograph swapped.
+
+   The colour is carried by the scrim over the header photograph and by
+   a wash under the detail below it — putting it only on the header's
+   background colour hid it entirely, since the photograph covers that.
+   ═══════════════════════════════════════════════════════════════ */
+#view-room[data-room-theme="hinoki"]      { --room-band: #6b5638; --room-accent: #e0bd80; --room-rgb: 107,86,56;  }  /* 檜 cypress   */
+#view-room[data-room-theme="koke"]        { --room-band: #35503b; --room-accent: #97c3a1; --room-rgb: 53,80,59;   }  /* 苔 moss      */
+#view-room[data-room-theme="shizuka"]     { --room-band: #3b4249; --room-accent: #c4d1da; --room-rgb: 59,66,73;   }  /* 静 stillness */
+#view-room[data-room-theme="yamabiko"]    { --room-band: #2f3f44; --room-accent: #9cc2be; --room-rgb: 47,63,68;   }  /* 山彦 echo    */
+#view-room[data-room-theme="higashiyama"] { --room-band: #4a2f2a; --room-accent: #e5aa82; --room-rgb: 74,47,42;   }  /* 東山 dawn    */
+
+/* The scrim over the photograph takes the room's colour. Kept dark
+   enough at the foot that the title and price stay legible on any
+   photograph. */
+#view-room[data-room-theme] .rdh-bg::after {
+  background:
+    linear-gradient(165deg,
+      rgba(var(--room-rgb), 0.10) 0%,
+      rgba(var(--room-rgb), 0.55) 55%,
+      rgba(var(--room-rgb), 0.88) 100%),
+    linear-gradient(180deg, rgba(20,18,16,0.0) 40%, rgba(20,18,16,0.55) 100%);
+}
+#view-room[data-room-theme] .rdh { background-color: var(--room-band); }
+
+/* Accents in the header follow the room rather than a fixed gold. */
+#view-room[data-room-theme] .rdh-type,
+#view-room[data-room-theme] .rdh-size { color: var(--room-accent); }
+
+/* A wash of the room's colour under the detail below the header, so the
+   whole page reads as that room and not only its banner. */
+#view-room[data-room-theme] .rdb {
+  background:
+    linear-gradient(180deg, rgba(var(--room-rgb), 0.10), rgba(var(--room-rgb), 0.02) 40%, transparent 75%);
+}
+#view-room[data-room-theme] .rdb-feats-lbl { color: color-mix(in srgb, var(--room-band) 78%, #000); }
+#view-room[data-room-theme] .btn-book { background: var(--room-band); }
+#view-room[data-room-theme] .btn-book:hover { background: color-mix(in srgb, var(--room-band) 82%, #000); }
+
+.dark #view-room[data-room-theme="hinoki"]      { --room-band: #40331f; --room-rgb: 64,51,31; }
+.dark #view-room[data-room-theme="koke"]        { --room-band: #1c2a20; --room-rgb: 28,42,32; }
+.dark #view-room[data-room-theme="shizuka"]     { --room-band: #23282d; --room-rgb: 35,40,45; }
+.dark #view-room[data-room-theme="yamabiko"]    { --room-band: #1b262a; --room-rgb: 27,38,42; }
+.dark #view-room[data-room-theme="higashiyama"] { --room-band: #2c1c19; --room-rgb: 44,28,25; }
+.dark #view-room[data-room-theme] .rdb-feats-lbl { color: var(--room-accent); }
+
+/* ═══ SHOJI TRANSITION · 障子 ═════════════════════════════════════
+   Moving between views closes a pair of shoji screens and slides them
+   open again on the other side, instead of dropping a black curtain.
+   A lamp behind the paper carries the colour of wherever you are
+   going, so the transition announces the destination.
+
+   The lattice is drawn at the weight it would really be seen at: a
+   first pass at hairline strength read as a blank cream flash, which
+   is no more interesting than the black one it replaced.
+   ═══════════════════════════════════════════════════════════════ */
+#wipe {
+  position: fixed; inset: 0; z-index: 8000;
+  background: none;
+  transform: none;
+  pointer-events: none;
+  display: flex;
+  opacity: 0;
+  --shoji:      #f0ead9;
+  --shoji-warm: #e4dcc4;
+  --kumiko:     #9c8659;
+  --stile:      #6f5a38;
+}
+#wipe.in, #wipe.out { opacity: 1; }
+
+#wipe .sj {
+  position: relative;
+  flex: 1 1 50%;
+  background:
+    /* kumiko · the timber lattice, horizontals then verticals */
+    repeating-linear-gradient(0deg,
+      var(--kumiko) 0 2px, transparent 2px 12.5%),
+    repeating-linear-gradient(90deg,
+      var(--kumiko) 0 2px, transparent 2px 25%),
+    /* washi · paper with a vertical fibre */
+    repeating-linear-gradient(90deg,
+      rgba(255,255,255,0.5) 0 2px, rgba(0,0,0,0.012) 2px 5px),
+    linear-gradient(180deg, var(--shoji), var(--shoji-warm));
+  box-shadow: 0 0 80px rgba(0,0,0,0.35);
+  will-change: transform;
+}
+/* the outer frame, and the meeting stile where the screens close */
+#wipe .sj-l { border: 6px solid var(--stile); border-right-width: 4px; transform: translate3d(-101%,0,0); }
+#wipe .sj-r { border: 6px solid var(--stile); border-left-width:  4px; transform: translate3d(101%,0,0); }
+
+#wipe.in  .sj-l { animation: sjInL  0.48s cubic-bezier(0.76,0,0.24,1) forwards; }
+#wipe.in  .sj-r { animation: sjInR  0.48s cubic-bezier(0.76,0,0.24,1) forwards; }
+#wipe.out .sj-l { animation: sjOutL 0.52s cubic-bezier(0.76,0,0.24,1) forwards; }
+#wipe.out .sj-r { animation: sjOutR 0.52s cubic-bezier(0.76,0,0.24,1) forwards; }
+@keyframes sjInL  { from { transform: translate3d(-101%,0,0) } to { transform: translate3d(0,0,0) } }
+@keyframes sjInR  { from { transform: translate3d(101%,0,0) }  to { transform: translate3d(0,0,0) } }
+@keyframes sjOutL { from { transform: translate3d(0,0,0) } to { transform: translate3d(-101%,0,0) } }
+@keyframes sjOutR { from { transform: translate3d(0,0,0) } to { transform: translate3d(101%,0,0) } }
+
+/* The lamp behind the paper, in the destination's colour. Sits at the
+   join, so the two screens read as lit by one source in the next room. */
+#wipe .sj::after {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(150% 110% at var(--gx) 50%,
+              var(--shoji-tint, #b8956a) 0%,
+              color-mix(in srgb, var(--shoji-tint, #b8956a) 55%, transparent) 32%,
+              transparent 72%);
+  mix-blend-mode: multiply;
+  opacity: 0.62;
+}
+#wipe .sj-l::after { --gx: 100%; }
+#wipe .sj-r::after { --gx: 0%; }
+
+/* At night the screen is lit from the far side: the paper glows and the
+   kumiko reads as a dark silhouette across it. A first attempt simply
+   darkened every token, which produced the flat black this transition
+   exists to replace. */
+.dark #wipe {
+  --shoji:      #453a2a;
+  --shoji-warm: #33291d;
+  --kumiko:     #0d0b07;
+  --stile:      #080705;
+}
+.dark #wipe .sj {
+  box-shadow: 0 0 100px rgba(0,0,0,0.65);
+}
+.dark #wipe .sj::after { mix-blend-mode: screen; opacity: 0.8; }
+
+@media (prefers-reduced-motion: reduce) {
+  #wipe, #wipe .sj { animation: none !important; transition: none !important; }
+}
+
+/* ─── The gallery grid fills its holes ──────────────────────────── */
+/* Mixed one- and two-column tiles left gaps wherever a wide tile
+   could not fit the space remaining on a row. Dense flow backfills
+   them with the next tile that does fit. */
+#gal-grid { grid-auto-flow: dense; }
+
+</style>
+<style>
 /* ═══ GALLERY · ported from Concept 9.2 ═══ */
 :root {
   /* The kumo wash behind the gallery grid. The warm and deep alternates
@@ -5442,7 +5685,7 @@ var A = {"area": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgc
 <button id="float-snd" aria-label="Play ambient sound · 環境音" aria-pressed="false"><span class="snd-waves" aria-hidden="true"></span>音</button>
 
 <!-- Page wipe -->
-<div id="wipe" aria-hidden="true"></div>
+<div id="wipe" aria-hidden="true"><div class="sj sj-l"></div><div class="sj sj-r"></div></div>
 
 <!-- Lightbox -->
 <div id="lightbox" role="dialog" aria-label="Image viewer">
@@ -5654,6 +5897,7 @@ var A = {"area": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgc
   </div>
 </section>
 
+<div class="ume-noren ume-noren-moss" aria-hidden="true"><div class="ume-noren-panels"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></div>
 <section class="rooms-section" id="rooms">
   <div class="ume-rule reveal" aria-hidden="true"><span class="ume-line"></span><span class="ume-mark"></span><span class="ume-line"></span></div>
   <span class="kanji-bg rooms-kanji" aria-hidden="true">客</span>
@@ -5854,6 +6098,7 @@ var A = {"area": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgc
   </div>
 </section>
 
+<div class="ume-noren ume-noren-indigo" aria-hidden="true"><div class="ume-noren-panels"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></div>
 <section class="seasons-section" id="seasons">
   <div class="container">
     <div class="seasons-header reveal">
@@ -6045,6 +6290,7 @@ var A = {"area": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgc
   </div>
 </section>
 
+<div class="ume-noren ume-noren-verm" aria-hidden="true"><div class="ume-noren-panels"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></div>
 <section class="inquiry-section" id="inquiry">
   <div class="ume-rule reveal" aria-hidden="true"><span class="ume-line"></span><span class="ume-mark"></span><span class="ume-line"></span></div>
   <div class="container">
@@ -7805,9 +8051,18 @@ initReveal();
 let VIEW = 'home';
 const SITE_TITLE = 'Shiraume Lodge — A Ryokan Concept, Hikosan, Fukuoka';
 
-function wipe(cb) {
+// Colour behind the shoji paper, per destination. The transition then
+// announces where you are going instead of merely hiding where you were.
+const VIEW_TINT = {
+  home: '#b8956a', gallery: '#8a7a52',
+  hinoki: '#d9b878', koke: '#8fbb99', shizuka: '#bcc9d2',
+  yamabiko: '#94bab6', higashiyama: '#dda27a'
+};
+
+function wipe(cb, tint) {
   if (REDUCED_MOTION) { cb(); window.scrollTo(0, 0); return; }
   const w = document.getElementById('wipe');
+  w.style.setProperty('--shoji-tint', VIEW_TINT[tint] || VIEW_TINT.home);
   w.className = 'in';
   setTimeout(() => {
     cb();
@@ -7852,7 +8107,7 @@ function goGallery() {
     document.title = 'Gallery · 写真 — Shiraume Lodge';
     showView('gallery');
     initReveal();
-  });
+  }, 'gallery');
 }
 
 function goRoom(slug) {
@@ -7860,13 +8115,14 @@ function goRoom(slug) {
   wipe(() => {
     VIEW = 'room';
     populateRoom(slug);
+    document.getElementById('view-room').setAttribute('data-room-theme', slug);
     showView('room');
     const bf = document.getElementById('bk-form');
     const bs = document.getElementById('bk-success');
     if (bf) bf.style.display = '';
     if (bs) bs.classList.remove('show');
     initReveal();
-  });
+  }, slug);
 }
 
 // Route all in-page anchors through the view system so navigation
