@@ -4727,21 +4727,22 @@ html { scrollbar-gutter: stable; }
 }
 /* The splash paints its own sky over the element's background, so the screen
    goes on a layer of its own: above the sky, below the gate and the type. */
+/* One layer, painted before every child, so the gate and the type the splash
+   script draws sit above it untouched. Stacking the scrim as its own ::after
+   put it over the gate; giving the stage a z-index disturbed its layout. The
+   scrim is simply the first background layer here instead. */
 #shiraume-splash::before {
-  content: ''; position: absolute; inset: 0; z-index: 1;
-  background-image: var(--lacquer);
-  background-size: cover;
-  background-position: center;
-  opacity: 0.62;
+  content: ''; position: absolute; inset: 0;
+  background-image:
+    radial-gradient(66% 76% at 50% 46%,
+      rgba(8,7,5,0.88) 0%, rgba(8,7,5,0.72) 38%,
+      rgba(8,7,5,0.34) 66%, rgba(8,7,5,0.04) 100%),
+    var(--lacquer);
+  background-size: cover, cover;
+  background-position: center, center;
   pointer-events: none;
 }
-#shiraume-splash::after {
-  content: ''; position: absolute; inset: 0; z-index: 2;
-  background: radial-gradient(126% 96% at 50% 46%, rgba(10,8,6,0.06), rgba(10,8,6,0.30) 60%, rgba(10,8,6,0.56));
-  pointer-events: none;
-}
-#shiraume-splash .sp2-stage,
-#shiraume-splash .sp2-skip { position: relative; z-index: 3; }
+
 /* ═══════════════════════════════════════════════════════════════
    SHIRAUME LODGE · 白梅 — SECTION GROUNDS
 
