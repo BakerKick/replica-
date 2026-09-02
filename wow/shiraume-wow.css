@@ -1013,3 +1013,128 @@ body.hikosan-history-open { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
   .hikosan-history-panel__veil, .hikosan-history-panel__sheet { transition: none; }
 }
+
+/* ── Obi: placement and colour ─────────────────────────────────────────────
+   Measured before the change, at 1440px: the front band ran 36.6%→67.2% of
+   the section while the quote occupied 30%→60.1%, and the knot sat at
+   39.7%→57.6% — squarely on the words. The same held at 1024 and 390. The
+   bundle's own notes leave this open: "the obi should be checked once more at
+   an intermediate scroll position to ensure the knot transition does not
+   cover critical text on smaller screens."
+
+   The section now carries a strip of space below its closing rule and the obi
+   is tied there, so the passage is read first and the gesture answers it
+   rather than crossing it. Anchoring to the bottom means the strip holds at
+   any section height, so this does not need re-checking per breakpoint.
+
+   The colour is the second half. An earlier revision repainted the band from
+   lacquer to a dusty rose (#674044 → #9b6f70), which is a mid-tone: white
+   text over it measured 3.5:1, the tightest contrast on the page. Deep
+   lacquer is both the original intent and the darker ground the type needs.
+   The plum-mineral hairline and brass edging stay, so the band still belongs
+   to the palette the review settled on. */
+body.shiraume-enhanced #interlude.has-obi-gesture { padding-bottom: clamp(9rem, 15vw, 13.5rem); }
+
+body.shiraume-enhanced #interlude .obi-gesture__band,
+body.shiraume-enhanced #interlude .obi-gesture__tail,
+body.shiraume-enhanced #interlude .obi-gesture__shadow,
+body.shiraume-enhanced #interlude .obi-gesture__knot { top: auto; bottom: clamp(2.8rem, 4.4vw, 4rem); }
+
+/* Restated without the -50% lift the old top:50% anchor needed, so `bottom`
+   places these directly. The scroll-linked progress and lift are unchanged. */
+body.shiraume-enhanced #interlude .obi-gesture__band--back {
+  background: linear-gradient(105deg, #3a1512 0%, #5c221d 38%, #331110 100%);
+  transform: translate3d(calc((1 - var(--obi-progress)) * 62vw), var(--obi-lift), 0) rotate(-2deg); }
+body.shiraume-enhanced #interlude .obi-gesture__band--front {
+  background: linear-gradient(105deg, #35120f 0%, #6f2c23 50%, #3e1513 100%);
+  transform: translate3d(calc((1 - var(--obi-progress)) * -62vw), calc(var(--obi-lift) + 1rem), 0) rotate(2deg); }
+body.shiraume-enhanced #interlude .obi-gesture__tail {
+  background: linear-gradient(105deg, #58211c, #331110); }
+body.shiraume-enhanced #interlude .obi-gesture__tail--left {
+  transform: translate3d(calc((1 - var(--obi-progress)) * -18vw), var(--obi-lift), 0) rotate(10deg); }
+body.shiraume-enhanced #interlude .obi-gesture__tail--right {
+  transform: translate3d(calc((1 - var(--obi-progress)) * 18vw), var(--obi-lift), 0) rotate(-10deg); }
+body.shiraume-enhanced #interlude .obi-gesture__shadow {
+  transform: translateY(calc(var(--obi-lift) + .6rem)) rotate(-2deg); }
+body.shiraume-enhanced #interlude .obi-gesture__knot {
+  background: radial-gradient(circle at 38% 28%, #8e3d31 0%, #642722 42%, #331110 100%);
+  border-color: #b99a67;
+  box-shadow: 0 .6rem 1.4rem rgba(23,8,7,.4), inset 0 .12rem rgba(255,226,180,.3);
+  transform: translate3d(-50%, var(--obi-lift), 0) rotate(-7deg) scale(calc(.82 + var(--obi-progress) * .18)); }
+
+/* The seal is centred on the knot, not on the section: left where it was, it
+   stayed at the old 50% axis and sat on the closing line of the quote — the
+   very thing this change moves the obi away from. The offset is the knot's own
+   bottom plus half its height, so the two travel together at every width. */
+body.shiraume-enhanced #interlude .obi-gesture__seal {
+  top: auto;
+  bottom: calc(clamp(2.8rem, 4.4vw, 4rem) + clamp(2rem, 3.5vw, 3rem));
+  transform: translate(-50%, 50%) translateY(var(--obi-lift)); }
+
+/* ── Seals: out of the text ────────────────────────────────────────────────
+   The seal was pinned at top:13% with a right offset, the same figure in
+   every section regardless of where that section's text actually sits. It
+   landed on running copy in five places at 1440 and 1024 and six at 390 —
+   the 道 seal covered 74x168px of the experience paragraph, the 宿 seal
+   97x104px of the story text on mobile.
+
+   Measuring the space each section actually has: the gutter beside the text
+   is only 20-194px, never enough for a seal at any width, but the band above
+   the text is 153-892px in every section. So the seal moves into that band,
+   right-aligned, and shrinks a little so it clears the narrow gutters too. */
+body.shiraume-enhanced #view-home .shiraume-engraving {
+  top: clamp(.9rem, 2vw, 1.6rem);
+  right: clamp(.9rem, 2.2vw, 2.4rem);
+  height: clamp(4.5rem, 6vw, 5.6rem);
+  width: clamp(4.5rem, 6vw, 5.6rem);
+}
+body.shiraume-enhanced #view-home .shiraume-engraving__mark { font-size: clamp(1.05rem, 1.9vw, 1.6rem); }
+body.shiraume-enhanced #view-home .shiraume-engraving__code { bottom: 13%; font-size: .4rem; }
+
+/* The revealed message hangs below the seal; from the top band it now has the
+   whole section beneath it, so it opens downward and stays inside the page
+   rather than off the right edge on a narrow screen. */
+body.shiraume-enhanced #view-home .shiraume-engraving__message {
+  bottom: auto; top: calc(100% + .5rem);
+  right: 0; left: auto;
+  max-width: min(15rem, 68vw); }
+
+/* Each section placed its own seal by percentage — story at bottom:14%, area
+   at top:8%, journal at top:10%, and so on. A percentage of a 3000px section
+   is a long way into the copy, which is why the marks landed on paragraphs:
+   the 道 seal sat 1801px down inside #experience, not near its edge.
+
+   Anchoring to the section edge in rem instead puts every seal in the margin
+   band above the text, whatever that section's height turns out to be. The
+   two that sit on the left in the original composition keep that side. */
+body.shiraume-enhanced #view-home .story-section .shiraume-engraving,
+body.shiraume-enhanced #view-home .rooms-section .shiraume-engraving,
+body.shiraume-enhanced #view-home .area-section .shiraume-engraving,
+body.shiraume-enhanced #view-home .experience-section .shiraume-engraving,
+body.shiraume-enhanced #view-home .journal-section .shiraume-engraving,
+body.shiraume-enhanced #view-home .inquiry-section .shiraume-engraving,
+body.shiraume-enhanced #view-home .site-footer .shiraume-engraving {
+  top: clamp(.9rem, 2vw, 1.6rem);
+  bottom: auto;
+  right: clamp(.9rem, 2.2vw, 2.4rem);
+  left: auto;
+  height: clamp(4.5rem, 6vw, 5.6rem);
+  width: clamp(4.5rem, 6vw, 5.6rem);
+}
+body.shiraume-enhanced #view-home .rooms-section .shiraume-engraving,
+body.shiraume-enhanced #view-home .journal-section .shiraume-engraving {
+  left: clamp(.9rem, 2.2vw, 2.4rem); right: auto; }
+
+/* The code line under the mark is set nowrap and centred on the seal, so it is
+   wider than the seal itself. At the smaller size that is fine beside a wide
+   section, but against the viewport edge on a phone it ran off the screen —
+   and at .4rem it is decorative texture rather than something anyone reads. */
+@media (max-width: 700px) {
+  body.shiraume-enhanced #view-home .shiraume-engraving__code { display: none; }
+}
+/* The revealed message opens downward from the seal. It has to open toward the
+   middle of the page, so the two left-hand seals align it to their left edge —
+   right-aligned it would have run off the screen. */
+body.shiraume-enhanced #view-home .rooms-section .shiraume-engraving__message,
+body.shiraume-enhanced #view-home .journal-section .shiraume-engraving__message {
+  left: 0; right: auto; }
