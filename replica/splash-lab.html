@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Shiraume — splash treatments compared</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=Work+Sans:wght@300;400;500&family=Noto+Serif+JP:wght@300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./assets/splash/shiraume-splash.css">
+<link rel="stylesheet" href="./assets/splash/splash-luxe.css">
+<style>
+  html, body { margin: 0; height: 100%; background: #14110d; overflow: hidden; }
+
+  /* Stand-in for the site underneath, so the walk-through has somewhere
+     to arrive. */
+  .page {
+    position: fixed; inset: 0;
+    background-image: url('assets/img/hero-day.jpg');
+    background-size: cover; background-position: center;
+  }
+  .page::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(20,18,14,.55), rgba(20,18,14,.12) 45%, rgba(20,18,14,.04));
+  }
+
+  .bar {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 99999;
+    display: flex; gap: .5rem; align-items: center; justify-content: center;
+    padding: .8rem; background: rgba(10,9,7,.86); backdrop-filter: blur(8px);
+    border-top: 1px solid rgba(255,255,255,.08);
+    font-family: 'Work Sans', system-ui, sans-serif;
+  }
+  .bar button {
+    font: inherit; font-size: .68rem; letter-spacing: .16em; text-transform: uppercase;
+    padding: .6rem 1.1rem; cursor: pointer;
+    background: transparent; color: rgba(244,240,232,.72);
+    border: 1px solid rgba(244,240,232,.24); border-radius: 2px;
+    transition: color .25s, border-color .25s, background .25s;
+  }
+  .bar button:hover { color: #fff; border-color: rgba(244,240,232,.6); }
+  .bar button.on { background: #3a6344; border-color: #3a6344; color: #fff; }
+  .bar .gap { width: 1.2rem; }
+  .bar .note {
+    font-size: .64rem; letter-spacing: .09em; color: rgba(244,240,232,.42);
+    margin-left: .9rem; max-width: 30rem;
+  }
+</style>
+</head>
+<body>
+
+<div class="page"></div>
+
+<script src="./assets/splash/shiraume-splash.js"></script>
+<script src="./assets/splash/splash-luxe.js"></script>
+<script>
+  var NOTES = {
+    off:   'as it ships now — flat lacquer with an outline, muddy taupe, name on the gravel',
+    night: 'dawn stops at deep charcoal · the photograph is the only lit thing on screen',
+    day:   'the full dawn, on materials that can take it · deeper paper, real surfaces',
+  };
+
+  var mode = 'night';
+  var draw = 'brush';
+
+  function mount() {
+    ShiraumeSplash.mount({
+      photo: new URL('assets/img/hero-day.jpg', document.baseURI).href,
+      branch: new URL('assets/img/ume-branch.png', document.baseURI).href,
+      branchGhost: new URL('assets/img/ume-branch-ghost.png', document.baseURI).href,
+      name: 'Shiraume',
+      sub: '',
+      seal: false,
+      petals: 22,
+      tagline: '巡礼の宿る　山のほとり',
+      kanji: '白梅'
+    });
+    if (mode !== 'off') ShiraumeLuxe.apply(mode, { draw: draw });
+    document.getElementById('note').textContent = NOTES[mode] +
+      (mode === 'off' ? '' : draw === 'gold'
+        ? ' · drawn as one gold hairline, the katomado ring applied to the gate'
+        : ' · drawn by brush, as it does now');
+  }
+
+  function remount() {
+    var old = document.getElementById('shiraume-splash');
+    if (old) old.parentNode.removeChild(old);
+    mount();
+  }
+
+  function pickDraw(which) {
+    draw = which;
+    document.getElementById('dBrush').classList.toggle('on', which === 'brush');
+    document.getElementById('dGold').classList.toggle('on', which === 'gold');
+    remount();
+  }
+
+  function pick(which, btn) {
+    mode = which;
+    ['bOff', 'bNight', 'bDay'].forEach(function (id) {
+      document.getElementById(id).classList.toggle('on', document.getElementById(id) === btn);
+    });
+    var old = document.getElementById('shiraume-splash');
+    if (old) old.parentNode.removeChild(old);
+    mount();
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('bOff').addEventListener('click', function () { pick('off', this); });
+    document.getElementById('bNight').addEventListener('click', function () { pick('night', this); });
+    document.getElementById('bDay').addEventListener('click', function () { pick('day', this); });
+    document.getElementById('bReplay').addEventListener('click', function () { pick(mode, document.getElementById(mode === 'off' ? 'bOff' : mode === 'day' ? 'bDay' : 'bNight')); });
+    document.getElementById('dBrush').addEventListener('click', function () { pickDraw('brush'); });
+    document.getElementById('dGold').addEventListener('click', function () { pickDraw('gold'); });
+    mount();
+  });
+</script>
+
+<div class="bar">
+  <button id="bOff">As it ships</button>
+  <button id="bNight" class="on">Nightfall</button>
+  <button id="bDay">Daybreak</button>
+  <span class="gap"></span>
+  <button id="dBrush" class="on">Brush</button>
+  <button id="dGold">Gold line</button>
+  <span class="gap"></span>
+  <button id="bReplay">Replay</button>
+  <span class="note" id="note"></span>
+</div>
+
+</body>
+</html>

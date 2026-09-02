@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <title>Shiraume Lodge — A Ryokan Concept, Hikosan, Fukuoka</title>
+  <meta name="description" content="A private concept presentation for Shiraume Lodge — a fully restored 110-year-old inn at the foot of Mt. Hiko's sacred pilgrimage route in Soeda, Fukuoka.">
+  <meta name="robots" content="noindex, nofollow">
+
+  <meta property="og:title" content="Shiraume Lodge — A Ryokan Concept">
+  <meta property="og:description" content="A private concept presentation for a boutique inn at the foot of Mt. Hiko, Fukuoka.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Shiraume Lodge">
+  <meta property="og:locale" content="en_GB">
+  <meta property="og:locale:alternate" content="ja_JP">
+  <!-- Relative path: absolute URLs only exist once the site has a domain.
+       Most link-preview scrapers resolve this against the page URL. -->
+  <meta property="og:image" content="assets/img/story.jpg">
+  <meta property="og:image:alt" content="The entrance of Shiraume Lodge beneath autumn maples">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#f5f1e8" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#141210" media="(prefers-color-scheme: dark)">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Noto+Serif+JP:wght@200;300;400;500;600&family=Work+Sans:wght@300..700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./enhance.css">
+  <link rel="stylesheet" href="./assets/splash/shiraume-splash.css">
+  <link rel="stylesheet" href="./assets/splash/splash-luxe.css">
+</head>
+<!-- To revert to the original hero exactly as approved (no ticker, no
+     entrance animation), remove the "hero-enhanced" class below. -->
+<body class="hero-enhanced">
+<!-- 火灯窓 katomado: the temple-window silhouette used to frame feature imagery.
+     Flares at the shoulders, then returns to a soft point. -->
+<svg width="0" height="0" aria-hidden="true" style="position:absolute">
+  <defs>
+    <clipPath id="katomado" clipPathUnits="objectBoundingBox">
+      <path d="M0,1 L0,0.42
+               C0.015,0.2607 0.11,0.1666 0.25,0.1195
+               C0.375,0.0833 0.44,0.0543 0.5,0
+               C0.56,0.0543 0.625,0.0833 0.75,0.1195
+               C0.89,0.1666 0.985,0.2607 1,0.42
+               L1,1 Z"/>
+    </clipPath>
+  </defs>
+</svg>
+
+
+<!-- ── Splash intro ── -->
+<div id="splash">
+  <!-- The gate. A cream field with a hole cut in it. JS draws the gate into
+       #gate-draw and shapes #gate-hole to the opening; the hole starts
+       closed, the gate traces itself first, then the opening fills with the
+       mountain and keeps growing until it has passed off every edge — so the
+       visitor arrives on the site by walking through, not by watching a
+       panel fade. Which gate is drawn is set by SPLASH_GATE in main.js. -->
+  <svg id="gate" aria-hidden="true" preserveAspectRatio="none">
+    <defs>
+      <mask id="gate-mask" maskUnits="userSpaceOnUse">
+        <rect id="gate-rect" fill="#fff"></rect>
+        <path id="gate-hole" fill="#000"></path>
+      </mask>
+    </defs>
+    <rect id="gate-fill" mask="url(#gate-mask)"></rect>
+    <g id="gate-draw" fill="none" stroke-width="1" vector-effect="non-scaling-stroke"></g>
+  </svg>
+  <div class="splash-kanji-wrap">
+    <span class="splash-kanji-bg k1">白</span>
+    <span class="splash-kanji-bg k2">梅</span>
+  </div>
+  <div class="splash-logo">
+    <span class="splash-ink-mark">
+      <img src="assets/img/logo-ink.png" alt="" class="splash-ink-img">
+      <span class="splash-petal sp1"></span><span class="splash-petal sp2"></span><span class="splash-petal sp3"></span>
+    </span>
+    <div class="splash-name">
+      <span class="splash-en">Shiraume</span>
+      <span class="splash-sub">Lodge · 白梅</span>
+    </div>
+  </div>
+  <div class="splash-tagline" id="splash-tagline"></div>
+  <div class="splash-skip" onclick="dismissSplash()">Enter ↓</div>
+</div>
+
+<!-- Custom cursor -->
+<div id="cursor" aria-hidden="true"></div>
+
+<!-- Scroll progress hairline -->
+<div id="progress" aria-hidden="true"></div>
+
+<!-- Floating inquire -->
+<button id="float-inq" onclick="goHome('inquiry')" aria-label="Inquire · お問い合わせ">問</button>
+
+<!-- Ambient sound (button appears only when assets/ambient.mp3 exists) -->
+<audio id="ambient" loop preload="metadata"><source src="assets/ambient.mp3" type="audio/mpeg"></audio>
+<button id="float-snd" aria-label="Play ambient sound · 環境音" aria-pressed="false"><span class="snd-waves" aria-hidden="true"></span>音</button>
+
+<!-- Page wipe -->
+<div id="wipe" aria-hidden="true"></div>
+
+<!-- Lightbox -->
+<div id="lightbox" role="dialog" aria-label="Image viewer">
+  <button id="lightbox-close" onclick="closeLightbox()" aria-label="Close">✕</button>
+  <img id="lightbox-img" src="" alt="Gallery image">
+</div>
+
+<header class="site-header" id="site-header">
+  <div class="container">
+    <div class="header-inner">
+      <a href="#" class="logo" aria-label="Shiraume Lodge home">
+        <span class="logo-ink-mark" aria-hidden="true">
+          <img src="assets/img/logo-ink.png" alt="" class="logo-ink-img">
+          <span class="petal p1"></span><span class="petal p2"></span><span class="petal p3"></span>
+        </span>
+        <div class="logo-text">
+          <span class="logo-name">Shiraume</span>
+          <span class="logo-sub">Lodge · 白梅</span>
+        </div>
+      </a>
+
+      <nav class="site-nav" aria-label="Main navigation">
+        <ul class="nav-links" role="list">
+          <li><a href="#story"><span class="en">OUR STORY</span><span class="ja">物語</span></a></li>
+          <li><a href="#rooms"><span class="en">ROOMS</span><span class="ja">客室</span></a></li>
+          <li><a href="#area"><span class="en">THE AREA</span><span class="ja">周辺</span></a></li>
+          <li><a href="#experience"><span class="en">EXPERIENCE</span><span class="ja">体験</span></a></li>
+          <li><a href="#journal"><span class="en">JOURNAL</span><span class="ja">記録</span></a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <button class="lang-toggle" id="lang-toggle" aria-label="日本語に切り替え">EN / 日本語</button>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Switch to dark mode">
+          <svg id="theme-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+        <a href="#inquiry" class="btn-inquire">
+          <span class="en">Inquire</span>
+          <span class="ja">お問い合わせ</span>
+        </a>
+        <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Open menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+  <div class="mobile-menu-header">
+    <a href="#" class="logo" id="mobile-logo-close">
+      <span class="logo-ink-mark" aria-hidden="true">
+          <img src="assets/img/logo-ink.png" alt="" class="logo-ink-img">
+          <span class="petal p1"></span><span class="petal p2"></span><span class="petal p3"></span>
+        </span>
+      <div class="logo-text">
+        <span class="logo-name">Shiraume</span>
+        <span class="logo-sub">Lodge · 白梅</span>
+      </div>
+    </a>
+    <button class="mobile-close" id="mobile-close" aria-label="Close menu">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M18 6L6 18M6 6l12 12"></path>
+      </svg>
+    </button>
+  </div>
+  <ul class="mobile-nav-links">
+    <li><a href="#story" class="mobile-nav-link"><span class="en">Our Story</span><span class="ja">物語</span></a></li>
+    <li><a href="#rooms" class="mobile-nav-link"><span class="en">Rooms</span><span class="ja">客室</span></a></li>
+    <li><a href="#area" class="mobile-nav-link"><span class="en">The Area</span><span class="ja">周辺エリア</span></a></li>
+    <li><a href="#experience" class="mobile-nav-link"><span class="en">Experience</span><span class="ja">旅館の体験</span></a></li>
+    <li><a href="#journal" class="mobile-nav-link"><span class="en">Journal</span><span class="ja">工事の記録</span></a></li>
+    <li><a href="#inquiry" class="mobile-nav-link"><span class="en">Partner Inquiry</span><span class="ja">パートナー問い合わせ</span></a></li>
+  </ul>
+  <div class="mobile-menu-footer">
+    <button class="lang-toggle" id="mobile-lang-toggle">EN / 日本語</button>
+  </div>
+</div>
+
+<div id="view-home" class="view active">
+
+<section class="hero loaded" id="hero">
+  <div class="hero-bg hero-bg-day"></div>
+  <div class="hero-bg hero-bg-night"></div>
+  <div id="hero-ticker" aria-hidden="true"><div class="ticker-col" id="ticker-col"></div></div>
+  <div class="container hero-content">
+    <p class="hero-location hero-in" data-hero-order="0">
+      <span class="en">Soeda-machi, Tagawa, Fukuoka</span>
+      <span class="ja">福岡県田川郡添田町</span>
+    </p>
+    <h1 class="hero-title hero-in" data-hero-order="1">
+      <span class="en">Where the<br><em>pilgrimage</em><br>rests</span>
+      <span class="ja hero-title-jp">巡礼の宿る<br>山のほとり</span>
+    </h1>
+    <p class="hero-desc en hero-in" data-hero-order="2">A completely restored 110-year-old inn, reborn at the foot of Mt. Hiko's sacred sando, pairing deep mountain quiet with considered modern comfort.</p>
+    <p class="hero-desc-ja ja hero-in" data-hero-order="2">英彦山の参道を望む、築110年の宿を完全に修復。深い山の静けさと、現代の快適さを兼ね備えた新たな宿泊体験を提案します。</p>
+    <div class="hero-actions hero-in" data-hero-order="3">
+      <a href="#story" class="btn-primary">
+        <span class="en">Discover the Concept</span>
+        <span class="ja">コンセプトを見る</span>
+      </a>
+      <a href="#inquiry" class="btn-outline">
+        <span class="en">Express Interest</span>
+        <span class="ja">関心を示す</span>
+      </a>
+    </div>
+    <div class="hero-scroll">
+      <span class="en">Scroll</span>
+      <span class="ja">スクロール</span>
+    </div>
+  </div>
+</section>
+
+<div class="stats-bar">
+  <div class="container">
+    <div class="stats-inner">
+      <div class="stat-item">
+        <div class="stat-num" data-count="110">110</div>
+        <div class="stat-label"><span class="en">Years of History</span><span class="ja">年の歴史</span></div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num" data-count="5">5</div>
+        <div class="stat-label"><span class="en">Bespoke Guest Rooms</span><span class="ja">室のこだわりの客室</span></div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">1.5h</div>
+        <div class="stat-label"><span class="en">From Fukuoka City</span><span class="ja">福岡市内から約1時間30分</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="story-section" id="story">
+  <span class="kanji-bg story-k" aria-hidden="true">宿</span>
+  <div class="container">
+    <div class="story-grid">
+      <div class="story-image-col reveal">
+        <div class="story-figure">
+        <div class="katomado-frame">
+          <img class="story-img-main" src="assets/img/story.jpg" alt="Historic exterior of Shiraume Lodge with noren curtain entrance and autumn maple trees" loading="lazy">
+          <svg class="katomado-ring" viewBox="0 0 100 100" preserveAspectRatio="none" fill="none" aria-hidden="true"><path pathLength="1" d="M0,100 L0,42 C1.5,26.07 11,16.66 25,11.95 C37.5,8.33 44,5.43 50,0 C56,5.43 62.5,8.33 75,11.95 C89,16.66 98.5,26.07 100,42 L100,100" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke"/></svg>
+        </div>
+        <div class="story-img-badge">
+          <div class="story-img-badge-est">Est.</div>
+          <div class="story-img-badge-year">1917</div>
+          <div class="story-img-badge-loc">Hikosan, Soeda</div>
+        </div>
+        </div><!-- /story-figure -->
+        <p class="fig-caption"><span class="en">The original entrance, noren hung as it has been for a century.</span><span class="ja">創建当時からの玄関。暖簾は百年変わらぬ場所に掛かる。</span></p>
+      </div>
+
+      <div class="story-text-col">
+        <div class="reveal">
+          <p class="section-eyebrow"><span class="en">The Property Story</span><span class="ja">物件の物語</span></p>
+          <h2 class="section-title"><span class="en">A century of shelter, returning to life</span><span class="ja">百年の宿、新たなる息吹</span></h2>
+        </div>
+        <div class="bilingual-block reveal">
+          <p class="story-text story-lede en">For over a hundred years, this building stood at the approach to Hikosan Jingu, welcoming pilgrims and mountain wanderers along one of Kyushu's most storied sacred routes. Today, it has been reborn through a complete renovation from the ground up, honoring its timber bones while reimagining every interior space.</p>
+          <p class="story-text ja">百年以上にわたり、この建物は英彦山神宮の参道入口に佇み、九州屈指の聖地を訪れる巡礼者や山旅人を迎えてきました。今、骨格となる木造軸組みを活かしながら、全ての内部空間を刷新する全面的な改修によって、新たな命が吹き込まれました。</p>
+        </div>
+        <div class="bilingual-block reveal">
+          <p class="story-text en">Operated by Shiraume Ryokan KK, the concept is a small, privately run lodging with five considered guest rooms, unhurried hospitality, and a setting that no city hotel can manufacture: the smell of cedar forest, the sound of mountain water, and a shrine that has anchored this valley since 740 CE.</p>
+          <p class="story-text ja">白梅旅館株式会社が運営するこのコンセプトは、五室のみの小さな宿。急ぐことのないおもてなしと、都市のホテルでは決して再現できない環境がここにあります。杉の香り、山の水音、そして西暦740年からこの谷に鎮座する神社。</p>
+        </div>
+
+        <div class="story-pillars reveal">
+          <div class="pillar-item">
+            <div class="pillar-title"><span class="en">Authentic Architecture</span><span class="ja">本物の建築</span></div>
+            <p class="pillar-desc"><span class="en">Original timber frame structure, preserved and reinforced. Shoji, tatami, and hinoki cedar brought back through skilled local craftspeople.</span><span class="ja">オリジナルの木造軸組み構造を保存・補強。障子、畳、ヒノキ材を地元の熟練職人によって復元します。</span></p>
+          </div>
+          <div class="pillar-item">
+            <div class="pillar-title"><span class="en">Slow Travel, Intentional Stay</span><span class="ja">ゆっくりとした旅、意図的な滞在</span></div>
+            <p class="pillar-desc"><span class="en">Designed for guests who want to linger. A minimum one-night stay with in-room breakfast. No itinerary required.</span><span class="ja">長く滞在したいゲストのために設計。最低1泊、朝食付き。スケジュールは不要です。</span></p>
+          </div>
+          <div class="pillar-item">
+            <div class="pillar-title"><span class="en">Rooted in Omotenashi</span><span class="ja">おもてなしの心</span></div>
+            <p class="pillar-desc"><span class="en">Hospitality following the ryokan tradition. Personal, anticipatory, and never transactional. Every guest attended to individually.</span><span class="ja">旅館の伝統に根ざしたおもてなし。個人的で、先を見越し、決して形式的ではありません。すべてのゲストに個別に寄り添います。</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="why-section">
+  <div class="container">
+    <div class="why-content reveal">
+      <p class="section-eyebrow"><span class="en">Why Hikosan</span><span class="ja">なぜ英彦山か</span></p>
+      <h2 class="section-title"><span class="en">Discovery, not convenience</span><span class="ja">利便性ではなく、発見を</span></h2>
+      <p class="section-intro">
+        <span class="en">This is not the biggest ryokan in Japan, and it will never compete on scale with the mountain lodges of Hakuba or Niseko, or the well-worn temple routes of Kyoto. That was never the intent. What Hikosan offers instead cannot be manufactured: a 1,300-year-old pilgrimage still walked today, a shrine that has anchored this valley since 740 CE, and a rural corner of Kyushu that most travelers — Japanese or foreign — have never heard of.</span>
+        <span class="ja">これは日本最大の旅館ではなく、白馬やニセコの山岳ロッジ、あるいは京都の使い古された寺社巡りと規模で競うことはありません。それは最初から意図していないことです。代わりに英彦山が提供できるものは、作り出すことができないものです——今なお歩かれ続ける1,300年の巡礼路、西暦740年からこの谷に鎮座する神社、そして日本人にも外国人にも、ほとんど知られていない九州の片田舎。</span>
+      </p>
+      <div class="story-pillars">
+        <div class="pillar-item">
+          <div class="pillar-title"><span class="en">Not a Recreation</span><span class="ja">再現ではなく、本物</span></div>
+          <p class="pillar-desc"><span class="en">Many properties stage a version of traditional Japan for visitors passing through. This is a working pilgrimage town, and the inn sits on the actual route, not a curated approximation of one.</span><span class="ja">多くの宿泊施設は、通り過ぎる旅行者のために「伝統的な日本」を演出します。ここは今も生きる巡礼の町であり、宿はその実際の参道の上に立っており、それを模した演出ではありません。</span></p>
+        </div>
+        <div class="pillar-item">
+          <div class="pillar-title"><span class="en">Five Rooms, Not Fifty</span><span class="ja">50室ではなく、5室</span></div>
+          <p class="pillar-desc"><span class="en">A small number of guests at any one time means the mountain, the shrine, and the innkeepers' attention are never shared with a crowd. Exclusivity here is a byproduct of scale, not a marketing term.</span><span class="ja">一度に滞在するゲストの数を少数に保つことで、山も、神社も、宿の主人の心配りも、大勢と分かち合うことはありません。ここでの特別感は、マーケティング用語ではなく、規模がもたらす自然な結果です。</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="rooms-section" id="rooms">
+  <div class="ume-rule reveal" aria-hidden="true"><span class="ume-line"></span><span class="ume-mark"></span><span class="ume-line"></span></div>
+  <span class="kanji-bg rooms-kanji" aria-hidden="true">客</span>
+  <div class="container">
+    <div class="rooms-header reveal">
+      <p class="section-eyebrow"><span class="en">Room Concepts</span><span class="ja">客室コンセプト</span></p>
+      <h2 class="section-title"><span class="en">Two houses within one roof</span><span class="ja">ひとつ屋根の下、ふたつの居場所</span></h2>
+      <p class="section-intro"><span class="en">Downstairs, three Japandi-inspired rooms with a quieter, more contemporary hand. Upstairs, two traditional rooms within the inn's original architecture. Five rooms in total, each a distinct way of settling into the mountain.</span><span class="ja">1階には、静かで現代的な感性を纏う3つのジャパンディルーム。2階には、宿の元の建築を残す2つの伝統的な客室。合わせて5室、それぞれが異なる形で、この山に寄り添います。</span></p>
+    </div>
+
+    <div class="rooms-subheader reveal">
+      <h3 class="rooms-subheader-title"><span class="en">First Floor · Japandi Rooms</span><span class="ja">1階・ジャパンディルーム</span></h3>
+      <p class="rooms-subheader-desc"><span class="en">Three rooms blending Japanese and Scandinavian sensibilities, with natural materials, quiet palettes, and direct access to the garden. Each has its own ensuite ofuro bath.</span><span class="ja">和とスカンジナビアの感性を組み合わせた3室。自然素材、静かな色調、庭への直接のアクセス。それぞれに専用のお風呂（露天風呂）を備えています。</span></p>
+    </div>
+
+    <div class="rooms-grid">
+      <article class="room-card reveal" style="--tint:#5c7a52" data-room="koke" role="link" tabindex="0" aria-label="View room details">
+        <div class="room-img"><img src="assets/img/room-koke.jpg" alt="Room 01, a 12-mat tatami room with direct garden access" loading="lazy"></div>
+        <div class="room-bar" aria-hidden="true"></div>
+        <div class="room-body">
+          <p class="room-type"><span class="en">Room 01</span><span class="ja">客室01</span></p>
+          <h3 class="room-name"><span class="room-dot" aria-hidden="true"></span>Koke — 苔</h3>
+          <p class="room-desc"><span class="en">A full 12-mat tatami room opening directly onto the garden, with a private ensuite ofuro bath finished in warm stone. The largest of the three first-floor rooms, and the most traditional in feel.</span><span class="ja">庭へと直接開かれた、12畳の和室。温かみのある石造りの専用露天風呂付き。1階の3室の中で最も広く、最も和の趣を残した客室です。</span></p>
+          <div class="room-features">
+            <span class="room-feature"><span class="en">12-Mat Tatami</span><span class="ja">12畳</span></span>
+            <span class="room-feature"><span class="en">Garden Access</span><span class="ja">庭へのアクセス</span></span>
+            <span class="room-feature"><span class="en">Ensuite Ofuro</span><span class="ja">専用露天風呂</span></span>
+          </div>
+          <span class="room-cta"><span class="en">View Room &amp; Rates</span><span class="ja">客室の詳細を見る</span></span>
+        </div>
+      </article>
+
+      <article class="room-card reveal" style="--tint:#6b7280" data-room="shizuka" role="link" tabindex="0" aria-label="View room details">
+        <div class="room-img"><img src="assets/img/room-shizuka.jpg" alt="Room 02 with raised platform bed, hardwood and tatami flooring, and garden access" loading="lazy"></div>
+        <div class="room-bar" aria-hidden="true"></div>
+        <div class="room-body">
+          <p class="room-type"><span class="en">Room 02</span><span class="ja">客室02</span></p>
+          <h3 class="room-name"><span class="room-dot" aria-hidden="true"></span>Shizuka — 静</h3>
+          <p class="room-desc"><span class="en">A raised platform bed sits across hardwood and tatami flooring, with room to add futons for additional guests. Direct garden access and a private ensuite ofuro bath.</span><span class="ja">フローリングと畳を組み合わせた床の上に、高床式のベッドを配置。布団を追加することも可能です。庭への直接アクセスと専用露天風呂付き。</span></p>
+          <div class="room-features">
+            <span class="room-feature"><span class="en">Platform Bed</span><span class="ja">高床式ベッド</span></span>
+            <span class="room-feature"><span class="en">Garden Access</span><span class="ja">庭へのアクセス</span></span>
+            <span class="room-feature"><span class="en">Ensuite Ofuro</span><span class="ja">専用露天風呂</span></span>
+          </div>
+          <span class="room-cta"><span class="en">View Room &amp; Rates</span><span class="ja">客室の詳細を見る</span></span>
+        </div>
+      </article>
+
+      <article class="room-card reveal" style="--tint:#8b6f47" data-room="yamabiko" role="link" tabindex="0" aria-label="View room details">
+        <div class="room-img"><img src="assets/img/room-yamabiko.jpg" alt="Room 03 with raised platform bed, hardwood and tatami flooring, and garden access" loading="lazy"></div>
+        <div class="room-bar" aria-hidden="true"></div>
+        <div class="room-body">
+          <p class="room-type"><span class="en">Room 03</span><span class="ja">客室03</span></p>
+          <h3 class="room-name"><span class="room-dot" aria-hidden="true"></span>Yamabiko — 山彦</h3>
+          <p class="room-desc"><span class="en">The third Japandi room, following the same raised platform bed and hardwood-and-tatami layout as Room 02, with its own garden outlook and private ensuite ofuro bath.</span><span class="ja">客室02と同様、高床式ベッドとフローリング・畳を組み合わせた3室目のジャパンディルーム。専用の庭の眺めと露天風呂付き。</span></p>
+          <div class="room-features">
+            <span class="room-feature"><span class="en">Platform Bed</span><span class="ja">高床式ベッド</span></span>
+            <span class="room-feature"><span class="en">Garden Access</span><span class="ja">庭へのアクセス</span></span>
+            <span class="room-feature"><span class="en">Ensuite Ofuro</span><span class="ja">専用露天風呂</span></span>
+          </div>
+          <span class="room-cta"><span class="en">View Room &amp; Rates</span><span class="ja">客室の詳細を見る</span></span>
+        </div>
+      </article>
+    </div>
+
+    <div class="rooms-subheader reveal">
+      <h3 class="rooms-subheader-title"><span class="en">Second Floor · Traditional Rooms</span><span class="ja">2階・伝統的な客室</span></h3>
+      <p class="rooms-subheader-desc"><span class="en">Two rooms within the inn's original, preserved architecture. Both share access to the second-floor balcony, engawa, and a mountain-viewing lounge.</span><span class="ja">宿の元の建築をそのまま残した2室。2階のバルコニー、縁側、そして山を望むラウンジを共有します。</span></p>
+    </div>
+
+    <div class="rooms-grid">
+      <article class="room-card reveal" style="--tint:#b08d57" data-room="hinoki" role="link" tabindex="0" aria-label="View room details">
+        <div class="room-img"><img src="assets/img/room-hinoki.jpg" alt="Room 04, a 10-mat traditional tatami room for up to six guests" loading="lazy"></div>
+        <div class="room-bar" aria-hidden="true"></div>
+        <div class="room-body">
+          <p class="room-type"><span class="en">Room 04</span><span class="ja">客室04</span></p>
+          <h3 class="room-name"><span class="room-dot" aria-hidden="true"></span>Hinoki — 檜</h3>
+          <p class="room-desc"><span class="en">A 10-mat tatami room within the inn's original second-floor structure, comfortably suited to up to six guests. Original ceiling beams remain exposed above the sleeping area.</span><span class="ja">宿の元の2階構造をそのまま残した10畳の和室。最大6名まで快適にご利用いただけます。寝室の上には当時の天井梁が残されています。</span></p>
+          <div class="room-features">
+            <span class="room-feature"><span class="en">10 Mats</span><span class="ja">10畳</span></span>
+            <span class="room-feature"><span class="en">Up to 6 Guests</span><span class="ja">最大6名</span></span>
+            <span class="room-feature"><span class="en">Ensuite Ofuro</span><span class="ja">専用露天風呂</span></span>
+          </div>
+          <span class="room-cta"><span class="en">View Room &amp; Rates</span><span class="ja">客室の詳細を見る</span></span>
+        </div>
+      </article>
+
+      <article class="room-card reveal" style="--tint:#7a5c7d" data-room="higashiyama" role="link" tabindex="0" aria-label="View room details">
+        <div class="room-img"><img src="assets/img/room-higashiyama.jpg" alt="Room 05, an 18-mat traditional room with a circular window, for up to ten guests" loading="lazy"></div>
+        <div class="room-bar" aria-hidden="true"></div>
+        <div class="room-body">
+          <p class="room-type"><span class="en">Room 05</span><span class="ja">客室05</span></p>
+          <h3 class="room-name"><span class="room-dot" aria-hidden="true"></span>Higashiyama — 東山</h3>
+          <p class="room-desc"><span class="en">The largest room in the inn, with 18 tatami mats accommodating up to eight to ten guests, anchored by a circular window original to the building. Large enough for group dining within the room on request.</span><span class="ja">宿最大の客室は18畳、最大8〜10名まで対応。建物本来の円窓が特徴です。ご希望に応じて、室内での団体でのお食事にも対応できる広さです。</span></p>
+          <div class="room-features">
+            <span class="room-feature"><span class="en">18 Mats</span><span class="ja">18畳</span></span>
+            <span class="room-feature"><span class="en">Up to 8–10 Guests</span><span class="ja">最大8〜10名</span></span>
+            <span class="room-feature"><span class="en">Circular Window</span><span class="ja">円窓</span></span>
+            <span class="room-feature"><span class="en">Group Dining Option</span><span class="ja">団体お食事対応</span></span>
+          </div>
+          <span class="room-cta"><span class="en">View Room &amp; Rates</span><span class="ja">客室の詳細を見る</span></span>
+        </div>
+      </article>
+    </div>
+
+    <div class="rooms-note reveal">
+      <p>
+        <strong class="en">In every room:</strong><strong class="ja">全室共通：</strong>
+        <span class="en"> A private ensuite ofuro bath, yukata provided on arrival, premium toiletries, high-quality bedding, Wi-Fi, television, and an in-room coffee and tea setup. Second-floor guests additionally share the balcony, engawa, and mountain-viewing lounge.</span>
+        <span class="ja"> 専用露天風呂、到着時にご用意する浴衣、上質なアメニティ、上質な寝具、Wi-Fi、テレビ、客室内のコーヒー・お茶セット。2階のゲストは、バルコニー、縁側、山を望むラウンジも共有していただけます。</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="area-section" id="area">
+  <div class="container">
+    <div class="area-grid">
+      <div class="area-img-wrap reveal">
+        <div class="katomado-frame">
+          <img src="assets/img/area.jpg" alt="Aerial view of Mt. Hiko shrine complex in cedar and maple forest with morning mist" loading="lazy">
+          <svg class="katomado-ring" viewBox="0 0 100 100" preserveAspectRatio="none" fill="none" aria-hidden="true"><path pathLength="1" d="M0,100 L0,42 C1.5,26.07 11,16.66 25,11.95 C37.5,8.33 44,5.43 50,0 C56,5.43 62.5,8.33 75,11.95 C89,16.66 98.5,26.07 100,42 L100,100" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke"/></svg>
+        </div>
+        <p class="fig-caption"><span class="en">Hikosan Jingu at first light, seen from the upper shrine path.</span><span class="ja">夜明けの英彦山神宮。上宮への参道より望む。</span></p>
+      </div>
+      <div class="area-text-col">
+        <div class="reveal">
+          <p class="section-eyebrow"><span class="en">The Local Area</span><span class="ja">周辺エリア</span></p>
+          <h2 class="section-title"><span class="en">Mt. Hiko and the Soeda valley</span><span class="ja">英彦山と添田の谷</span></h2>
+          <p class="area-intro"><span class="en">Soeda-machi sits in the Chikuho mountains of southeastern Fukuoka Prefecture, bordered by Oita to the east. The town's identity is inseparable from Mt. Hiko (英彦山), a 1,200-meter sacred peak that has drawn pilgrims, Shugendo practitioners, and mountain ascetics for over 1,300 years.</span><span class="ja">添田町は福岡県南東部の筑豊山地に位置し、東は大分県と接しています。この町のアイデンティティは英彦山と切り離せません。1,200メートルの霊峰は、1,300年以上にわたり巡礼者、修験道の行者、山岳修行者を引き寄せてきました。</span></p>
+          <p class="area-intro" style="margin-top: var(--space-4);"><span class="en">For guests, this translates to extraordinary hiking, genuine cultural depth, and the kind of unhurried landscape that is increasingly rare in mainland Japan, all within 60 to 90 minutes of Fukuoka City.</span><span class="ja">ゲストにとっては、素晴らしいハイキング、本物の文化的深み、そして本州ではますます稀になりつつある急がない景観が、福岡市内から60〜90分の距離にあります。</span></p>
+        </div>
+
+        <div class="area-spots reveal">
+          <article class="spot-card">
+            <div class="spot-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18M4.5 9.2h15"/><path d="M6 6v13M18 6v13M6 9.2v0M2.6 6c2.6-1.2 6-1.9 9.4-1.9S18.8 4.8 21.4 6"/></svg></div>
+            <div>
+              <h3 class="spot-name">Hikosan Jingu · 英彦山神宮</h3>
+              <p class="spot-dist"><span class="en">5–10 min walk</span><span class="ja">徒歩5〜10分</span></p>
+              <p class="spot-desc"><span class="en">One of Kyushu's great mountain shrines, founded in 740 CE. The stone-lantern sando runs directly past the property. The April Gojinkosai Festival draws pilgrims from across western Japan.</span><span class="ja">西暦740年創建、九州を代表する山岳神社のひとつ。石灯籠が並ぶ参道は宿の真横を通ります。4月の御神幸祭には西日本各地から参拝者が訪れます。</span></p>
+            </div>
+          </article>
+          <article class="spot-card">
+            <div class="spot-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 19h20"/><path d="M2 19l6.5-11 4 6.2 2.6-4.2L22 19"/><path d="M6.4 12.6l2.1 1.4 1.8-1.1"/></svg></div>
+            <div>
+              <h3 class="spot-name"><span class="en">Mt. Hiko Hiking Routes</span><span class="ja">英彦山ハイキングルート</span></h3>
+              <p class="spot-dist"><span class="en">Trailhead: 15 min walk</span><span class="ja">登山口まで徒歩15分</span></p>
+              <p class="spot-desc"><span class="en">The main route covers 17 km over three peaks, passing Hohei-den (Important Cultural Property, 1616) and the summit Jogu-jinja. Autumn foliage peaks in November.</span><span class="ja">メインルートは三峰を越える17km。奉幣殿（重要文化財、1616年）と山頂の上宮神社を通過します。紅葉の見頃は11月。</span></p>
+            </div>
+          </article>
+          <article class="spot-card">
+            <div class="spot-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="6.6" r="2.7"/><circle cx="17.1" cy="10.3" r="2.7"/><circle cx="15.2" cy="16.3" r="2.7"/><circle cx="8.8" cy="16.3" r="2.7"/><circle cx="6.9" cy="10.3" r="2.7"/></svg></div>
+            <div>
+              <h3 class="spot-name"><span class="en">Soeda Park</span><span class="ja">添田公園</span></h3>
+              <p class="spot-dist"><span class="en">15 min by car</span><span class="ja">車で15分</span></p>
+              <p class="spot-desc"><span class="en">2,000 sakura trees and 200 pines surrounding the restored Ganjaku Castle site. A panoramic overlook of the town is a local favorite in any season.</span><span class="ja">復元された含む岳城跡を囲む2,000本の桜と200本の松。どの季節も地元の人々に親しまれる、町を一望する展望スポットです。</span></p>
+            </div>
+          </article>
+          <article class="spot-card">
+            <div class="spot-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="4" width="14" height="12" rx="2.5"/><path d="M5 10.5h14"/><path d="M8.6 20l1.9-4M15.4 20l-1.9-4M4 20h16"/><circle cx="9" cy="13.2" r="1"/><circle cx="15" cy="13.2" r="1"/></svg></div>
+            <div>
+              <h3 class="spot-name"><span class="en">Hitahikosan Line</span><span class="ja">日田彦山線</span></h3>
+              <p class="spot-dist"><span class="en">Soeda Station: 20 min walk</span><span class="ja">添田駅まで徒歩20分</span></p>
+              <p class="spot-desc"><span class="en">The historic Meiji-era rail station connects to Kokura (Kitakyushu). Some legs operate by bus. Guests arriving without a car can be arranged from Soeda Station.</span><span class="ja">明治時代の歴史ある鉄道駅で小倉（北九州）へと繋がります。一部区間はバス代行。お車のないゲストは添田駅からの送迎手配が可能です。</span></p>
+            </div>
+          </article>
+          <article class="spot-card">
+            <div class="spot-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3.6h6"/><path d="M9.6 3.6c0 2-3.2 3.1-3.2 7.3 0 5.1 2.6 9.5 5.6 9.5s5.6-4.4 5.6-9.5c0-4.2-3.2-5.3-3.2-7.3"/><path d="M7 11.4c3.4 1.5 6.6 1.5 10 0"/></svg></div>
+            <div>
+              <h3 class="spot-name"><span class="en">Koishiwara Pottery Village</span><span class="ja">小石原焼の里</span></h3>
+              <p class="spot-dist"><span class="en">40 min by car</span><span class="ja">車で40分</span></p>
+              <p class="spot-desc"><span class="en">A 350-year-old ceramics village known for tobikanna-carved stoneware, with dozens of working kilns open to visitors. A natural pairing with the property's craft and artisan focus.</span><span class="ja">飛び鉋の技法で知られる、350年の歴史を持つ焼き物の里。見学可能な窯元が点在しています。宿の職人・工芸へのこだわりとも自然に響き合う場所です。</span></p>
+            </div>
+          </article>
+          <article class="spot-card">
+            <div class="spot-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 20h20"/><path d="M4.5 20V9.5h5V20M14.5 20V4.5h5V20"/><path d="M6 12.4h2M6 15.6h2M16.2 7.6h1.8M16.2 11h1.8M16.2 14.4h1.8"/></svg></div>
+            <div>
+              <h3 class="spot-name"><span class="en">Fukuoka City</span><span class="ja">福岡市</span></h3>
+              <p class="spot-dist"><span class="en">~60–90 min by car</span><span class="ja">車で約60〜90分</span></p>
+              <p class="spot-desc"><span class="en">Japan's fastest-growing major city and the gateway to Kyushu. Hakata Station (Shinkansen) and Fukuoka Airport provide international access.</span><span class="ja">日本で最も成長が速い主要都市であり、九州の玄関口。博多駅（新幹線）と福岡空港が国際的なアクセスを提供します。</span></p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="interlude-section" id="interlude">
+  <span class="interlude-kanji" aria-hidden="true">静</span>
+  <div class="interlude-inner reveal">
+    <p class="interlude-eyebrow">The Spirit of the Place · 山の心</p>
+    <p class="interlude-quote en">Silence here is not the absence of sound.<br>It is cedar rain, temple bells, the mountain breathing.<br><em>We are simply restoring a place to listen.</em></p>
+    <p class="interlude-quote ja" style="font-family:'Noto Serif JP',serif;font-weight:300;">静けさとは、音の無いことではなく、<br>杉の雨、寺の鐘、山の呼吸。<br><em>私たちはただ、耳を澄ます場所を取り戻しているのです。</em></p>
+    <p class="interlude-jp-line">静けさとは、音の無いことではなく、山の呼吸に耳を澄ますこと。</p>
+    <div class="interlude-sep"><span class="interlude-ume"></span></div>
+  </div>
+</section>
+
+<section class="seasons-section" id="seasons">
+  <div class="container">
+    <div class="seasons-header reveal">
+      <p class="section-eyebrow"><span class="en">Four Seasons</span><span class="ja">四季</span></p>
+      <h2 class="section-title"><span class="en">The mountain changes everything</span><span class="ja">山が、すべてを変える</span></h2>
+    </div>
+    <div class="seasons-grid reveal">
+      <div class="season-card">
+        <div class="season-kanji">春</div>
+        <div class="season-label"><span class="en">Spring · March–May</span><span class="ja">春・3〜5月</span></div>
+        <p class="season-desc"><span class="en">Cherry blossoms arrive along the sando path. The shrine holds its annual Gojinkosai Festival in April. New-growth cedar fills the valley with vivid green.</span><span class="ja">参道沿いに桜が咲きます。4月には神社で年に一度の御神幸祭が開催されます。新緑の杉が谷を鮮やかな緑で満たします。</span></p>
+      </div>
+      <div class="season-card">
+        <div class="season-kanji">夏</div>
+        <div class="season-label"><span class="en">Summer · June–August</span><span class="ja">夏・6〜8月</span></div>
+        <p class="season-desc"><span class="en">Mountain altitude keeps Hikosan 4–6°C cooler than Fukuoka City. Early mornings reveal cloud seas below the peaks. A sought-after escape from coastal summer heat.</span><span class="ja">標高のおかげで英彦山は福岡市内より4〜6℃涼しい。早朝には峰々の下に雲海が広がります。海岸部の夏の暑さからの避暑地として人気です。</span></p>
+      </div>
+      <div class="season-card">
+        <div class="season-kanji">秋</div>
+        <div class="season-label"><span class="en">Autumn · September–November</span><span class="ja">秋・9〜11月</span></div>
+        <p class="season-desc"><span class="en">The most dramatic season. Maple and cedar foliage transforms the mountain into a tapestry of deep red, orange, and gold. Autumn leaves typically peak mid-to-late November.</span><span class="ja">最もドラマチックな季節。紅葉と杉が山を深紅、橙、金色のタペストリーに変えます。紅葉の見頃は例年11月中旬から下旬。</span></p>
+      </div>
+      <div class="season-card">
+        <div class="season-kanji">冬</div>
+        <div class="season-label"><span class="en">Winter · December–February</span><span class="ja">冬・12〜2月</span></div>
+        <p class="season-desc"><span class="en">Snow blankets the upper shrine complex. The forest quiets completely. The inn's warmth and a hot bath become the entire world.</span><span class="ja">雪が上宮周辺を覆います。森は完全な静寂に包まれます。宿の温もりと湯浴みが、世界のすべてになります。</span></p>
+      </div>
+    </div>
+  </div>
+  <div class="seasons-scroll-wrap reveal" aria-hidden="true">
+    <div class="seasons-track">
+      <div class="season-panel"><img src="https://images.unsplash.com/photo-1522383225653-ed111181a951?w=600&q=72" alt="Spring" loading="lazy" onerror="var w=this.closest('.seasons-scroll-wrap');if(w)w.classList.add('seasons-strip-hidden')"><div class="season-overlay"><div class="s-kanji">春</div><div class="s-en">Spring</div><div class="s-months">March – May</div></div></div>
+      <div class="season-panel"><img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600&q=72" alt="Summer" loading="lazy" onerror="var w=this.closest('.seasons-scroll-wrap');if(w)w.classList.add('seasons-strip-hidden')"><div class="season-overlay"><div class="s-kanji">夏</div><div class="s-en">Summer</div><div class="s-months">June – August</div></div></div>
+      <div class="season-panel"><img src="https://images.unsplash.com/photo-1507371341162-763b5e419408?w=600&q=72" alt="Autumn" loading="lazy" onerror="var w=this.closest('.seasons-scroll-wrap');if(w)w.classList.add('seasons-strip-hidden')"><div class="season-overlay"><div class="s-kanji">秋</div><div class="s-en">Autumn</div><div class="s-months">Sep – November</div></div></div>
+      <div class="season-panel"><img src="https://images.unsplash.com/photo-1483664852095-d6cc6870702d?w=600&q=72" alt="Winter" loading="lazy" onerror="var w=this.closest('.seasons-scroll-wrap');if(w)w.classList.add('seasons-strip-hidden')"><div class="season-overlay"><div class="s-kanji">冬</div><div class="s-en">Winter</div><div class="s-months">Dec – February</div></div></div>
+      <!-- duplicated for a seamless loop -->
+      <div class="season-panel"><img src="https://images.unsplash.com/photo-1522383225653-ed111181a951?w=600&q=72" alt="Spring" loading="lazy" onerror="var w=this.closest('.seasons-scroll-wrap');if(w)w.classList.add('seasons-strip-hidden')"><div class="season-overlay"><div class="s-kanji">春</div><div class="s-en">Spring</div><div class="s-months">March – May</div></div></div>
+      <div class="season-panel"><img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600&q=72" alt="Summer" loading="lazy" onerror="var w=this.closest('.seasons-scroll-wrap');if(w)w.classList.add('seasons-strip-hidden')"><div class="season-overlay"><div class="s-kanji">夏</div><div class="s-en">Summer</div><div class="s-months">June – August</div></div></div>
+      <div class="season-panel"><img src="https://images.unsplash.com/photo-1507371341162-763b5e419408?w=600&q=72" alt="Autumn" loading="lazy" onerror="var w=this.closest('.seasons-scroll-wrap');if(w)w.classList.add('seasons-strip-hidden')"><div class="season-overlay"><div class="s-kanji">秋</div><div class="s-en">Autumn</div><div class="s-months">Sep – November</div></div></div>
+      <div class="season-panel"><img src="https://images.unsplash.com/photo-1483664852095-d6cc6870702d?w=600&q=72" alt="Winter" loading="lazy" onerror="var w=this.closest('.seasons-scroll-wrap');if(w)w.classList.add('seasons-strip-hidden')"><div class="season-overlay"><div class="s-kanji">冬</div><div class="s-en">Winter</div><div class="s-months">Dec – February</div></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="experience-section" id="experience">
+  <div class="ume-rule reveal" aria-hidden="true"><span class="ume-line"></span><span class="ume-mark"></span><span class="ume-line"></span></div>
+  <span class="kanji-bg exp-kanji" aria-hidden="true">泊</span>
+  <div class="container">
+    <div class="experience-header reveal">
+      <p class="section-eyebrow"><span class="en">The Ryokan Experience</span><span class="ja">旅館の体験</span></p>
+      <h2 class="section-title"><span class="en">What to expect from a stay</span><span class="ja">滞在でご期待いただけること</span></h2>
+      <p class="section-intro"><span class="en">For guests new to the ryokan format, this is what distinguishes it from a hotel stay, and what we aim to deliver at Shiraume.</span><span class="ja">旅館形式が初めてのゲストへ。これがホテル滞在との違い、そして白梅でご提供したいものです。</span></p>
+    </div>
+    <div class="experience-grid">
+      <div class="exp-card reveal">
+        <div class="exp-num">01</div>
+        <div class="exp-title"><span class="en">Omotenashi</span><span class="ja">おもてなし</span></div>
+        <div class="exp-line" aria-hidden="true"></div>
+        <p class="exp-desc"><span class="en">The defining ethic of Japanese hospitality: anticipatory service given without expectation of return. At a small ryokan, this means every aspect of the stay is attended to personally.</span><span class="ja">日本のおもてなしの本質は、見返りを求めない、先を見越したサービス。小さな旅館では、滞在のあらゆる側面が個人的に配慮されます。</span></p>
+      </div>
+      <div class="exp-card reveal">
+        <div class="exp-num">02</div>
+        <div class="exp-title"><span class="en">Kaiseki &amp; Farm-to-Table</span><span class="ja">懐石と地産地消</span></div>
+        <div class="exp-line" aria-hidden="true"></div>
+        <p class="exp-desc"><span class="en">A traditional Japanese breakfast each morning and, in the evening, a kaiseki-inspired dinner built around what local Fukuoka farmers, foragers, and fishmongers bring to the kitchen that day.</span><span class="ja">毎朝の伝統的な和朝食と、夕方には福岡の地元農家や漁師がその日届けた食材を中心に組み立てる懐石風のディナー。</span></p>
+      </div>
+      <div class="exp-card reveal">
+        <div class="exp-num">03</div>
+        <div class="exp-title"><span class="en">The Ensuite Ofuro Bath</span><span class="ja">専用露天風呂</span></div>
+        <div class="exp-line" aria-hidden="true"></div>
+        <p class="exp-desc"><span class="en">Every room offers its own ofuro bath, finished in warm stone. An intimate, unhurried ritual rather than a shared facility.</span><span class="ja">全客室に専用の露天風呂を備え、温かみのある石で仕上げています。共用施設ではなく、静かで個人的な湯浴みの時間を。</span></p>
+      </div>
+      <div class="exp-card reveal">
+        <div class="exp-num">04</div>
+        <div class="exp-title"><span class="en">Yukata</span><span class="ja">浴衣</span></div>
+        <div class="exp-line" aria-hidden="true"></div>
+        <p class="exp-desc"><span class="en">Cotton yukata robes are provided for all guests. Walking the sando to the shrine in yukata at dusk is one of the simple pleasures the property makes possible.</span><span class="ja">全ゲストに浴衣をご用意します。夕暮れ時に浴衣で参道を歩いて神社へ向かうのは、この宿ならではのシンプルな喜びのひとつです。</span></p>
+      </div>
+      <div class="exp-card reveal">
+        <div class="exp-num">05</div>
+        <div class="exp-title"><span class="en">Check-in Ritual</span><span class="ja">チェックインの儀式</span></div>
+        <div class="exp-line" aria-hidden="true"></div>
+        <p class="exp-desc"><span class="en">Guests are welcomed with tea and a seasonal sweet in the common room. A brief orientation covers the property, the mountain, and the next day's breakfast time. Nothing is rushed.</span><span class="ja">共用室でお茶と季節の和菓子でお迎えします。宿、山、翌朝の朝食時間についての簡単なご案内があります。急ぐことは何もありません。</span></p>
+      </div>
+      <div class="exp-card reveal">
+        <div class="exp-num">06</div>
+        <div class="exp-title"><span class="en">Cultural Immersion</span><span class="ja">文化体験</span></div>
+        <div class="exp-line" aria-hidden="true"></div>
+        <p class="exp-desc"><span class="en">Customized learning experiences arranged around the guest: guided pilgrimage walks, shrine visits, hiking trails, pottery, calligraphy, tea ceremony, and time with local artisans and musicians.</span><span class="ja">お客様に合わせた文化体験をご用意します：参道を歩く巡礼ガイド、神社参拝、ハイキング、陶芸、書道、茶道、そして地元の職人や音楽家との時間。</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="journal-section" id="journal">
+  <span class="journal-kanji" aria-hidden="true">記</span>
+  <div class="container">
+    <div class="reveal">
+      <p class="section-eyebrow"><span class="en">Journal</span><span class="ja">工事の記録</span></p>
+      <h2 class="section-title"><span class="en">Notes from the mountain</span><span class="ja">山からの便り</span></h2>
+      <p class="section-intro"><span class="en">The renovation of a century-old inn is a story worth telling as it happens. Progress notes, discoveries, and decisions will be recorded here as the work unfolds.</span><span class="ja">築百年の宿の改修は、その過程こそ語る価値のある物語です。工事の進捗、発見、決断を、ここに記録していきます。</span></p>
+    </div>
+    <div class="journal-grid">
+      <article class="j-entry reveal">
+        <div class="j-date">Entry 01 · Planning</div>
+        <div class="j-title"><span class="en">Reading the building</span><span class="ja">建物を読む</span></div>
+        <div class="j-jp">建物を読む</div>
+        <p class="j-body"><span class="en">Before anything is changed, everything is documented: the original timber frame, the joinery, the marks a century of guests have left. What is sound stays; what is tired is renewed in kind.</span><span class="ja">何かを変える前に、すべてを記録します。元の木造軸組み、継手、そして百年のゲストが残した痕跡。健全なものは残し、傷んだものは同じ方法で更新します。</span></p>
+      </article>
+      <article class="j-entry reveal">
+        <div class="j-date">Entry 02 · Design</div>
+        <div class="j-title"><span class="en">Five rooms, two houses</span><span class="ja">五室二家</span></div>
+        <div class="j-jp">五室二家</div>
+        <p class="j-body"><span class="en">The room concept takes shape: two traditional rooms beneath the original roofline, three Japandi garden rooms below. Studies for each room's private ofuro are underway with local craftspeople.</span><span class="ja">客室コンセプトが形になりつつあります。元の屋根の下に2つの伝統的な客室、1階に3つのジャパンディルーム。各室の専用風呂の検討を地元の職人と進めています。</span></p>
+      </article>
+      <article class="j-entry reveal">
+        <div class="j-date">Entry 03 · The Mountain</div>
+        <div class="j-title"><span class="en">A year of seasons on the sando</span><span class="ja">参道の四季</span></div>
+        <div class="j-jp">参道の四季</div>
+        <p class="j-body"><span class="en">We are photographing the approach to Hikosan Jingu through all four seasons. This record will shape how each room frames its view of the mountain.</span><span class="ja">英彦山神宮への参道を四季を通して撮影しています。各客室が山の眺めをどう切り取るかを決める記録になります。</span></p>
+      </article>
+    </div>
+    <p class="j-note"><span class="en">Updates will be posted here through the renovation. — Shiraume Ryokan KK</span><span class="ja">改修期間中、ここに更新を掲載します。──白梅旅館株式会社</span></p>
+  </div>
+</section>
+
+<section class="inquiry-section" id="inquiry">
+  <div class="ume-rule reveal" aria-hidden="true"><span class="ume-line"></span><span class="ume-mark"></span><span class="ume-line"></span></div>
+  <div class="container">
+    <div class="reveal" style="margin-bottom: var(--space-12);">
+      <p class="section-eyebrow"><span class="en">Get in Touch</span><span class="ja">ご連絡ください</span></p>
+      <h2 class="section-title"><span class="en">Partnering in this concept</span><span class="ja">このコンセプトへの参画</span></h2>
+      <p class="section-intro" style="max-width: 60ch;"><span class="en">Shiraume Lodge is currently in the pre-opening development phase. This site is shared privately with potential managers, operators, and hospitality partners who may be interested in working with or investing in the project.</span><span class="ja">白梅ロッジは現在、オープン前の開発段階にあります。このサイトは、プロジェクトへの参画や投資に関心をお持ちのマネージャー、オペレーター、ホスピタリティパートナーの方々に限定公開しています。</span></p>
+    </div>
+    <div class="inquiry-grid">
+      <div class="inquiry-meta reveal">
+        <div class="inquiry-meta-item">
+          <div class="inquiry-meta-label">Location</div>
+          <div class="inquiry-meta-value"><span class="en">Hikosan, Soeda-machi, Tagawa-gun, Fukuoka Prefecture</span><span class="ja">福岡県田川郡添田町英彦山</span></div>
+        </div>
+        <div class="inquiry-meta-item">
+          <div class="inquiry-meta-label">Target Opening</div>
+          <div class="inquiry-meta-value"><span class="en">To be confirmed — renovation timeline in planning</span><span class="ja">確認中──改修スケジュール計画中</span></div>
+        </div>
+        <div class="inquiry-meta-item">
+          <div class="inquiry-meta-label">Operating Entity</div>
+          <div class="inquiry-meta-value"><span class="en">Shiraume Ryokan KK, Fukuoka — registered Japanese Kabushiki Kaisha</span><span class="ja">白梅旅館株式会社、福岡──登記済み日本の株式会社</span></div>
+        </div>
+        <div class="inquiry-meta-item">
+          <div class="inquiry-meta-label">This Site</div>
+          <div class="inquiry-meta-value"><span class="en">Private concept presentation — please do not share the URL publicly</span><span class="ja">非公開コンセプト資料──URLを公開しないようお願いします</span></div>
+        </div>
+        <p class="inquiry-private-note en">If you're exploring a management role, operator partnership, or advisory engagement — please introduce yourself below. Initial conversations are informal and non-binding.</p>
+        <p class="inquiry-private-note ja">管理職、オペレーターパートナーシップ、またはアドバイザリー参画をご検討の方は、以下にご自身をご紹介ください。初期のご相談は非公式で、拘束力はありません。</p>
+      </div>
+
+      <div class="inquiry-form-col reveal">
+        <div class="form-title"><span class="en">Send an Introduction</span><span class="ja">ご挨拶をお送りください</span></div>
+        <form class="form-grid" id="inq-form-wrap" onsubmit="submitInq(event)" novalidate>
+          <div class="form-field">
+            <label class="form-label" for="first-name"><span class="en">First Name</span><span class="ja">名</span></label>
+            <input class="form-input" id="first-name" type="text" autocomplete="given-name" required>
+          </div>
+          <div class="form-field">
+            <label class="form-label" for="last-name"><span class="en">Last Name</span><span class="ja">姓</span></label>
+            <input class="form-input" id="last-name" type="text" autocomplete="family-name" required>
+          </div>
+          <div class="form-field full">
+            <label class="form-label" for="email"><span class="en">Email Address</span><span class="ja">メールアドレス</span></label>
+            <input class="form-input" id="email" type="email" autocomplete="email" required>
+          </div>
+          <div class="form-field full">
+            <label class="form-label" for="role"><span class="en">Your Background or Role</span><span class="ja">ご経歴・お立場</span></label>
+            <select class="form-select" id="role">
+              <option value="ryokan-manager">Ryokan / Inn Manager · 旅館支配人</option>
+              <option value="hospitality-operator">Hospitality Operator · ホスピタリティ事業者</option>
+              <option value="hotel-professional">Hotel Professional · ホテル関係者</option>
+              <option value="investor">Investor / Partner · 投資家・パートナー</option>
+              <option value="consultant">Consultant or Advisor · コンサルタント・アドバイザー</option>
+              <option value="other">Other · その他</option>
+            </select>
+          </div>
+          <div class="form-field full">
+            <label class="form-label" for="experience-field"><span class="en">Relevant Experience</span><span class="ja">関連する経験</span></label>
+            <textarea class="form-textarea" id="experience-field" rows="3"></textarea>
+          </div>
+          <div class="form-field full">
+            <label class="form-label" for="interest"><span class="en">What Draws You to This Project?</span><span class="ja">このプロジェクトへの関心の理由</span></label>
+            <textarea class="form-textarea" id="interest" rows="3"></textarea>
+          </div>
+          <!-- Spam trap: hidden from people, tempting to bots. A filled value is discarded. -->
+          <div class="form-field full hp-field" aria-hidden="true">
+            <label class="form-label" for="inq-company">Company</label>
+            <input class="form-input" id="inq-company" type="text" tabindex="-1" autocomplete="off">
+          </div>
+          <div class="form-field full">
+            <button type="submit" class="form-submit" id="inq-submit"><span class="en">Send Introduction</span><span class="ja">送信する</span></button>
+            <p class="form-status" id="inq-status" role="status" aria-live="polite"></p>
+            <p class="form-note en">This form is for private concept inquiries only. Your information will not be shared with third parties.</p>
+            <p class="form-note ja">このフォームは非公開コンセプトのお問い合わせ専用です。お客様の情報は第三者と共有されません。</p>
+          </div>
+        </form>
+        <div class="form-success" id="inq-success">
+          <div class="form-success-icon">🌸</div>
+          <h3><span class="en">Introduction Sent</span><span class="ja">送信されました</span></h3>
+          <p><span class="en">Thank you. We'll be in touch shortly.</span><span class="ja">ご連絡ありがとうございます。追ってご連絡いたします。</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="#" class="logo" aria-label="Shiraume Lodge home">
+          <span class="logo-ink-mark" aria-hidden="true">
+          <img src="assets/img/logo-ink.png" alt="" class="logo-ink-img">
+          <span class="petal p1"></span><span class="petal p2"></span><span class="petal p3"></span>
+        </span>
+          <div class="logo-text">
+            <span class="logo-name">Shiraume</span>
+            <span class="logo-sub">Lodge · 白梅</span>
+          </div>
+        </a>
+        <p class="footer-tagline"><span class="en">A boutique ryokan concept at the foot of Hikosan Jingu's ancient pilgrimage route, where mountain stillness becomes the experience.</span><span class="ja">英彦山神宮の古い巡礼路の麓にある小さな旅館コンセプト。山の静けさが体験そのものとなる場所です。</span></p>
+        <address class="footer-address">英彦山, 添田町, 田川郡, 福岡県</address>
+      </div>
+
+      <div>
+        <div class="footer-nav-title">Navigate</div>
+        <ul class="footer-nav-links">
+          <li><a href="#story"><span class="en">Our Story</span><span class="ja">物語</span></a></li>
+          <li><a href="#rooms"><span class="en">Room Concepts</span><span class="ja">客室コンセプト</span></a></li>
+          <li><a href="#area"><span class="en">Local Area Guide</span><span class="ja">周辺エリアガイド</span></a></li>
+          <li><a href="#experience"><span class="en">The Experience</span><span class="ja">旅館の体験</span></a></li>
+          <li><a href="#journal"><span class="en">Journal</span><span class="ja">工事の記録</span></a></li>
+          <li><a href="#inquiry"><span class="en">Partner Inquiry</span><span class="ja">パートナー問い合わせ</span></a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="footer-nav-title">Rooms</div>
+        <ul class="footer-nav-links">
+          <li><a data-room="koke">Koke · 苔</a></li>
+          <li><a data-room="shizuka">Shizuka · 静</a></li>
+          <li><a data-room="yamabiko">Yamabiko · 山彦</a></li>
+          <li><a data-room="hinoki">Hinoki · 檜</a></li>
+          <li><a data-room="higashiyama">Higashiyama · 東山</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="footer-nav-title">Location</div>
+        <ul class="footer-nav-links">
+          <li><a href="https://www.crossroadfukuoka.jp/en/articles/mount_hiko" target="_blank" rel="noopener noreferrer">Mt. Hiko — Visit Fukuoka</a></li>
+          <li><a href="https://www.japan.travel/en/spot/787/" target="_blank" rel="noopener noreferrer">Hikosan Jingu — JNTO</a></li>
+          <li><a href="https://www.japan.travel/en/guide/japanese-ryokan/" target="_blank" rel="noopener noreferrer">Ryokan Guide — JNTO</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2026 Shiraume Ryokan KK. All rights reserved. Concept document — not for public distribution.</p>
+      <span class="footer-private">Private Presentation</span>
+    </div>
+  </div>
+</footer>
+
+</div><!-- /view-home -->
+
+<!-- ══════════════════════════════════════
+     ROOM DETAIL VIEW (populated by main.js)
+══════════════════════════════════════ -->
+<div id="view-room" class="view">
+
+  <header class="rdh" id="rdh">
+    <div class="rdh-bg" id="rdh-bg"></div>
+    <div class="rdh-content">
+      <div>
+        <button class="rdh-back" onclick="goHome('rooms')">Back to all rooms · 客室一覧へ</button>
+        <div class="rdh-type" id="rd-type">—</div>
+        <div class="rdh-name" id="rd-name">—</div>
+        <div class="rdh-jp" id="rd-jp">—</div>
+      </div>
+      <div class="rdh-right">
+        <div class="rdh-size" id="rd-size">—</div>
+        <div class="rdh-price-badge" id="rd-price-hero">—</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="rdb">
+    <main class="rdb-main">
+      <p class="rdb-eyebrow" id="rd-eyebrow">—</p>
+      <p class="rdb-lead" id="rd-lead">—</p>
+      <p class="rdb-body en" id="rd-body-en">—</p>
+      <p class="rdb-body jp ja" id="rd-body-jp">—</p>
+      <div class="rdb-feats-lbl">Features &amp; Amenities · 設備</div>
+      <div class="rdb-feats" id="rd-feats"></div>
+      <div class="rdb-feats-lbl" style="margin-top:2.5rem">Gallery · ギャラリー</div>
+      <div class="gal-grid" id="rd-gallery"></div>
+    </main>
+    <aside class="rdb-side">
+      <div class="booking-card">
+        <form id="bk-form" onsubmit="submitBooking(event)" novalidate>
+          <div class="bc-title" id="bk-name">—</div>
+          <div class="bc-price" id="bk-price">—</div>
+          <div class="fg"><label for="bk-in">Arrival · チェックイン</label><input type="date" id="bk-in" required></div>
+          <div class="fg"><label for="bk-out">Departure · チェックアウト</label><input type="date" id="bk-out" required></div>
+          <div class="fg"><label for="bk-guests">Guests · 人数</label>
+            <select id="bk-guests"></select>
+          </div>
+          <div class="bc-div"></div>
+          <div class="fg"><label for="bk-fullname">Full Name · お名前</label><input type="text" id="bk-fullname" placeholder="Your name" autocomplete="name" required></div>
+          <div class="fg"><label for="bk-email">Email · メールアドレス</label><input type="email" id="bk-email" placeholder="you@example.com" autocomplete="email" required></div>
+          <div class="fg"><label for="bk-requests">Special Requests · ご要望</label><textarea id="bk-requests" placeholder="Dietary requirements, occasion, accessibility needs…"></textarea></div>
+          <!-- Spam trap: hidden from people, tempting to bots. A filled value is discarded. -->
+          <div class="hp-field" aria-hidden="true"><label for="bk-company">Company</label><input type="text" id="bk-company" tabindex="-1" autocomplete="off"></div>
+          <button class="btn-book" type="submit" id="bk-submit">Request to Book · 予約リクエスト</button>
+          <p class="form-status" id="bk-status" role="status" aria-live="polite"></p>
+          <p class="bc-note">Sends a reservation enquiry. You will receive confirmation within 24 hours. All rates are per room, inclusive of breakfast and consumption tax.</p>
+        </form>
+        <div class="bk-success" id="bk-success">
+          <div class="bk-success-icon">🌸</div>
+          <h3>Request Received</h3>
+          <p>Your enquiry has been received. The Shiraume team will confirm within 24 hours.<br><br><span style="font-family:'Noto Serif JP',serif;font-weight:300;letter-spacing:0.15em">ご予約を承りました</span></p>
+        </div>
+      </div>
+      <div class="other-rooms" id="other-rooms"></div>
+    </aside>
+  </div>
+
+  <footer class="rm-footer">
+    <button class="rm-footer-logo" onclick="goHome()">白梅 Shiraume Lodge</button>
+    <button class="btn-ghost-d" onclick="goHome('rooms')">← All Rooms · 客室一覧</button>
+  </footer>
+
+</div><!-- /view-room -->
+
+<script src="./assets/splash/shiraume-splash.js"></script>
+<script src="./assets/splash/splash-luxe.js"></script>
+<script src="./main.js"></script>
+</body>
+</html>
