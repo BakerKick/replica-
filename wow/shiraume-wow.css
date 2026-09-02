@@ -3,7 +3,9 @@
   The existing document, content, navigation, room views, and splash scripts remain the
   source of truth. These rules add visible Japanese art, movement, and material depth.
 */
-@import "tailwindcss";
+/* @import "tailwindcss" removed: a Vite build directive, not real CSS. In a
+   browser it fetches a file literally named "tailwindcss" and 404s on every
+   load. Nothing in this layer uses Tailwind. */
 
 :root {
   --shiraume-ink: #15120f;

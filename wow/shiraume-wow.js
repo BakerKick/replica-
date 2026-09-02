@@ -11,6 +11,14 @@ const ART = {
 };
 const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
 const LEGACY_ASSET_ROOT = document.baseURI;
+// Any URL that already carries a scheme is finished — http:, https:, data: and
+// file: alike. The original guard tested only for http(s), so on a page opened
+// straight from disk the rewritten file: URL still read as relative: the observer
+// below saw the style change it had just made and rewrote it again, without end,
+// and the page never finished loading. The bundle's own notes list this as an
+// open item — "prevent the style mutation observer from reprocessing already
+// absolute background URLs".
+const ABSOLUTE_URL = /^[a-z][a-z0-9+.-]*:/i;
 const GALLERY_ITEMS = [
     { room: "Koke", jp: "苔", src: "assets/img/room-koke.jpg", note: "Garden room · 庭にひらく客室" },
     { room: "Koke", jp: "苔", src: "assets/img/s2-room-koke.jpg", note: "Stone, cedar, morning light" },
@@ -94,7 +102,7 @@ function normalizeLegacyAssets(root = document) {
     const images = root.querySelectorAll?.("img[src]") ?? [];
     images.forEach((image) => {
         const raw = image.getAttribute("src") || "";
-        if (!raw || raw.startsWith("http") || raw.startsWith("/") || raw.startsWith("data:"))
+        if (!raw || ABSOLUTE_URL.test(raw) || raw.startsWith("/"))
             return;
         if (!raw.includes("assets/"))
             return;
@@ -103,7 +111,7 @@ function normalizeLegacyAssets(root = document) {
     const styled = root.querySelectorAll?.("[style]") ?? [];
     styled.forEach((element) => {
         const raw = element.style.backgroundImage;
-        if (!raw || !raw.includes("assets/") || /https?:\/\//.test(raw))
+        if (!raw || !raw.includes("assets/") || ABSOLUTE_URL.test(raw))
             return;
         const assetMatch = raw.match(/assets\/[^"')]+/);
         if (assetMatch)
