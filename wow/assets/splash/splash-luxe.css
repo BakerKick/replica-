@@ -1,0 +1,261 @@
+/* ═══════════════════════════════════════════════════════════════════
+   SHIRAUME LODGE · SPLASH — the luxe layer
+
+   An override on top of shiraume-splash.css. The base sequence is sound;
+   what follows is entirely about material, depth and legibility, and it
+   is kept in its own file so it can be lifted off in one line.
+
+   The diagnosis it answers: the sequence is at its most expensive at
+   about four seconds — near-black paper, a white ink line, real gold,
+   lacquer glowing inside the posts — and loses it in the daylight, where
+   every member becomes a flat fill with a dark outline round it, the
+   paper lands on a flat mid-tan with no deep shadow or clean highlight
+   left in it, and the wordmark disappears into sunlit gravel.
+
+   Two treatments, chosen with a class on the root:
+
+     lux-night — dawn stops at deep warm charcoal. The gate keeps its ink
+                 line and its gold, the lacquer stays a glow inside the
+                 posts rather than a flat fill, and the photograph
+                 arriving in the gateway is the only daylight on screen.
+
+     lux-day   — the full dawn still happens, but on materials that can
+                 survive it: a real surface on the lacquer, depth in the
+                 paper, and the gate standing on something.
+
+   Everything outside those two blocks applies to both.
+   ═══════════════════════════════════════════════════════════════════ */
+
+#shiraume-splash.lux {
+  --lux-ink:      #f4ecdc;   /* the line, while the paper is dark      */
+  --lux-gold-hi:  #e6c98d;   /* metal needs two values to be metal     */
+  --lux-gold-lo:  #8f6f3f;
+  --lux-shadow:   rgba(8, 6, 4, 0.55);
+}
+
+/* ─── 1 · A REAL SURFACE ON THE LACQUER ──────────────────────────────
+   Flat colour with a darker line round it is the signature of
+   illustration software. Urushi is a depth: it holds light near the top
+   of a member and goes almost brown where it turns away.
+
+   The base file already gives #sp2-lacquer a vertical gradient. What it
+   does not do is stop the ink line being drawn over the top of it, which
+   is what produces the outlined-sticker look. Once a member is filled,
+   its line stops describing an edge and starts describing a border — so
+   here the line fades back as the lacquer arrives, leaving only what
+   reads as the shadow where one member meets another. */
+#shiraume-splash.lux #sp2-strokes {
+  animation: lux-line-back 1.6s calc(var(--sp2-dawn) - 0.15s) cubic-bezier(0.4, 0, 0.4, 1) forwards;
+}
+@keyframes lux-line-back { to { opacity: 0.22; } }
+
+/* The lacquer gets a second pass over it: light down the face of each
+   member, deeper at the foot. Two stops would read as a gradient; four
+   read as a surface. */
+#shiraume-splash.lux #sp2-lacquer { fill: url(#lux-urushi); }
+
+/* Gold is not a colour, it is a change of value across a surface. */
+#shiraume-splash.lux #sp2-gilt { fill: url(#lux-metal); }
+
+/* Stone stays stone: cool, matte, and never as bright as the metal. */
+#shiraume-splash.lux #sp2-stone { fill: url(#lux-stone); }
+
+/* ─── 2 · THE GATE STANDS ON SOMETHING ───────────────────────────────
+   No shadow anywhere was why it floated like a sticker. Two shadows: a
+   tight one under each plinth where it meets the ground, and one long
+   soft one cast back across the paper. Both are painted by the luxe JS
+   into #lux-shadow, from the plinths' own measured positions. */
+#lux-shadow {
+  position: absolute; inset: 0;
+  pointer-events: none; z-index: 1;
+  opacity: 0;
+  animation: lux-shadow-in 1.8s calc(var(--sp2-dawn) - 0.2s) cubic-bezier(0.4, 0, 0.4, 1) forwards;
+}
+@keyframes lux-shadow-in { to { opacity: 1; } }
+#lux-shadow .lux-contact {
+  position: absolute;
+  background: radial-gradient(60% 100% at 50% 0%, var(--lux-shadow), rgba(8, 6, 4, 0) 72%);
+  filter: blur(2px);
+}
+#lux-shadow .lux-cast {
+  position: absolute;
+  background: linear-gradient(to bottom, rgba(8, 6, 4, 0.13), rgba(8, 6, 4, 0) 86%);
+  filter: blur(9px);
+}
+
+/* ─── 3 · THE PLATE MARK ─────────────────────────────────────────────
+   The impression a printing plate leaves in good paper, a little inside
+   the trimmed edge. One hairline, barely there. It is the cheapest
+   possible signal that this is a printed object and not a screen. */
+#lux-plate {
+  position: absolute; inset: 26px;
+  pointer-events: none; z-index: 2;
+  border: 1px solid rgba(244, 236, 220, 0.10);
+  opacity: 0;
+  animation: lux-plate-in 1.6s 1.5s ease forwards;
+}
+@keyframes lux-plate-in { to { opacity: 1; } }
+/* Not on a phone. The plate impression only reads as one if there is
+   paper outside it, and the phone composition is a bleed — the crossbeam
+   runs the full width of the screen. A hairline the gate crosses stops
+   being a trimmed edge and becomes a stray line. */
+@media (max-width: 700px) { #lux-plate { display: none; } }
+
+/* ─── 4 · THE NAME STAYS WHERE IT WAS ───────────────────────────────
+   An earlier build eased the gate back to buy a band of paper under it
+   and set the name there as the title block of a plate. At full size
+   there is no such band — the feet land 58px from the bottom edge — so
+   the name is left in the gateway, over the photograph, with the veil
+   the base file gives it for legibility. Nothing in this file touches
+   it any more. */
+
+/* ─── 5 · TYPE ───────────────────────────────────────────────────────
+   The tagline sat under the gate at whatever size fitted. Given a rule
+   above it and honest tracking, it becomes a colophon line. */
+/* The one thing worth keeping from that pass: the tagline used to begin
+   at 4.6s over 1.2s against a walk-through at 5.35s, so it was never
+   actually on screen. It is simply moved earlier — same place, same
+   size, same shadow as the base file gives it. */
+#shiraume-splash.lux .sp2-tag {
+  animation-delay: 4.3s;
+  animation-duration: 1s;
+}
+#shiraume-splash.lux .sp2-skip {
+  font-size: 0.58rem;
+  letter-spacing: 0.34em;
+  text-indent: 0.34em;
+  opacity: 0.55;
+  transition: opacity 0.4s ease, color 0.4s ease;
+}
+#shiraume-splash.lux .sp2-skip:hover { opacity: 1; }
+
+/* ═══ TREATMENT · NIGHTFALL ═════════════════════════════════════════
+   The dawn is allowed to happen, but it stops a long way short: deep
+   warm charcoal, not taupe. Everything keeps the value range it had at
+   four seconds, and the photograph in the gateway becomes the only lit
+   thing on the screen — which is what makes it worth walking towards. */
+#shiraume-splash.lux-night { --sp2-paper: #241d16; }
+
+#shiraume-splash.lux-night #sp2-fill {
+  animation: lux-night-paper 2.3s var(--sp2-dawn) cubic-bezier(0.4, 0, 0.4, 1) forwards;
+}
+@keyframes lux-night-paper {
+  0%   { fill: #17130d; }
+  100% { fill: #241d16; }
+}
+
+/* The sky warms, but only to the colour of a sky before sunrise. */
+#shiraume-splash.lux-night .sp2-sky-dawn { opacity: 0; animation: lux-night-sky 2.1s var(--sp2-dawn) cubic-bezier(0.4, 0, 0.4, 1) forwards; }
+@keyframes lux-night-sky { to { opacity: 0.30; } }
+
+/* The line stays a line: on a dark ground it is the drawing, not a
+   border, so it is not faded back the way it is in daylight. */
+#shiraume-splash.lux-night #sp2-strokes { animation: none; opacity: 1; }
+#shiraume-splash.lux-night #sp2-strokes path { stroke: var(--lux-ink); }
+
+/* Lacquer as a glow inside the posts rather than a fill over them. Kept
+   well short of opaque, because on a dark ground the ink line is the
+   drawing — let the colour fill it up and the line becomes a border
+   again, which is the thing this whole pass exists to stop. */
+#shiraume-splash.lux-night #sp2-lacquer { opacity: 0.58; }
+
+/* Stone that is lighter than the paper it stands on reads as cut-out
+   paper, not as stone. On the dark ground the plinths go down with it. */
+#shiraume-splash.lux-night #sp2-stone { fill: url(#lux-stone-night); }
+
+/* Ink on a dark ground has to be light. */
+#shiraume-splash.lux-night #lux-plate { border-color: rgba(244, 236, 220, 0.13); }
+
+/* Nothing casts a long shadow at this hour, but a foot still darkens the
+   ground it is standing on. The cast shadow goes; the contact stays, well
+   under half strength, because without it the plinths hang. */
+#shiraume-splash.lux-night #lux-shadow .lux-cast { display: none; }
+#shiraume-splash.lux-night #lux-shadow .lux-contact { opacity: 0.45; }
+
+/* ═══ TREATMENT · DAYBREAK ══════════════════════════════════════════
+   The full dawn, on materials that can take it. The paper is pushed
+   deeper and warmer than the taupe it landed on, so there is still a
+   dark end to the range, and the ink goes to a true brown-black rather
+   than a mid grey-brown. */
+#shiraume-splash.lux-day { --sp2-paper: #9d8f74; --sp2-ink-day: #33251a; }
+
+#shiraume-splash.lux-day #sp2-fill {
+  animation: lux-day-paper 2.3s var(--sp2-dawn) cubic-bezier(0.4, 0, 0.4, 1) forwards;
+}
+@keyframes lux-day-paper {
+  0%   { fill: #17130d; }
+  50%  { fill: #4a3c2a; }
+  100% { fill: #9d8f74; }
+}
+
+#shiraume-splash.lux-day #lux-plate { border-color: rgba(43, 31, 22, 0.14); }
+
+/* ─── the sequence still has to leave ────────────────────────────── */
+#shiraume-splash.lux.sp2-exit #lux-plate,
+#shiraume-splash.lux.sp2-exit #lux-shadow { opacity: 0; transition: opacity 0.5s ease; }
+
+@media (prefers-reduced-motion: reduce) {
+  #lux-plate, #lux-shadow { animation: none; opacity: 1; }
+  #shiraume-splash.lux #sp2-strokes { animation: none; }
+}
+
+/* ═══ DRAW · THE GOLD LINE ═══════════════════════════════════════════
+   An alternative to the brush. Added with .lux-goldline; without it the
+   gate paints itself exactly as it does now.
+
+   This is the katomado ring off the site itself, applied to the gate.
+   What makes that line read as drafted rather than hand-drawn is not the
+   colour — it is four things together:
+
+     one continuous trace, not a sequence of separate gestures
+     a single uniform hairline, held at 1px whatever the screen
+     one smooth ease, start to finish
+     no brush texture and no wet bleed
+
+   So all four are done here, and the gold is the last of them.
+
+   The base file writes --dl and --dd as inline styles per member, and an
+   inline custom property beats a stylesheet — so the animation shorthand
+   is replaced outright rather than the variables overridden. Replacing it
+   also drops sp2-ink-day, which is what would otherwise turn the line to
+   day ink halfway through and take the gold with it. */
+#shiraume-splash.lux-goldline #sp2-strokes {
+  filter: none;                 /* the brush wobble is the hand */
+  animation: none;
+  opacity: 1;
+}
+#shiraume-splash.lux-goldline #sp2-strokes path,
+#shiraume-splash.lux-goldline #sp2-strokes path.sp2-gold-stroke {
+  stroke: url(#lux-line-gold);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+  animation: sp2-trace 2.6s cubic-bezier(0.33, 1, 0.68, 1) var(--sp2-draw-in) forwards;
+}
+
+/* The wet bleed is the brush's own signature — a drafted line has none. */
+#shiraume-splash.lux-goldline .sp2-bleed { display: none; }
+
+/* The line lands at 2.95s (0.35 + 2.6). The lacquer used to start at
+   2.85s, which would have had colour arriving before the drawing was
+   finished. */
+#shiraume-splash.lux-goldline #sp2-lacquer { animation-delay: 3.05s; }
+
+@media (prefers-reduced-motion: reduce) {
+  #shiraume-splash.lux-goldline #sp2-strokes path { animation: none; stroke-dashoffset: 0; }
+}
+
+/* ─── THE BRANCH, 15% SMALLER ────────────────────────────────────────
+   The top-right spray was reading as the largest object on the screen,
+   which put it in competition with the gate. Its anchor is unchanged —
+   it is pinned past the top-right corner — so the art simply draws in
+   toward that corner rather than moving. */
+#shiraume-splash.lux .sp2-branch-tr {
+  width: 30.6vw;      /* was 36vw   */
+  height: 32.13vw;    /* was 37.8vw */
+}
+@media (max-width: 700px) {
+  #shiraume-splash.lux .sp2-branch-tr {
+    width: 47.6vw;    /* was 56vw   */
+    height: 49.3vw;   /* was 58vw   */
+  }
+}
