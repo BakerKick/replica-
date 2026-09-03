@@ -49,8 +49,8 @@
     var box = document.createElement('div');
     box.id = 'palette-switch';
     box.innerHTML = '<span>Palette</span>' +
-      '<button type="button" data-palette="a" title="A — as delivered: plum-led">A</button>' +
-      '<button type="button" data-palette="b" title="B — brass actions, moon-haze labels, moss grounds">B</button>';
+      '<button type="button" data-palette="a" title="A — Moonlit Cedar, as delivered">A</button>' +
+      '<button type="button" data-palette="b" title="B — Kin Byobu: ivory and gold, indigo chambers">B</button>';
     box.addEventListener('click', function (e) {
       var b = e.target.closest('button[data-palette]');
       if (b) apply(b.dataset.palette);
