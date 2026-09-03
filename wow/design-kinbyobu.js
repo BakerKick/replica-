@@ -205,3 +205,53 @@
     }
   }).observe(HTML, { attributes: true, attributeFilter: ['data-palette'] });
 })();
+
+/* ── The engraved scenes ────────────────────────────────────────────────────
+   One layer per section, inserted rather than written into the markup so the
+   page's own HTML stays untouched. The upper sections are static; from the
+   area down, each scene takes a slow parallax as it crosses the viewport. */
+(function () {
+  var HTML = document.documentElement;
+  var SECTIONS = ['story-section', 'rooms-section', 'area-section', 'experience-section', 'journal-section'];
+  var MOVES = ['area-section', 'experience-section', 'journal-section'];
+
+  function place() {
+    if (HTML.getAttribute('data-palette') !== 'b') return;
+    SECTIONS.forEach(function (cls) {
+      var sec = document.querySelector('#view-home .' + cls);
+      if (!sec || sec.querySelector(':scope > .kb-scene')) return;
+      var layer = document.createElement('div');
+      layer.className = 'kb-scene';
+      layer.setAttribute('aria-hidden', 'true');
+      sec.insertBefore(layer, sec.firstChild);
+    });
+    drift();
+  }
+
+  function drift() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var moving = MOVES.map(function (c) { return document.querySelector('#view-home .' + c); }).filter(Boolean);
+    if (!moving.length || drift.armed) return;
+    drift.armed = true;
+    var pending = false;
+    function update() {
+      pending = false;
+      var vh = window.innerHeight;
+      moving.forEach(function (sec) {
+        var r = sec.getBoundingClientRect();
+        if (r.bottom < -200 || r.top > vh + 200) return;
+        // -1 as the section enters from below, +1 as it leaves at the top
+        var t = 1 - (r.top + r.height / 2) / (vh / 2 + r.height / 2);
+        sec.style.setProperty('--kb-drift', Math.max(-1, Math.min(1, t)).toFixed(3));
+      });
+    }
+    function onScroll() { if (!pending) { pending = true; requestAnimationFrame(update); } }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    update();
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', place, { once: true });
+  else place();
+  new MutationObserver(place).observe(HTML, { attributes: true, attributeFilter: ['data-palette'] });
+})();

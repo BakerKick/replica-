@@ -1,0 +1,205 @@
+/* ══ BACKGROUND SYSTEM — pale champagne, one paper per section ═════════════
+   A complete replacement for the ground, not a tint over the old one. The
+   indigo chambers are gone: every section is now its own light paper, and
+   each carries one engraved scene in gold behind the content.
+
+   Line weights follow the brief — fine museum-archive engraving for scenery,
+   heavier woodblock contour for the koi, the kabuto and the blades. Density
+   is set to read clearly at a glance while staying behind the words; contrast
+   of the type over each paper is measured, not guessed.
+   ═════════════════════════════════════════════════════════════════════════ */
+
+html[data-palette="b"] body.shiraume-enhanced, html[data-palette="b"] body.shiraume-enhanced #view-home { background-color: #f7f0e2; }
+
+html[data-palette="b"] body.shiraume-enhanced #view-home .story-section { background-color: #f7f0e0; color: var(--kb-sumi); }
+html[data-palette="b"] body.shiraume-enhanced #view-home .rooms-section { background-color: #f3ecdc; color: var(--kb-sumi); }
+html[data-palette="b"] body.shiraume-enhanced #view-home .area-section { background-color: #f0efe4; color: var(--kb-sumi); }
+html[data-palette="b"] body.shiraume-enhanced #view-home .seasons-section { background-color: #f8f1e5; color: var(--kb-sumi); }
+html[data-palette="b"] body.shiraume-enhanced #view-home .experience-section { background-color: #f2ebe0; color: var(--kb-sumi); }
+html[data-palette="b"] body.shiraume-enhanced #view-home .journal-section { background-color: #f6f0e3; color: var(--kb-sumi); }
+html[data-palette="b"] body.shiraume-enhanced #view-home .inquiry-section { background-color: #f4ecdc; color: var(--kb-sumi); }
+html[data-palette="b"] body.shiraume-enhanced #view-home .why-section { background-color: #efe9da; color: var(--kb-sumi); }
+
+html[data-palette="b"] body.shiraume-enhanced #view-home .story-section { position: relative; overflow: hidden; }
+html[data-palette="b"] body.shiraume-enhanced #view-home .story-section > .kb-scene {
+  position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background: center 58% / 118% auto no-repeat url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%201600%20900'%3E%20%3Cg%20fill='none'%20stroke='%23b08d3a'%20stroke-linecap='round'%20stroke-linejoin='round'%20opacity='.55'%3E%20%3Cpath%20stroke-width='1.6'%20d='M0%20640c150-16%20250-120%20352-206%2064-54%20118-44%20178%2012%2056%2052%20104%2034%20158-22%2062-64%20124-56%20184%204%2060%2060%20122%2082%20200%2074%2044-4%20178-16%20246-32'/%3E%20%3Cpath%20stroke-width='1.1'%20d='M120%20706c186-46%20292-136%20406-196%2092-48%20156-22%20232%2034%2070%2054%20130%2032%20196-24%2066-56%20130-38%20190%2024%2054%2056%20112%2076%20184%2068'/%3E%20%3Cpath%20stroke-width='1.1'%20d='M0%20470c110-10%20176-70%20246-132%2044-40%2082-32%20124%208%2040%2038%2074%2024%20112-16'/%3E%20%3Cpath%20stroke-width='.9'%20d='M392%20350c40-46%2068-66%20100-66s60%2022%2096%2068M900%20320c36-42%2062-62%2092-62s56%2020%2088%2064'/%3E%20%3Cpath%20stroke-width='.9'%20d='M250%20560c60%208%20110%208%20168%200M700%20596c66%2010%20124%2010%20190%200M1180%20540c58%208%20108%208%20164%200'/%3E%20%3Cpath%20stroke-width='1.2'%20d='M1044%20604v-92M1010%20512h68l-34-40zM1044%20560h-48m48%2022h-56'/%3E%20%3Cpath%20stroke-width='1'%20d='M1004%20604h80v14h-80z'/%3E%20%3Cpath%20stroke-width='1'%20d='M470%20620v-56m-22%2022c14-16%2030-16%2044%200m-52%2014c18-20%2040-20%2060%200M556%20630v-48m-18%2018c12-14%2024-14%2036%200'/%3E%20%3Cpath%20stroke-width='.8'%20d='M60%20748c220-40%20380-84%20560-102M980%20640c180-8%20340%206%20500%2044'/%3E%20%3C/g%3E%3C/svg%3E");
+  opacity: .36;
+  -webkit-mask: radial-gradient(120% 90% at 50% 50%, #000 55%, transparent 100%);
+          mask: radial-gradient(120% 90% at 50% 50%, #000 55%, transparent 100%);
+}
+html[data-palette="b"] body.shiraume-enhanced #view-home .story-section > .container { position: relative; z-index: 1; }
+html[data-palette="b"] body.shiraume-enhanced #view-home .rooms-section { position: relative; overflow: hidden; }
+html[data-palette="b"] body.shiraume-enhanced #view-home .rooms-section > .kb-scene {
+  position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background: center 42% / 112% auto no-repeat url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%201600%20900'%3E%20%3Cg%20fill='none'%20stroke='%23b08d3a'%20stroke-linecap='round'%20stroke-linejoin='round'%20opacity='.5'%3E%20%3Cpath%20stroke-width='1'%20d='M120%2090h420v620H120zM120%20245h420M120%20400h420M120%20555h420M260%2090v620M400%2090v620'/%3E%20%3Cpath%20stroke-width='1.4'%20d='M110%2080h440v640H110z'/%3E%20%3Ccircle%20cx='1210'%20cy='400'%20r='250'%20stroke-width='1.6'/%3E%20%3Ccircle%20cx='1210'%20cy='400'%20r='268'%20stroke-width='.8'/%3E%20%3C/g%3E%20%3Cg%20fill='none'%20stroke='%23b08d3a'%20stroke-linecap='round'%20stroke-linejoin='round'%20opacity='.6'%3E%20%3Cpath%20stroke-width='1.8'%20d='M980%20760c96-84%20158-186%20196-306%2026-84%2062-140%20116-172'/%3E%20%3Cpath%20stroke-width='1.2'%20d='M1090%20560c42-18%2078-16%20110%208M1148%20448c40-22%2078-22%20116%202M1206%20336c36-24%2074-26%20112-6M1256%20232c34-24%2070-28%20106-12'/%3E%20%3C/g%3E%20%3Cg%20fill='none'%20stroke='%239a7420'%20stroke-linecap='round'%20stroke-linejoin='round'%20opacity='.5'%3E%20%3Cpath%20stroke-width='1.4'%20d='M1122%20546a17%2017%200%201%201%20.1%200zm34-14a17%2017%200%201%201%20.1%200zm-16-32a17%2017%200%201%201%20.1%200z'/%3E%20%3Cpath%20stroke-width='1.4'%20d='M1246%20388a17%2017%200%201%201%20.1%200zm34-14a17%2017%200%201%201%20.1%200zm-16-32a17%2017%200%201%201%20.1%200z'/%3E%20%3Cpath%20stroke-width='1.4'%20d='M1330%20246a15%2015%200%201%201%20.1%200zm30-12a15%2015%200%201%201%20.1%200z'/%3E%20%3C/g%3E%3C/svg%3E");
+  opacity: .34;
+  -webkit-mask: radial-gradient(120% 90% at 50% 50%, #000 55%, transparent 100%);
+          mask: radial-gradient(120% 90% at 50% 50%, #000 55%, transparent 100%);
+}
+html[data-palette="b"] body.shiraume-enhanced #view-home .rooms-section > .container { position: relative; z-index: 1; }
+html[data-palette="b"] body.shiraume-enhanced #view-home .area-section { position: relative; overflow: hidden; }
+html[data-palette="b"] body.shiraume-enhanced #view-home .area-section > .kb-scene {
+  position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background: center 50% / 116% auto no-repeat url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%201600%20900'%3E%20%3Cg%20fill='none'%20stroke='%23b08d3a'%20stroke-linecap='round'%20stroke-linejoin='round'%20opacity='.45'%3E%20%3Cpath%20stroke-width='1.1'%20d='M-20%20210c70%200%20105-52%20175-52s105%2052%20175%2052%20105-52%20175-52%20105%2052%20175%2052%20105-52%20175-52%20105%2052%20175%2052%20105-52%20175-52%20105%2052%20175%2052'/%3E%20%3Cpath%20stroke-width='1.1'%20d='M-20%20296c70%200%20105-52%20175-52s105%2052%20175%2052%20105-52%20175-52%20105%2052%20175%2052%20105-52%20175-52%20105%2052%20175%2052%20105-52%20175-52%20105%2052%20175%2052'/%3E%20%3Cpath%20stroke-width='1.1'%20d='M-20%20668c70%200%20105-52%20175-52s105%2052%20175%2052%20105-52%20175-52%20105%2052%20175%2052%20105-52%20175-52%20105%2052%20175%2052%20105-52%20175-52%20105%2052%20175%2052'/%3E%20%3Cpath%20stroke-width='1.1'%20d='M-20%20754c70%200%20105-52%20175-52s105%2052%20175%2052%20105-52%20175-52%20105%2052%20175%2052%20105-52%20175-52%20105%2052%20175%2052%20105-52%20175-52%20105%2052%20175%2052'/%3E%20%3Cpath%20stroke-width='.8'%20d='M120%20158c26-20%2052-20%2078%200M470%20158c26-20%2052-20%2078%200M820%20158c26-20%2052-20%2078%200M1170%20158c26-20%2052-20%2078%200'/%3E%20%3Cpath%20stroke-width='.8'%20d='M240%20616c26-20%2052-20%2078%200M590%20616c26-20%2052-20%2078%200M940%20616c26-20%2052-20%2078%200M1290%20616c26-20%2052-20%2078%200'/%3E%20%3C/g%3E%20%3Cg%20fill='none'%20stroke='%239a7420'%20stroke-linecap='round'%20stroke-linejoin='round'%20opacity='.6'%3E%3Cg%20transform='translate(300%20380)%20scale(1.0%201.0)'%3E%20%3Cpath%20stroke-width='2.40'%20d='M20%2080C40%2040%20120%2026%20180%2044c50%2014%2082%2042%2096%2066l54-50c16%2026%2016%2074%200%20100l-54-50c-14%2024-46%2040-96%2042-60%206-140-32-160-72z'/%3E%20%3Cpath%20stroke-width='1.80'%20d='M118%2034c32-24%2072-20%2090%206'/%3E%20%3Cpath%20stroke-width='1.80'%20d='M116%20124c20%2028%2056%2034%2072%2016'/%3E%20%3Cpath%20stroke-width='1.60'%20d='M92%2058c20%2016%2020%2044%200%2060M132%2052c22%2018%2022%2056%200%2074M172%2052c22%2018%2022%2058%200%2076'/%3E%20%3Cpath%20stroke-width='1.60'%20d='M20%2080c-10-8-16-12-26-14M20%2087c-10%204-16%2010-24%2016'/%3E%20%3Ccircle%20cx='46'%20cy='74'%20r='5.00'%20stroke-width='1.60'/%3E%20%3C/g%3E%3C/g%3E%20%3Cg%20fill='none'%20stroke='%239a7420'%20stroke-linecap='round'%20stroke-linejoin='round'%20opacity='.48'%3E%3Cg%20transform='translate(1290%20500)%20scale(-0.78%200.78)'%3E%20%3Cpath%20stroke-width='3.08'%20d='M20%2080C40%2040%20120%2026%20180%2044c50%2014%2082%2042%2096%2066l54-50c16%2026%2016%2074%200%20100l-54-50c-14%2024-46%2040-96%2042-60%206-140-32-160-72z'/%3E%20%3Cpath%20stroke-width='2.31'%20d='M118%2034c32-24%2072-20%2090%206'/%3E%20%3Cpath%20stroke-width='2.31'%20d='M116%20124c20%2028%2056%2034%2072%2016'/%3E%20%3Cpath%20stroke-width='2.05'%20d='M92%2058c20%2016%2020%2044%200%2060M132%2052c22%2018%2022%2056%200%2074M172%2052c22%2018%2022%2058%200%2076'/%3E%20%3Cpath%20stroke-width='2.05'%20d='M20%2080c-10-8-16-12-26-14M20%2087c-10%204-16%2010-24%2016'/%3E%20%3Ccircle%20cx='46'%20cy='74'%20r='6.41'%20stroke-width='2.05'/%3E%20%3C/g%3E%3C/g%3E%20%3C/svg%3E");
+  opacity: .4;
+  -webkit-mask: radial-gradient(120% 90% at 50% 50%, #000 55%, transparent 100%);
+          mask: radial-gradient(120% 90% at 50% 50%, #000 55%, transparent 100%);
+}
+html[data-palette="b"] body.shiraume-enhanced #view-home .area-section > .container { position: relative; z-index: 1; }
+html[data-palette="b"] body.shiraume-enhanced #view-home .experience-section { position: relative; overflow: hidden; }
+html[data-palette="b"] body.shiraume-enhanced #view-home .experience-section > .kb-scene {
+  position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background: center 46% / 110% auto no-repeat url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%201600%20900'%3E%20%3Cg%20fill='none'%20stroke='%239a7420'%20stroke-linecap='round'%20stroke-linejoin='round'%20opacity='.58'%3E%20%3Cpath%20stroke-width='2.4'%20d='M1080%20470c0-104%2074-172%20170-172s170%2068%20170%20172c0%2022-6%2042-16%2058-38-30-90-46-154-46s-116%2016-154%2046c-10-16-16-36-16-58z'/%3E%20%3Cpath%20stroke-width='2'%20d='M1096%20528c-30%2014-52%2040-58%2074%2044%2018%2096%2026%20212%2026s168-8%20212-26c-6-34-28-60-58-74'/%3E%20%3Cpath%20stroke-width='2.2'%20d='M1176%20300c-16-40-4-72%2034-96%2010%2030%2030%2048%2060%2054M1324%20300c16-40%204-72-34-96-10%2030-30%2048-60%2054'/%3E%20%3Cpath%20stroke-width='1.6'%20d='M1250%20344v96M1210%20396h80M1178%20466c26-16%2046-22%2072-22s46%206%2072%2022'/%3E%20%3C/g%3E%20%3Cg%20fill='none'%20stroke='%239a7420'%20stroke-linecap='round'%20stroke-linejoin='round'%20opacity='.5'%3E%20%3Cpath%20stroke-width='2.2'%20d='M180%20720L520%20380M180%20720l-34-34%20340-340%2034%2034'/%3E%20%3Cpath%20stroke-width='1.6'%20d='M146%20686l-46%2046%2034%2034%2046-46M100%20732l-34%2034'/%3E%20%3Cpath%20stroke-width='2.2'%20d='M520%20720L180%20380M520%20720l34-34-340-340-34%2034'/%3E%20%3Cpath%20stroke-width='1.6'%20d='M554%20686l46%2046-34%2034-46-46M600%20732l34%2034'/%3E%20%3C/g%3E%20%3Cg%20fill='none'%20stroke='%23b08d3a'%20stroke-linecap='round'%20stroke-linejoin='round'%20opacity='.5'%3E%20%3Cpath%20stroke-width='1.2'%20d='M760%2090v54M746%20144h28M736%20158c0-8%2010-14%2024-14s24%206%2024%2014v92c0%208-10%2014-24%2014s-24-6-24-14z'/%3E%20%3Cpath%20stroke-width='.9'%20d='M736%20182h48M736%20210h48M736%20238h48'/%3E%20%3Cpath%20stroke-width='1.2'%20d='M760%20264v22'/%3E%20%3Cpath%20stroke-width='1.2'%20d='M900%2090v40M886%20130h28M876%20144c0-8%2010-14%2024-14s24%206%2024%2014v74c0%208-10%2014-24%2014s-24-6-24-14z'/%3E%20%3Cpath%20stroke-width='.9'%20d='M876%20166h48M876%20190h48'/%3E%20%3Cpath%20stroke-width='1.2'%20d='M900%20232v22'/%3E%20%3C/g%3E%3C/svg%3E");
+  opacity: .34;
+  -webkit-mask: radial-gradient(120% 90% at 50% 50%, #000 55%, transparent 100%);
+          mask: radial-gradient(120% 90% at 50% 50%, #000 55%, transparent 100%);
+}
+html[data-palette="b"] body.shiraume-enhanced #view-home .experience-section > .container { position: relative; z-index: 1; }
+html[data-palette="b"] body.shiraume-enhanced #view-home .journal-section { position: relative; overflow: hidden; }
+html[data-palette="b"] body.shiraume-enhanced #view-home .journal-section > .kb-scene {
+  position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background: center 52% / 114% auto no-repeat url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%201600%20900'%3E%20%3Cg%20fill='none'%20stroke='%23b08d3a'%20stroke-linecap='round'%20stroke-linejoin='round'%20opacity='.5'%3E%20%3Cpath%20stroke-width='1.4'%20d='M60%20190c46-38%20106-38%20152%200%2036-30%2084-30%20120%200%2040-34%2096-34%20136%200%2032-26%2076-26%20108%200'/%3E%20%3Cpath%20stroke-width='1.1'%20d='M120%20236c38-30%2088-30%20126%200%2030-24%2070-24%20100%200%2034-28%2080-28%20114%200'/%3E%20%3Cpath%20stroke-width='1.4'%20d='M1000%20140c46-38%20106-38%20152%200%2036-30%2084-30%20120%200%2040-34%2096-34%20136%200'/%3E%20%3Cpath%20stroke-width='1.1'%20d='M1060%20186c38-30%2088-30%20126%200%2030-24%2070-24%20100%200'/%3E%20%3Cpath%20stroke-width='1.4'%20d='M760%20720c46-38%20106-38%20152%200%2036-30%2084-30%20120%200%2040-34%2096-34%20136%200'/%3E%20%3C/g%3E%20%3Cg%20fill='none'%20stroke='%23b08d3a'%20stroke-linecap='round'%20stroke-linejoin='round'%20opacity='.55'%3E%20%3Cpath%20stroke-width='2.6'%20d='M1600%20470c-110%2012-200%2052-282%20112-62%2046-110%2068-172%2070'/%3E%20%3Cpath%20stroke-width='1.3'%20d='M1440%20566c-34-20-64-24-96-18M1420%20582c-16%2026-22%2052-20%2080M1500%20536c-30-24-60-32-94-28M1484%20552c-12%2028-14%2056-8%2082M1560%20500c-28-26-58-36-92-34M1544%20516c-10%2030-10%2058-2%2084'/%3E%20%3C/g%3E%20%3Cg%20fill='none'%20stroke='%23b08d3a'%20stroke-linecap='round'%20stroke-linejoin='round'%20opacity='.45'%3E%20%3Cpath%20stroke-width='1.8'%20d='M240%20900V430M258%20900V430M420%20900V520M436%20900V520M330%20900V600M344%20900V600'/%3E%20%3Cpath%20stroke-width='2'%20d='M226%20520h46M226%20660h46M226%20800h46M406%20596h44M406%20726h44M316%20674h42M316%20800h42'/%3E%20%3Cpath%20stroke-width='1.2'%20d='M272%20486c40-10%2066-34%2080-72M272%20626c40-10%2066-34%2080-72M450%20566c34-8%2058-30%2070-62M358%20640c34-8%2058-30%2070-62'/%3E%20%3C/g%3E%3C/svg%3E");
+  opacity: .36;
+  -webkit-mask: radial-gradient(120% 90% at 50% 50%, #000 55%, transparent 100%);
+          mask: radial-gradient(120% 90% at 50% 50%, #000 55%, transparent 100%);
+}
+html[data-palette="b"] body.shiraume-enhanced #view-home .journal-section > .container { position: relative; z-index: 1; }
+
+/* ── The former chambers, now paper ────────────────────────────────────────
+   These three sections and the interlude were indigo with light type. The
+   paper underneath them changed, so the type has to change with it or it is
+   light-on-light. */
+html[data-palette="b"] body.shiraume-enhanced #view-home .why-section h2,
+html[data-palette="b"] body.shiraume-enhanced #view-home .area-section h2,
+html[data-palette="b"] body.shiraume-enhanced #view-home .journal-section h2,
+html[data-palette="b"] body.shiraume-enhanced #view-home .why-section h3,
+html[data-palette="b"] body.shiraume-enhanced #view-home .area-section h3,
+html[data-palette="b"] body.shiraume-enhanced #view-home .journal-section h3,
+html[data-palette="b"] body.shiraume-enhanced #view-home .why-section h4,
+html[data-palette="b"] body.shiraume-enhanced #view-home .area-section h4,
+html[data-palette="b"] body.shiraume-enhanced #view-home .journal-section h4 { color: var(--kb-sumi); }
+html[data-palette="b"] body.shiraume-enhanced #view-home .why-section p,
+html[data-palette="b"] body.shiraume-enhanced #view-home .area-section p,
+html[data-palette="b"] body.shiraume-enhanced #view-home .journal-section p,
+html[data-palette="b"] body.shiraume-enhanced #view-home .why-section li,
+html[data-palette="b"] body.shiraume-enhanced #view-home .area-section li,
+html[data-palette="b"] body.shiraume-enhanced #view-home .journal-section li { color: var(--kb-sumi-2); }
+html[data-palette="b"] body.shiraume-enhanced #view-home .why-section .ja,
+html[data-palette="b"] body.shiraume-enhanced #view-home .area-section .ja,
+html[data-palette="b"] body.shiraume-enhanced #view-home .journal-section .ja { color: var(--kb-sumi-3); }
+/* `background` is a shorthand: setting it reset background-clip to border-box,
+   so the gradient painted as a solid gold bar instead of filling the letters.
+   background-image leaves the clip alone. */
+html[data-palette="b"] body.shiraume-enhanced #view-home .why-section .section-eyebrow,
+html[data-palette="b"] body.shiraume-enhanced #view-home .area-section .section-eyebrow,
+html[data-palette="b"] body.shiraume-enhanced #view-home .journal-section .section-eyebrow {
+  background-image: var(--kb-gold-ink);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent; }
+html[data-palette="b"] body.shiraume-enhanced #view-home .why-section .section-eyebrow .ja,
+html[data-palette="b"] body.shiraume-enhanced #view-home .area-section .section-eyebrow .ja,
+html[data-palette="b"] body.shiraume-enhanced #view-home .journal-section .section-eyebrow .ja { -webkit-text-fill-color: var(--kb-sumi-3); color: var(--kb-sumi-3); }
+html[data-palette="b"] body.shiraume-enhanced #view-home .why-section .kanji-bg,
+html[data-palette="b"] body.shiraume-enhanced #view-home .area-section .kanji-bg,
+html[data-palette="b"] body.shiraume-enhanced #view-home .journal-section .kanji-bg { color: rgba(23,23,26,.05); }
+html[data-palette="b"] body.shiraume-enhanced #view-home .why-section .shiraume-engraving,
+html[data-palette="b"] body.shiraume-enhanced #view-home .area-section .shiraume-engraving,
+html[data-palette="b"] body.shiraume-enhanced #view-home .journal-section .shiraume-engraving {
+  background: rgba(255,253,246,.7); color: var(--kb-ake); border-color: rgba(176,141,58,.65); }
+html[data-palette="b"] body.shiraume-enhanced #view-home .why-section .journal-card,
+html[data-palette="b"] body.shiraume-enhanced #view-home .area-section .journal-card,
+html[data-palette="b"] body.shiraume-enhanced #view-home .journal-section .journal-card,
+html[data-palette="b"] body.shiraume-enhanced #view-home .why-section .spot-card,
+html[data-palette="b"] body.shiraume-enhanced #view-home .area-section .spot-card,
+html[data-palette="b"] body.shiraume-enhanced #view-home .journal-section .spot-card { background: rgba(255,253,246,.66); border: 1px solid rgba(176,141,58,.24); }
+html[data-palette="b"] body.shiraume-enhanced #view-home .why-section::after,
+html[data-palette="b"] body.shiraume-enhanced #view-home .area-section::after,
+html[data-palette="b"] body.shiraume-enhanced #view-home .journal-section::after { background: var(--kb-gold-ink); opacity: .5; }
+
+/* The interlude keeps its burgundy obi, which now reads against paper rather
+   than against ink — so the quote turns dark and the ceremony colour is the
+   one strong note in the section. */
+html[data-palette="b"] body.shiraume-enhanced #interlude { background-color: #efe7d4; }
+html[data-palette="b"] body.shiraume-enhanced #interlude .interlude-quote.en { color: var(--kb-sumi); }
+html[data-palette="b"] body.shiraume-enhanced #interlude .interlude-quote em { background: var(--kb-gold-ink);
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; }
+html[data-palette="b"] body.shiraume-enhanced #interlude .interlude-jp-line { color: var(--kb-sumi-3); }
+html[data-palette="b"] body.shiraume-enhanced #interlude .interlude-eyebrow { color: var(--kb-ake); }
+html[data-palette="b"] body.shiraume-enhanced #interlude .interlude-kanji { color: rgba(23,23,26,.045); }
+
+/* ── Motion: still at the top of the page, alive at the foot ──────────────
+   Story and rooms are static, as asked. From the area down, each scene takes
+   a slow parallax on scroll, and the koi lean with the cursor. */
+html[data-palette="b"] body.shiraume-enhanced #view-home .story-section > .kb-scene,
+html[data-palette="b"] body.shiraume-enhanced #view-home .rooms-section > .kb-scene { transform: none; }
+html[data-palette="b"] body.shiraume-enhanced #view-home .area-section > .kb-scene {
+  transform: translate3d(calc(var(--kb-mx, 0) * 22px), calc(var(--kb-drift, 0) * 34px + var(--kb-my, 0) * 10px), 0);
+  transition: transform .9s cubic-bezier(.22,1,.36,1); }
+html[data-palette="b"] body.shiraume-enhanced #view-home .experience-section > .kb-scene {
+  transform: translate3d(calc(var(--kb-mx, 0) * -12px), calc(var(--kb-drift, 0) * -26px), 0);
+  transition: transform 1s cubic-bezier(.22,1,.36,1); }
+html[data-palette="b"] body.shiraume-enhanced #view-home .journal-section > .kb-scene {
+  transform: translate3d(calc(var(--kb-drift, 0) * 46px), calc(var(--kb-drift, 0) * -14px), 0);
+  transition: transform 1.2s cubic-bezier(.22,1,.36,1); }
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-palette="b"] body.shiraume-enhanced #view-home .kb-scene { transform: none !important; transition: none; }
+}
+
+/* The indigo chamber gradient was still painting under the new paper — it is
+   a background-image, so setting background-color alone left it in place, and
+   it showed as a blue cast at the foot of the page. Paper tooth instead. */
+html[data-palette="b"] body.shiraume-enhanced #view-home .why-section,
+html[data-palette="b"] body.shiraume-enhanced #view-home .area-section,
+html[data-palette="b"] body.shiraume-enhanced #view-home .journal-section,
+html[data-palette="b"] body.shiraume-enhanced #interlude {
+  background-image: var(--kb-fibre); background-size: 300px;
+  background-blend-mode: multiply; }
+
+/* Scene placement: these sections are 2000px tall, so a centred scene sits
+   below the fold. Each is pulled up to where that section's content starts. */
+html[data-palette="b"] body.shiraume-enhanced #view-home .story-section > .kb-scene      { background-position: center 46%; }
+html[data-palette="b"] body.shiraume-enhanced #view-home .rooms-section > .kb-scene      { background-position: center 24%; }
+html[data-palette="b"] body.shiraume-enhanced #view-home .area-section > .kb-scene       { background-position: center 38%; }
+html[data-palette="b"] body.shiraume-enhanced #view-home .experience-section > .kb-scene { background-position: center 26%; }
+html[data-palette="b"] body.shiraume-enhanced #view-home .journal-section > .kb-scene    { background-position: center 26%; }
+
+/* Text the dark design left light, now sitting on paper. Found by sweeping
+   every element on the page for a computed ratio under 3:1 against its own
+   ground, rather than by guessing at class names. */
+html[data-palette="b"] body.shiraume-enhanced #view-home .exp-title,
+html[data-palette="b"] body.shiraume-enhanced #view-home .exp-title .en,
+html[data-palette="b"] body.shiraume-enhanced #view-home .exp-title .ja,
+html[data-palette="b"] body.shiraume-enhanced #view-home .feature-title,
+html[data-palette="b"] body.shiraume-enhanced #view-home .feature-title .en,
+html[data-palette="b"] body.shiraume-enhanced #view-home .feature-title .ja,
+html[data-palette="b"] body.shiraume-enhanced #view-home .feature-item,
+html[data-palette="b"] body.shiraume-enhanced #view-home .feature-item .en { color: var(--kb-sumi); }
+html[data-palette="b"] body.shiraume-enhanced #view-home .exp-title .ja,
+html[data-palette="b"] body.shiraume-enhanced #view-home .feature-title .ja { color: var(--kb-sumi-3); }
+
+html[data-palette="b"] body.shiraume-enhanced #view-home .why-hikosan-art__caption { color: var(--kb-sumi-3); }
+html[data-palette="b"] body.shiraume-enhanced #view-home .why-hikosan-art__seal { color: var(--kb-ake); }
+html[data-palette="b"] body.shiraume-enhanced #view-home .shiraume-cipher,
+html[data-palette="b"] body.shiraume-enhanced #view-home .shiraume-cipher b,
+html[data-palette="b"] body.shiraume-enhanced #view-home .shiraume-cipher i { color: var(--kb-sumi); }
+html[data-palette="b"] body.shiraume-enhanced #view-home .shiraume-cipher__code { color: var(--kb-kin-lo); }
+html[data-palette="b"] body.shiraume-enhanced #view-home .why-hikosan-art img,
+html[data-palette="b"] body.shiraume-enhanced #view-home .why-hikosan-art svg { filter: invert(1) sepia(.5) saturate(.6) hue-rotate(5deg); opacity: .5; }
+html[data-palette="b"] body.shiraume-enhanced #view-home .pillar-title,
+html[data-palette="b"] body.shiraume-enhanced #view-home .pillar-title .en { color: var(--kb-sumi); }
+html[data-palette="b"] body.shiraume-enhanced #view-home .pillar-title .ja { color: var(--kb-sumi-3); }
+html[data-palette="b"] body.shiraume-enhanced #view-home .season-label,
+html[data-palette="b"] body.shiraume-enhanced #view-home .season-label .en { color: var(--kb-kin-lo); }
+html[data-palette="b"] body.shiraume-enhanced #view-home .season-label .ja { color: var(--kb-sumi-3); }
+html[data-palette="b"] body.shiraume-enhanced #view-home .j-title,
+html[data-palette="b"] body.shiraume-enhanced #view-home .j-title .en,
+html[data-palette="b"] body.shiraume-enhanced #view-home .form-title,
+html[data-palette="b"] body.shiraume-enhanced #view-home .form-title .en { color: var(--kb-sumi); }
+html[data-palette="b"] body.shiraume-enhanced #view-home .j-title .ja,
+html[data-palette="b"] body.shiraume-enhanced #view-home .form-title .ja { color: var(--kb-sumi-3); }
+
+/* 4.36:1 against the interlude's paper — a shade under the 4.5 the standard
+   asks for at this size, so the Japanese line takes the darker ink. */
+html[data-palette="b"] body.shiraume-enhanced #interlude .interlude-jp-line { color: var(--kb-sumi-2); }

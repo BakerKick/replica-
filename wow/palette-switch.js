@@ -10,7 +10,8 @@
   var KEY = 'shiraume-palette';
   var stored;
   try { stored = localStorage.getItem(KEY); } catch (e) { stored = null; }
-  var current = stored === 'b' ? 'b' : 'a';
+  // Kin Byobu is the design now; A is kept only for comparison.
+  var current = stored === 'a' ? 'a' : 'b';
 
   function apply(which) {
     current = which;
