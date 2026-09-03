@@ -11,7 +11,7 @@
 */
 (function () {
   var HTML = document.documentElement;
-  var active = function () { return HTML.getAttribute('data-palette') === 'b'; };
+  var active = function () { var v = HTML.getAttribute('data-palette'); return v === 'b' || v === 'c'; };
 
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   // A still splash on a device that should not be asked to run five moving
@@ -216,7 +216,8 @@
   var MOVES = ['area-section', 'experience-section', 'journal-section'];
 
   function place() {
-    if (HTML.getAttribute('data-palette') !== 'b') return;
+    var v = HTML.getAttribute('data-palette');
+    if (v !== 'b' && v !== 'c') return;
     SECTIONS.forEach(function (cls) {
       var sec = document.querySelector('#view-home .' + cls);
       if (!sec || sec.querySelector(':scope > .kb-scene')) return;
@@ -254,4 +255,26 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', place, { once: true });
   else place();
   new MutationObserver(place).observe(HTML, { attributes: true, attributeFilter: ['data-palette'] });
+})();
+
+/* The Hikosan engraving, inserted beside the "Why Hikosan" heading. It goes in
+   after the opening paragraph so the grid can hold it in the right-hand column
+   from the eyebrow down, and so the source markup stays untouched. */
+(function () {
+  var HTML = document.documentElement;
+  function plate() {
+    if (HTML.getAttribute('data-palette') !== 'c') return;
+    var content = document.querySelector('#view-home .why-section .why-content');
+    if (!content || content.querySelector(':scope > .kb-hikosan')) return;
+    var el = document.createElement('div');
+    el.className = 'kb-hikosan';
+    el.setAttribute('role', 'img');
+    el.setAttribute('aria-label', 'Engraving: the temple buildings and stone path of Hikosan');
+    var intro = content.querySelector(':scope > .section-intro');
+    if (intro && intro.nextSibling) content.insertBefore(el, intro.nextSibling);
+    else content.appendChild(el);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', plate, { once: true });
+  else plate();
+  new MutationObserver(plate).observe(HTML, { attributes: true, attributeFilter: ['data-palette'] });
 })();

@@ -10,13 +10,13 @@
   var KEY = 'shiraume-palette';
   var stored;
   try { stored = localStorage.getItem(KEY); } catch (e) { stored = null; }
-  // Kin Byobu is the design now; A is kept only for comparison.
-  var current = stored === 'a' ? 'a' : 'b';
+  // C is the current design; A and B are kept for comparison.
+  var current = (stored === 'a' || stored === 'b') ? stored : 'c';
 
   function apply(which) {
     current = which;
-    if (which === 'b') document.documentElement.setAttribute('data-palette', 'b');
-    else document.documentElement.removeAttribute('data-palette');
+    if (which === 'a') document.documentElement.removeAttribute('data-palette');
+    else document.documentElement.setAttribute('data-palette', which);
     try { localStorage.setItem(KEY, which); } catch (e) { /* private window: this session only */ }
     var box = document.getElementById('palette-switch');
     if (box) box.querySelectorAll('button').forEach(function (btn) {
@@ -44,6 +44,7 @@
       '#palette-switch button:hover{border-color:rgba(238,232,222,.5);color:#efe8de}' +
       '#palette-switch button.is-on[data-palette="a"]{background:#c6a4a0;border-color:#c6a4a0;color:#1a1514}' +
       '#palette-switch button.is-on[data-palette="b"]{background:#b99a67;border-color:#b99a67;color:#1a1514}' +
+      '#palette-switch button.is-on[data-palette="c"]{background:#d4af37;border-color:#d4af37;color:#23200f}' +
       '@media print{#palette-switch{display:none}}';
     document.head.appendChild(css);
 
@@ -51,7 +52,8 @@
     box.id = 'palette-switch';
     box.innerHTML = '<span>Palette</span>' +
       '<button type="button" data-palette="a" title="A — Moonlit Cedar, as delivered">A</button>' +
-      '<button type="button" data-palette="b" title="B — Kin Byobu: ivory and gold, indigo chambers">B</button>';
+      '<button type="button" data-palette="b" title="B — Kin Byobu: ivory and gold, indigo chambers">B</button>' +
+      '<button type="button" data-palette="c" title="C — champagne papers, gold engraved scenes">C</button>';
     box.addEventListener('click', function (e) {
       var b = e.target.closest('button[data-palette]');
       if (b) apply(b.dataset.palette);
