@@ -1,0 +1,121 @@
+/*
+  Palette B — the same seven colours the art direction names, redistributed.
+
+  Counted in palette A: plum mineral 66 uses, aged brass 54, and wet stone,
+  moon haze and moss shadow zero. Plum was carrying the accent, the action,
+  the focus ring, the borders and the glows at once, so none of them read as
+  distinct — and none of the colours came from the photography.
+
+  Here: aged brass takes the actions and the metalwork, moon haze takes the
+  labels and secondary text, moss shadow goes into the deep grounds so the
+  dark panels differ from one another, and plum drops back to the seals — a
+  mark, which is what a plum blossom is.
+
+  Generated from the palette-A rules, so it tracks them selector for selector.
+  Applied by data-palette="b" on <html>; absent, palette A is unchanged.
+*/
+html[data-palette="b"] { --shiraume-plum: #b99a67; }
+html[data-palette="b"] body.shiraume-enhanced { --primary: #b99a67; --color-primary: #b99a67; --accent: #b99a67; --ring: #b99a67; }
+html[data-palette="b"] body.shiraume-enhanced .btn-primary,
+html[data-palette="b"] body.shiraume-enhanced .btn-inquire,
+html[data-palette="b"] body.shiraume-enhanced .btn-book,
+html[data-palette="b"] body.shiraume-enhanced .room-cta,
+html[data-palette="b"] body.shiraume-enhanced #inq-submit,
+html[data-palette="b"] body.shiraume-enhanced #bk-submit { background: #b99a67; border-color: #b99a67; }
+html[data-palette="b"] body.shiraume-enhanced .btn-outline,
+html[data-palette="b"] body.shiraume-enhanced .btn-ghost-d { border-color: rgba(185, 154, 103,.7); color: #b99a67; }
+html[data-palette="b"] body.shiraume-enhanced .btn-outline:hover,
+html[data-palette="b"] body.shiraume-enhanced .btn-ghost-d:hover { background: rgba(185, 154, 103,.1); border-color: #b99a67; }
+html[data-palette="b"] body.shiraume-enhanced .route-progress__line i,
+html[data-palette="b"] body.shiraume-enhanced .route-progress__line { background: #b99a67; }
+html[data-palette="b"] body.shiraume-enhanced .route-progress__label,
+html[data-palette="b"] body.shiraume-enhanced .route-progress__number { color: #a6b0ad; }
+html[data-palette="b"] #view-gallery .shiraume-gallery-page::before { background: radial-gradient(circle at 72% 18%, rgba(185, 154, 103,.28), transparent 7rem), linear-gradient(180deg, transparent 0 58%, rgba(4,8,7,.28) 100%); }
+html[data-palette="b"] #view-gallery .gallery-route__head { border-bottom-color: rgba(185, 154, 103,.42); }
+html[data-palette="b"] #view-gallery .gallery-route__head::before { border: 1px solid rgba(185, 154, 103,.65); color: #a6b0ad; }
+html[data-palette="b"] #view-gallery .gallery-route__intro::after { border: 1px solid rgba(185, 154, 103,.36); box-shadow: 0 0 0 1.5rem rgba(185, 154, 103,.06), 0 0 4rem rgba(185, 154, 103,.14); color: rgba(166, 176, 173,.7); }
+html[data-palette="b"] #view-gallery .gallery-route__foot { border-top-color: rgba(185, 154, 103,.42); }
+html[data-palette="b"] #view-gallery .gallery-route__foot > span { color: #a6b0ad; }
+html[data-palette="b"] body.shiraume-enhanced .gallery-ceremony__launch { background: #b99a67; border: 1px solid #b99a67; }
+html[data-palette="b"] body.shiraume-enhanced #view-home { --engraving: rgba(185, 154, 103,.24); }
+html[data-palette="b"] body.shiraume-enhanced #view-home .story-section::before,
+html[data-palette="b"] body.shiraume-enhanced #view-home .why-section::before,
+html[data-palette="b"] body.shiraume-enhanced #view-home .rooms-section::before,
+html[data-palette="b"] body.shiraume-enhanced #view-home .seasons-section::before,
+html[data-palette="b"] body.shiraume-enhanced #view-home .experience-section::before,
+html[data-palette="b"] body.shiraume-enhanced #view-home .journal-section::before,
+html[data-palette="b"] body.shiraume-enhanced #view-home .inquiry-section::before,
+html[data-palette="b"] body.shiraume-enhanced #view-home .site-footer::before { background-image: linear-gradient(116deg, transparent 0 32%, rgba(185,154,103,.14) 32.08%, transparent 32.18%), linear-gradient(90deg, transparent 0 18%, rgba(185, 154, 103,.08) 18.08%, transparent 18.18%), repeating-linear-gradient(90deg, transparent 0 5.4rem, rgba(185, 154, 103,.065) 5.45rem 5.5rem); }
+html[data-palette="b"] body.shiraume-enhanced #view-home .kanji-bg { color: rgba(166, 176, 173,.09); }
+html[data-palette="b"] body.shiraume-enhanced #view-home .section-label,
+html[data-palette="b"] body.shiraume-enhanced #view-home .story-img-badge,
+html[data-palette="b"] body.shiraume-enhanced #view-home .room-number,
+html[data-palette="b"] body.shiraume-enhanced #view-home .season-label,
+html[data-palette="b"] body.shiraume-enhanced #view-home .experience-label { color: #a6b0ad; }
+html[data-palette="b"] body.shiraume-enhanced #view-home .room-card::after { color: rgba(185, 154, 103,.62); }
+html[data-palette="b"] body.shiraume-enhanced #view-home .room-card:hover { box-shadow: 0 2rem 4.5rem rgba(0,0,0,.34), 0 0 0 1px rgba(185, 154, 103,.34); }
+html[data-palette="b"] body.shiraume-enhanced #view-home .inquiry-section input,
+html[data-palette="b"] body.shiraume-enhanced #view-home .inquiry-section select,
+html[data-palette="b"] body.shiraume-enhanced #view-home .inquiry-section textarea { border-color: rgba(185, 154, 103,.24); }
+html[data-palette="b"] body.shiraume-enhanced #view-home .inquiry-section input:focus,
+html[data-palette="b"] body.shiraume-enhanced #view-home .inquiry-section select:focus,
+html[data-palette="b"] body.shiraume-enhanced #view-home .inquiry-section textarea:focus { border-color: #b99a67; box-shadow: 0 0 0 2px rgba(185, 154, 103,.12); }
+html[data-palette="b"] body.shiraume-enhanced .site-header .logo::after,
+html[data-palette="b"] body.shiraume-enhanced .footer-brand .logo::after { border: 1px solid rgba(185, 154, 103,.45); }
+html[data-palette="b"] body.shiraume-enhanced #view-home .site-footer .footer-private::before { color: #a6b0ad; }
+html[data-palette="b"] body.shiraume-enhanced #view-home .shiraume-engraving { border: 1px solid rgba(185, 154, 103,.46); color: #b99a67; }
+html[data-palette="b"] body.shiraume-enhanced #view-home .shiraume-engraving__message { background: #b99a67; }
+html[data-palette="b"] body.shiraume-enhanced #view-home .shiraume-engraving:hover,
+html[data-palette="b"] body.shiraume-enhanced #view-home .shiraume-engraving:focus-visible,
+html[data-palette="b"] body.shiraume-enhanced #view-home .shiraume-engraving.is-awake { border-color: #b99a67; box-shadow: 0 0 0 1px rgba(185,154,103,.34), 0 0 2.5rem rgba(185, 154, 103,.2); }
+html[data-palette="b"] body.shiraume-enhanced #view-home .shiraume-engraving:hover::before,
+html[data-palette="b"] body.shiraume-enhanced #view-home .shiraume-engraving:focus-visible::before,
+html[data-palette="b"] body.shiraume-enhanced #view-home .shiraume-engraving.is-awake::before { border-color: rgba(185, 154, 103,.7); box-shadow: 0 0 1.8rem rgba(185, 154, 103,.16); }
+html[data-palette="b"] body.shiraume-enhanced #view-home .area-section::before { background-image: linear-gradient(157deg, transparent 0 42%, rgba(185,154,103,.18) 42.08%, transparent 42.18%), repeating-linear-gradient(90deg, transparent 0 6rem, rgba(185, 154, 103,.055) 6.05rem 6.1rem), linear-gradient(180deg, rgba(16,25,22,.12), rgba(7,10,9,.62)); }
+html[data-palette="b"] body.shiraume-enhanced #view-home .area-section::after { color: rgba(185, 154, 103,.34); }
+html[data-palette="b"] body.shiraume-enhanced #view-home .area-section .section-eyebrow,
+html[data-palette="b"] body.shiraume-enhanced #view-home .area-section .spot-dist { color: #a6b0ad; }
+html[data-palette="b"] body.shiraume-enhanced #view-home .area-section .spot-icon { color: #a6b0ad; }
+html[data-palette="b"] body.shiraume-enhanced #view-home .obi-gesture__band,
+html[data-palette="b"] body.shiraume-enhanced #view-home .obi-gesture__tail { box-shadow: 0 0 0 1px rgba(185, 154, 103,.26), 0 .7rem 1.4rem rgba(0,0,0,.28); }
+html[data-palette="b"] body.shiraume-enhanced #view-home .obi-gesture__knot { background: #b99a67; box-shadow: 0 0 1.8rem rgba(185, 154, 103,.2); }
+html[data-palette="b"] body.shiraume-enhanced #view-home .room-tag,
+html[data-palette="b"] body.shiraume-enhanced #view-home .room-meta,
+html[data-palette="b"] body.shiraume-enhanced #view-home .spot-dist,
+html[data-palette="b"] body.shiraume-enhanced #view-home .season-label,
+html[data-palette="b"] body.shiraume-enhanced #view-home .experience-label { color: #a6b0ad; }
+html[data-palette="b"] body.shiraume-enhanced #view-home .rooms-grid .room-card:nth-child(2),
+html[data-palette="b"] body.shiraume-enhanced #view-home .rooms-grid .room-card:nth-child(5),
+html[data-palette="b"] body.shiraume-enhanced #view-home .experience-grid .experience-card:nth-child(2),
+html[data-palette="b"] body.shiraume-enhanced #view-home .area-spots .spot-card:nth-child(2) { border-top: 1px solid rgba(185, 154, 103,.5); }
+html[data-palette="b"] body.shiraume-enhanced #view-home .rooms-section::before,
+html[data-palette="b"] body.shiraume-enhanced #view-home .experience-section::before,
+html[data-palette="b"] body.shiraume-enhanced #view-home .area-section::before { background-image: linear-gradient(90deg, transparent 0 22%, rgba(185,154,103,.11) 22.08%, transparent 22.18%), linear-gradient(157deg, transparent 0 46%, rgba(185, 154, 103,.1) 46.08%, transparent 46.18%), repeating-linear-gradient(90deg, transparent 0 7rem, rgba(185,154,103,.045) 7.05rem 7.1rem); }
+html[data-palette="b"] .hikosan-history-panel__sheet { box-shadow: 0 2rem 7rem rgba(0,0,0,.55), inset 0 0 0 1px rgba(185, 154, 103,.09); }
+html[data-palette="b"] .hikosan-history-panel__close:hover,
+html[data-palette="b"] .hikosan-history-panel__close:focus-visible { color: #b99a67; }
+html[data-palette="b"] .hikosan-history-panel__seal { border: 1px solid rgba(185, 154, 103,.54); }
+html[data-palette="b"] .hikosan-history-panel__eyebrow { color: #a6b0ad; }
+html[data-palette="b"] .hikosan-history-panel h2 i { color: #b99a67; }
+html[data-palette="b"] .hikosan-history-panel__timeline strong { color: #b99a67; }
+html[data-palette="b"] .hikosan-history-panel__source { border-bottom: 1px solid rgba(185, 154, 103,.7); color: #b99a67; }
+/* Moss shadow and wet stone, the two grounds palette A never used. The site is
+   a cedar forest at a shrine and one of the rooms is named 苔 — moss. Applied
+   as a tint under the existing gradients, so the panels separate instead of
+   repeating one near-black eight times. */
+html[data-palette="b"] body.shiraume-enhanced #view-home .area-section {
+  background-color: #19211c; }
+html[data-palette="b"] body.shiraume-enhanced #view-home .experience-section {
+  background-color: #171d20; }
+html[data-palette="b"] body.shiraume-enhanced #view-home .story-section {
+  background-color: #161a18; }
+html[data-palette="b"] body.shiraume-enhanced #view-home .journal-section {
+  background-color: #171c1a; }
+html[data-palette="b"] body.shiraume-enhanced #view-home .inquiry-section {
+  background-color: #171c1b; }
+html[data-palette="b"] body.shiraume-enhanced #interlude.has-obi-gesture {
+  background-color: #191d1a; }
+
+/* The route rail reads as the path itself, so it takes moss rather than brass. */
+html[data-palette="b"] body.shiraume-enhanced .route-progress__track { background: rgba(57, 71, 62, .55); }
+html[data-palette="b"] body.shiraume-enhanced .route-progress__fill  { background: #6d7f6a; }
