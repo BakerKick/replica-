@@ -205,61 +205,65 @@ html[data-palette="c"] body.shiraume-enhanced #view-home .form-title .ja { color
 html[data-palette="c"] body.shiraume-enhanced #interlude .interlude-jp-line { color: var(--kb-sumi-2); }
 
 /* ══ THE HIKOSAN ENGRAVING ═════════════════════════════════════════════════
-   A hillside temple drawn in gold line — tower, tiled wings, the stone
-   retaining wall, the flagged path climbing to it, and the trees around it.
-   It sits directly to the right of "Why Hikosan / Discovery, not convenience",
-   which is done by turning that block into two columns: the eyebrow, heading
-   and opening paragraph hold the left, the engraving holds the right and is
-   top-aligned with the eyebrow. The pillars below run the full width. */
-html[data-palette="c"] body.shiraume-enhanced #view-home .why-section .why-content {
-  display: grid;
-  grid-template-columns: minmax(0, 1.06fr) minmax(0, .94fr);
-  column-gap: clamp(2rem, 4.5vw, 4.5rem);
-  align-items: start;
-}
-html[data-palette="c"] body.shiraume-enhanced #view-home .why-section .why-content > .section-eyebrow { grid-column: 1; grid-row: 1; }
-html[data-palette="c"] body.shiraume-enhanced #view-home .why-section .why-content > .section-title   { grid-column: 1; grid-row: 2; }
-html[data-palette="c"] body.shiraume-enhanced #view-home .why-section .why-content > .section-intro   { grid-column: 1; grid-row: 3; }
-html[data-palette="c"] body.shiraume-enhanced #view-home .why-section .why-content > .story-pillars   { grid-column: 1 / -1; grid-row: 4; }
+   The supplied drawing: large, anchored right, running behind the copy.
+
+   The previous version turned .why-content into a two-column grid, which
+   squeezed the heading and both paragraphs into a narrow measure — a change
+   that was never asked for. The text keeps its own layout untouched now; the
+   drawing is taken out of the flow instead and positioned across the section
+   behind everything.
+
+   It is masked so only its right-hand side is at full strength: by the time it
+   reaches the text it has dissolved into the paper, so the copy sits on paper
+   rather than on ink while the overlap is still real. */
+html[data-palette="c"] body.shiraume-enhanced #view-home .why-section .why-content { position: relative; }
+html[data-palette="c"] body.shiraume-enhanced #view-home .why-section .why-content > .section-eyebrow,
+html[data-palette="c"] body.shiraume-enhanced #view-home .why-section .why-content > .section-title,
+html[data-palette="c"] body.shiraume-enhanced #view-home .why-section .why-content > .section-intro,
+html[data-palette="c"] body.shiraume-enhanced #view-home .why-section .why-content > .story-pillars { position: relative; z-index: 1; }
+
 html[data-palette="c"] body.shiraume-enhanced #view-home .why-section .why-content > .kb-hikosan {
-  grid-column: 2; grid-row: 1 / 4;
-  align-self: start; width: 100%; position: relative;
+  position: absolute; z-index: 0; pointer-events: none;
+  top: -2.5vw;
+  right: clamp(-9rem, -6vw, -2rem);
+  width: min(46rem, 48vw);
   aspect-ratio: 900 / 1330;
-  /* The plate carries the section's own paper colour and isolates itself, so
-     the multiply below lands on paper. Without this the drawing blended inside
-     .container — which carries z-index:1 and so forms its own stacking context
-     with nothing behind it — and the white of the drawing stayed white, which
-     is why the plate read as a pale rectangle pasted on the champagne. */
+  /* Matched to the section exactly: the same paper colour AND the same fibre
+     multiplied over it. With flat colour alone the plate read a shade lighter
+     than the section around it, which is what showed as a rectangle — the
+     masks were applying all along. */
   background-color: #efe9da;
+  background-image: var(--kb-fibre);
+  background-size: 300px;
+  background-blend-mode: multiply;
   isolation: isolate;
+  /* The edge softening lives on the plate and the left-hand fade on the art
+     inside it — one mask each. Stacking both on one element needs
+     mask-composite, which did not take here and left the drawing running at
+     full strength across the copy. */
+  -webkit-mask-image: radial-gradient(128% 116% at 64% 50%, #000 72%, rgba(0,0,0,.45) 90%, transparent 100%);
+          mask-image: radial-gradient(128% 116% at 64% 50%, #000 72%, rgba(0,0,0,.45) 90%, transparent 100%);
 }
-/* The supplied drawing, used as it is. It is ink on white paper, so it is
-   multiplied onto the champagne rather than laid over it — the whites drop
-   out and the section's own paper shows through the drawing instead of a
-   white rectangle sitting on top of it. The warm filter carries the neutral
-   graphite into the gold family without redrawing anything. */
 html[data-palette="c"] body.shiraume-enhanced #view-home .why-section .why-content > .kb-hikosan > .kb-hikosan__art {
   position: absolute; inset: 0;
   background: center center / contain no-repeat url(assets/img/hikosan-engraving.jpg);
   mix-blend-mode: multiply;
-  opacity: .95;
-  /* Feathered at the edge so the plate reads as a drawing on the paper rather
-     than a photograph pasted onto it. */
-  -webkit-mask: radial-gradient(118% 110% at 50% 48%, #000 86%, transparent 100%);
-          mask: radial-gradient(118% 110% at 50% 48%, #000 86%, transparent 100%);
+  opacity: .6;
+  /* One mask layer, not two. The previous version stacked a linear fade and a
+     radial vignette and relied on mask-composite to intersect them; the
+     composite did not take, so neither fade applied and the drawing ran at full
+     strength straight across the copy. A single gradient is doing both jobs:
+     gone at the left where the text is, full strength at the right. */
+  -webkit-mask-image: linear-gradient(96deg, transparent 2%, rgba(0,0,0,.14) 30%, rgba(0,0,0,.55) 52%, rgba(0,0,0,.92) 74%, #000 90%);
+          mask-image: linear-gradient(96deg, transparent 2%, rgba(0,0,0,.14) 30%, rgba(0,0,0,.55) 52%, rgba(0,0,0,.92) 74%, #000 90%);
 }
-/* A hairline frame, so it reads as a plate on the paper rather than as a
-   drawing that happens to be there. */
-html[data-palette="c"] body.shiraume-enhanced #view-home .why-section .why-content > .kb-hikosan::after {
-  content: ''; position: absolute; inset: -1rem -1.2rem;
-  border: 1px solid rgba(176,141,58,.34); pointer-events: none;
-}
+
 @media (max-width: 900px) {
-  html[data-palette="c"] body.shiraume-enhanced #view-home .why-section .why-content { grid-template-columns: minmax(0, 1fr); }
-  html[data-palette="c"] body.shiraume-enhanced #view-home .why-section .why-content > .section-eyebrow,
-  html[data-palette="c"] body.shiraume-enhanced #view-home .why-section .why-content > .section-title,
-  html[data-palette="c"] body.shiraume-enhanced #view-home .why-section .why-content > .section-intro,
-  html[data-palette="c"] body.shiraume-enhanced #view-home .why-section .why-content > .kb-hikosan,
-  html[data-palette="c"] body.shiraume-enhanced #view-home .why-section .why-content > .story-pillars { grid-column: 1; grid-row: auto; }
-  html[data-palette="c"] body.shiraume-enhanced #view-home .why-section .why-content > .kb-hikosan { margin-top: 1.75rem; }
+  html[data-palette="c"] body.shiraume-enhanced #view-home .why-section .why-content > .kb-hikosan {
+    position: relative; top: 0; right: auto; width: 100%; margin: 1.75rem 0 0;
+  }
+  html[data-palette="c"] body.shiraume-enhanced #view-home .why-section .why-content > .kb-hikosan > .kb-hikosan__art {
+    -webkit-mask: radial-gradient(118% 112% at 50% 48%, #000 84%, transparent 100%);
+            mask: radial-gradient(118% 112% at 50% 48%, #000 84%, transparent 100%);
+  }
 }
