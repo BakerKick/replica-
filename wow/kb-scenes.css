@@ -225,7 +225,7 @@ html[data-palette="c"] body.shiraume-enhanced #view-home .why-section .why-conte
 html[data-palette="c"] body.shiraume-enhanced #view-home .why-section .why-content > .kb-hikosan {
   position: absolute; z-index: 0; pointer-events: none;
   top: -2.5vw;
-  right: clamp(-9rem, -6vw, -2rem);
+  right: clamp(-34rem, -26vw, -7rem);
   width: min(46rem, 48vw);
   aspect-ratio: 900 / 1330;
   /* Matched to the section exactly: the same paper colour AND the same fibre
