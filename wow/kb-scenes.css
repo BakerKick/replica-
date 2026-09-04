@@ -205,65 +205,53 @@ html[data-palette="c"] body.shiraume-enhanced #view-home .form-title .ja { color
 html[data-palette="c"] body.shiraume-enhanced #interlude .interlude-jp-line { color: var(--kb-sumi-2); }
 
 /* ══ THE HIKOSAN ENGRAVING ═════════════════════════════════════════════════
-   The supplied drawing: large, anchored right, running behind the copy.
+   The supplied drawing, hard right against the section and running behind the
+   copy. It is a child of the section, not of the text block, so right:0 is the
+   section's own edge at every width — the text block is a fixed 720px box left
+   of centre, and an offset measured from it only aligned at one window size.
 
-   The previous version turned .why-content into a two-column grid, which
-   squeezed the heading and both paragraphs into a narrow measure — a change
-   that was never asked for. The text keeps its own layout untouched now; the
-   drawing is taken out of the flow instead and positioned across the section
-   behind everything.
+   Nothing is cropped: the plate stops at the section edge rather than bleeding
+   past it, so the tree on the right of the drawing stays whole.
 
-   It is masked so only its right-hand side is at full strength: by the time it
-   reaches the text it has dissolved into the paper, so the copy sits on paper
-   rather than on ink while the overlap is still real. */
-html[data-palette="c"] body.shiraume-enhanced #view-home .why-section .why-content { position: relative; }
-html[data-palette="c"] body.shiraume-enhanced #view-home .why-section .why-content > .section-eyebrow,
-html[data-palette="c"] body.shiraume-enhanced #view-home .why-section .why-content > .section-title,
-html[data-palette="c"] body.shiraume-enhanced #view-home .why-section .why-content > .section-intro,
-html[data-palette="c"] body.shiraume-enhanced #view-home .why-section .why-content > .story-pillars { position: relative; z-index: 1; }
-
-html[data-palette="c"] body.shiraume-enhanced #view-home .why-section .why-content > .kb-hikosan {
+   The copy sits above it — .container already carries z-index 1 — and the
+   drawing is masked from full strength at the right to nothing by the time it
+   reaches the text. */
+html[data-palette="c"] body.shiraume-enhanced #view-home .why-section { position: relative; }
+html[data-palette="c"] body.shiraume-enhanced #view-home .why-section > .kb-hikosan {
   position: absolute; z-index: 0; pointer-events: none;
-  top: -2.5vw;
-  right: clamp(-34rem, -26vw, -7rem);
+  top: 2%;
+  right: 0;
   width: min(46rem, 48vw);
   aspect-ratio: 900 / 1330;
-  /* Matched to the section exactly: the same paper colour AND the same fibre
-     multiplied over it. With flat colour alone the plate read a shade lighter
-     than the section around it, which is what showed as a rectangle — the
-     masks were applying all along. */
   background-color: #efe9da;
   background-image: var(--kb-fibre);
   background-size: 300px;
   background-blend-mode: multiply;
   isolation: isolate;
-  /* The edge softening lives on the plate and the left-hand fade on the art
-     inside it — one mask each. Stacking both on one element needs
-     mask-composite, which did not take here and left the drawing running at
-     full strength across the copy. */
-  -webkit-mask-image: radial-gradient(128% 116% at 64% 50%, #000 72%, rgba(0,0,0,.45) 90%, transparent 100%);
-          mask-image: radial-gradient(128% 116% at 64% 50%, #000 72%, rgba(0,0,0,.45) 90%, transparent 100%);
+  -webkit-mask-image: radial-gradient(128% 116% at 60% 50%, #000 74%, rgba(0,0,0,.45) 91%, transparent 100%);
+          mask-image: radial-gradient(128% 116% at 60% 50%, #000 74%, rgba(0,0,0,.45) 91%, transparent 100%);
 }
-html[data-palette="c"] body.shiraume-enhanced #view-home .why-section .why-content > .kb-hikosan > .kb-hikosan__art {
+html[data-palette="c"] body.shiraume-enhanced #view-home .why-section > .kb-hikosan > .kb-hikosan__art {
   position: absolute; inset: 0;
   background: center center / contain no-repeat url(assets/img/hikosan-engraving.jpg);
   mix-blend-mode: multiply;
   opacity: .6;
-  /* One mask layer, not two. The previous version stacked a linear fade and a
-     radial vignette and relied on mask-composite to intersect them; the
-     composite did not take, so neither fade applied and the drawing ran at full
-     strength straight across the copy. A single gradient is doing both jobs:
-     gone at the left where the text is, full strength at the right. */
   -webkit-mask-image: linear-gradient(96deg, transparent 2%, rgba(0,0,0,.14) 30%, rgba(0,0,0,.55) 52%, rgba(0,0,0,.92) 74%, #000 90%);
           mask-image: linear-gradient(96deg, transparent 2%, rgba(0,0,0,.14) 30%, rgba(0,0,0,.55) 52%, rgba(0,0,0,.92) 74%, #000 90%);
 }
 
+/* The 巡 seal sat at the top right, which is now the drawing's corner. It moves
+   to the left of the section, the side the rooms and journal seals already use. */
+html[data-palette="c"] body.shiraume-enhanced #view-home .why-section .shiraume-engraving {
+  left: clamp(.9rem, 2.2vw, 2.4rem); right: auto;
+}
+
 @media (max-width: 900px) {
-  html[data-palette="c"] body.shiraume-enhanced #view-home .why-section .why-content > .kb-hikosan {
-    position: relative; top: 0; right: auto; width: 100%; margin: 1.75rem 0 0;
+  html[data-palette="c"] body.shiraume-enhanced #view-home .why-section > .kb-hikosan {
+    position: relative; top: 0; right: auto; width: 100%; margin: 0 auto;
   }
-  html[data-palette="c"] body.shiraume-enhanced #view-home .why-section .why-content > .kb-hikosan > .kb-hikosan__art {
-    -webkit-mask: radial-gradient(118% 112% at 50% 48%, #000 84%, transparent 100%);
-            mask: radial-gradient(118% 112% at 50% 48%, #000 84%, transparent 100%);
+  html[data-palette="c"] body.shiraume-enhanced #view-home .why-section > .kb-hikosan > .kb-hikosan__art {
+    -webkit-mask-image: radial-gradient(118% 112% at 50% 48%, #000 84%, transparent 100%);
+            mask-image: radial-gradient(118% 112% at 50% 48%, #000 84%, transparent 100%);
   }
 }

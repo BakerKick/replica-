@@ -264,16 +264,18 @@
   var HTML = document.documentElement;
   function plate() {
     if (HTML.getAttribute('data-palette') !== 'c') return;
-    var content = document.querySelector('#view-home .why-section .why-content');
-    if (!content || content.querySelector(':scope > .kb-hikosan')) return;
+    // Anchored to the section rather than to .why-content. That block is a
+    // fixed 720px box sitting left of centre, so any offset measured from it
+    // only lines up at one window width; from the section, "hard right" is
+    // simply right: 0 at every width.
+    var section = document.querySelector('#view-home .why-section');
+    if (!section || section.querySelector(':scope > .kb-hikosan')) return;
     var el = document.createElement('div');
     el.className = 'kb-hikosan';
     el.setAttribute('role', 'img');
     el.setAttribute('aria-label', 'Engraving: the temple buildings and stone path of Hikosan');
     el.innerHTML = '<span class="kb-hikosan__art" aria-hidden="true"></span>';
-    var intro = content.querySelector(':scope > .section-intro');
-    if (intro && intro.nextSibling) content.insertBefore(el, intro.nextSibling);
-    else content.appendChild(el);
+    section.insertBefore(el, section.firstChild);
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', plate, { once: true });
   else plate();
