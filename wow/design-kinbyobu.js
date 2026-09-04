@@ -270,6 +270,7 @@
     el.className = 'kb-hikosan';
     el.setAttribute('role', 'img');
     el.setAttribute('aria-label', 'Engraving: the temple buildings and stone path of Hikosan');
+    el.innerHTML = '<span class="kb-hikosan__art" aria-hidden="true"></span>';
     var intro = content.querySelector(':scope > .section-intro');
     if (intro && intro.nextSibling) content.insertBefore(el, intro.nextSibling);
     else content.appendChild(el);

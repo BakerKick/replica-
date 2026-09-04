@@ -47,6 +47,8 @@ IMG = {
     's2-room-koke.jpg': (760, 70), 's2-room-shizuka.jpg': (760, 70),
     's2-room-yamabiko.jpg': (760, 70), 's2-room-hinoki.jpg': (760, 70),
     's2-room-higashiyama.jpg': (760, 70),
+    # the supplied Hikosan drawing: fine linework, so it keeps its width
+    'hikosan-engraving.jpg': (900, 72),
 }
 
 
