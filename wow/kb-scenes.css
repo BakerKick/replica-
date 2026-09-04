@@ -275,41 +275,41 @@ html[data-palette="c"] body.shiraume-enhanced #view-home .journal-section > .kb-
 html[data-palette="c"] body.shiraume-enhanced #view-home .why-hikosan-art__seal,
 html[data-palette="c"] body.shiraume-enhanced #view-home .why-hikosan-art__caption { display: none; }
 
-/* ── The lantern plate ────────────────────────────────────────────────────
-   Hung on the right of "What to expect from a stay", framed in gold with a
-   cast shadow. The drawing is a night scene: inverted it loses its linework
-   and its lanterns go to solid black, and multiplied onto the paper it would
-   darken the whole section — so it hangs as a plate instead, which is what it
-   actually is. */
-html[data-palette="c"] body.shiraume-enhanced #view-home .inquiry-section { position: relative; }
-html[data-palette="c"] body.shiraume-enhanced #view-home .inquiry-section > .kb-lanterns {
-  position: absolute; z-index: 0; pointer-events: none;
-  /* A fixed offset rather than a percentage: the section is ~2000px tall, so a
-     small percentage still put the top of the plate under the sticky header. */
-  /* Neither side of this section is free: the form holds the right, and the
-     left column runs down past the plate — a dark image behind body copy is
-     the one thing this must not be. The section gets a closing band at its
-     foot instead, and the plate stands in it alone, centred, as the last
-     thing on the page. */
-  bottom: clamp(4rem, 7vw, 7rem); left: 50%; transform: translateX(-50%);
-  width: min(21rem, 23vw);
-  aspect-ratio: 820 / 1230;
-  box-shadow: 0 1.6rem 4rem rgba(23,23,26,.22), 0 0 0 1px rgba(176,141,58,.5);
-}
-html[data-palette="c"] body.shiraume-enhanced #view-home .inquiry-section > .kb-lanterns > .kb-lanterns__art {
-  position: absolute; inset: 0;
-  background: center center / cover no-repeat url(assets/img/lanterns.jpg);
-}
-html[data-palette="c"] body.shiraume-enhanced #view-home .inquiry-section > .kb-lanterns::after {
-  content: ''; position: absolute; inset: .6rem;
-  border: 1px solid rgba(212,175,55,.4); pointer-events: none;
-}
-@media (max-width: 1100px) {
-  html[data-palette="c"] body.shiraume-enhanced #view-home .inquiry-section > .kb-lanterns { display: none; }
-}
+/* ── The lantern drawing in the footer ────────────────────────────────────
+   Blended into the ground rather than framed on it, as with the Hikosan
+   drawing. There the ground is paper and the ink darkens it, so the blend is
+   multiply; here the ground is near-black and the lanterns are the light in
+   the picture, so it is screen — the night sky falls away into the footer and
+   the lanterns hang out of it.
 
-/* Room for the closing plate. */
-html[data-palette="c"] body.shiraume-enhanced #view-home .inquiry-section { padding-bottom: clamp(26rem, 40vw, 38rem); }
-@media (max-width: 1100px) {
-  html[data-palette="c"] body.shiraume-enhanced #view-home .inquiry-section { padding-bottom: 0; }
+   Placed across the top right, where the footer's columns leave the most room,
+   and masked so it thins out before it reaches the type. */
+html[data-palette="c"] body.shiraume-enhanced #view-home .site-footer { position: relative; overflow: hidden; isolation: isolate; }
+html[data-palette="c"] body.shiraume-enhanced #view-home .site-footer > .kb-lanterns {
+  position: absolute; z-index: 0; pointer-events: none;
+  top: -8%; right: -8%;
+  width: min(42rem, 44vw);
+  aspect-ratio: 820 / 1230;
+  /* Edge fade on the wrapper, directional fade on the art inside it — one mask
+     each. The first version stacked both on the art and the left edge stayed a
+     hard vertical line across the footer. */
+  -webkit-mask-image: radial-gradient(112% 104% at 74% 42%, #000 46%, rgba(0,0,0,.5) 76%, transparent 100%);
+          mask-image: radial-gradient(112% 104% at 74% 42%, #000 46%, rgba(0,0,0,.5) 76%, transparent 100%);
+}
+html[data-palette="c"] body.shiraume-enhanced #view-home .site-footer > .kb-lanterns > .kb-lanterns__art {
+  position: absolute; inset: 0;
+  background: center top / contain no-repeat url(assets/img/lanterns.jpg);
+  mix-blend-mode: screen;
+  /* Held well back: the ROOMS column sits over this, and the lanterns are the
+     brightest thing in the drawing. */
+  opacity: .3;
+  -webkit-mask-image: linear-gradient(94deg, transparent 4%, rgba(0,0,0,.22) 32%, rgba(0,0,0,.7) 60%, #000 86%);
+          mask-image: linear-gradient(94deg, transparent 4%, rgba(0,0,0,.22) 32%, rgba(0,0,0,.7) 60%, #000 86%);
+}
+html[data-palette="c"] body.shiraume-enhanced #view-home .site-footer .footer-inner,
+html[data-palette="c"] body.shiraume-enhanced #view-home .site-footer > .container { position: relative; z-index: 1; }
+
+@media (max-width: 900px) {
+  html[data-palette="c"] body.shiraume-enhanced #view-home .site-footer > .kb-lanterns { width: 74vw; top: -2%; right: -14%; }
+  html[data-palette="c"] body.shiraume-enhanced #view-home .site-footer > .kb-lanterns > .kb-lanterns__art { opacity: .34; }
 }

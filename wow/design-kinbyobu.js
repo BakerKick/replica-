@@ -284,15 +284,16 @@
   new MutationObserver(plate).observe(HTML, { attributes: true, attributeFilter: ['data-palette'] });
 })();
 
-/* The lantern plate, hung in the last section of the page. The drawing is a
-   night scene, so it is a dark framed plate on the pale section rather than
-   something multiplied into the paper — inverted it loses its linework, and
-   used as a background it would turn the whole section black. */
+/* The lantern drawing, set into the footer. The footer is the one dark ground
+   on the page, and the drawing is a night scene, so the two belong together:
+   the black sky disappears into the footer and only the lanterns come through.
+   Blended in rather than framed, the same way the Hikosan drawing is — screen
+   on a dark ground does what multiply does on a light one. */
 (function () {
   var HTML = document.documentElement;
   function lanterns() {
     if (HTML.getAttribute('data-palette') !== 'c') return;
-    var sec = document.querySelector('#view-home .inquiry-section');
+    var sec = document.querySelector('#view-home .site-footer');
     if (!sec || sec.querySelector(':scope > .kb-lanterns')) return;
     var el = document.createElement('div');
     el.className = 'kb-lanterns';
