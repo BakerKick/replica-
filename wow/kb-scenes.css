@@ -281,24 +281,35 @@ html[data-palette="c"] body.shiraume-enhanced #view-home .why-hikosan-art__capti
    and its lanterns go to solid black, and multiplied onto the paper it would
    darken the whole section — so it hangs as a plate instead, which is what it
    actually is. */
-html[data-palette="c"] body.shiraume-enhanced #view-home .experience-section { position: relative; }
-html[data-palette="c"] body.shiraume-enhanced #view-home .experience-section > .kb-lanterns {
+html[data-palette="c"] body.shiraume-enhanced #view-home .inquiry-section { position: relative; }
+html[data-palette="c"] body.shiraume-enhanced #view-home .inquiry-section > .kb-lanterns {
   position: absolute; z-index: 0; pointer-events: none;
   /* A fixed offset rather than a percentage: the section is ~2000px tall, so a
      small percentage still put the top of the plate under the sticky header. */
-  top: 7rem; right: clamp(1.5rem, 4vw, 5rem);
-  width: min(28rem, 30vw);
+  /* Neither side of this section is free: the form holds the right, and the
+     left column runs down past the plate — a dark image behind body copy is
+     the one thing this must not be. The section gets a closing band at its
+     foot instead, and the plate stands in it alone, centred, as the last
+     thing on the page. */
+  bottom: clamp(4rem, 7vw, 7rem); left: 50%; transform: translateX(-50%);
+  width: min(21rem, 23vw);
   aspect-ratio: 820 / 1230;
   box-shadow: 0 1.6rem 4rem rgba(23,23,26,.22), 0 0 0 1px rgba(176,141,58,.5);
 }
-html[data-palette="c"] body.shiraume-enhanced #view-home .experience-section > .kb-lanterns > .kb-lanterns__art {
+html[data-palette="c"] body.shiraume-enhanced #view-home .inquiry-section > .kb-lanterns > .kb-lanterns__art {
   position: absolute; inset: 0;
   background: center center / cover no-repeat url(assets/img/lanterns.jpg);
 }
-html[data-palette="c"] body.shiraume-enhanced #view-home .experience-section > .kb-lanterns::after {
+html[data-palette="c"] body.shiraume-enhanced #view-home .inquiry-section > .kb-lanterns::after {
   content: ''; position: absolute; inset: .6rem;
   border: 1px solid rgba(212,175,55,.4); pointer-events: none;
 }
 @media (max-width: 1100px) {
-  html[data-palette="c"] body.shiraume-enhanced #view-home .experience-section > .kb-lanterns { display: none; }
+  html[data-palette="c"] body.shiraume-enhanced #view-home .inquiry-section > .kb-lanterns { display: none; }
+}
+
+/* Room for the closing plate. */
+html[data-palette="c"] body.shiraume-enhanced #view-home .inquiry-section { padding-bottom: clamp(26rem, 40vw, 38rem); }
+@media (max-width: 1100px) {
+  html[data-palette="c"] body.shiraume-enhanced #view-home .inquiry-section { padding-bottom: 0; }
 }

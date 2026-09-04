@@ -284,15 +284,15 @@
   new MutationObserver(plate).observe(HTML, { attributes: true, attributeFilter: ['data-palette'] });
 })();
 
-/* The lantern plate in "What to expect from a stay". The drawing is a night
-   scene, so it is hung as a dark framed plate on the pale section rather than
-   multiplied onto the paper — inverted it loses its linework, and used as a
-   background it would turn the whole section black. */
+/* The lantern plate, hung in the last section of the page. The drawing is a
+   night scene, so it is a dark framed plate on the pale section rather than
+   something multiplied into the paper — inverted it loses its linework, and
+   used as a background it would turn the whole section black. */
 (function () {
   var HTML = document.documentElement;
   function lanterns() {
     if (HTML.getAttribute('data-palette') !== 'c') return;
-    var sec = document.querySelector('#view-home .experience-section');
+    var sec = document.querySelector('#view-home .inquiry-section');
     if (!sec || sec.querySelector(':scope > .kb-lanterns')) return;
     var el = document.createElement('div');
     el.className = 'kb-lanterns';

@@ -39,17 +39,22 @@ switch_js = read('palette-switch.js')
 # Max render width and JPEG quality per image, from how large each one ever
 # appears: hero and room headers go full-bleed, gallery seconds never do.
 IMG = {
-    'hero-day.jpg': (1376, 70), 'hero-night.jpg': (1376, 70),
-    'story.jpg': (1100, 74), 'area.jpg': (1100, 74),
-    'room-koke.jpg': (1000, 72), 'room-shizuka.jpg': (1000, 72),
-    'room-yamabiko.jpg': (1000, 72), 'room-hinoki.jpg': (1000, 72),
-    'room-higashiyama.jpg': (1000, 72),
-    's2-room-koke.jpg': (760, 70), 's2-room-shizuka.jpg': (760, 70),
-    's2-room-yamabiko.jpg': (760, 70), 's2-room-hinoki.jpg': (760, 70),
-    's2-room-higashiyama.jpg': (760, 70),
-    # the supplied Hikosan drawing: fine linework, so it keeps its width
-    'hikosan-engraving.jpg': (900, 72),
-    'lanterns.jpg': (820, 76),
+    # Retuned to bring the single-file build down. Every figure is still well
+    # above the size each image is actually displayed at — the room photos sit
+    # in a ~310px window, the gallery seconds smaller again — so this trades
+    # headroom nobody sees for about a third of the file.
+    'hero-day.jpg': (1200, 64), 'hero-night.jpg': (1200, 64),
+    'story.jpg': (940, 68), 'area.jpg': (940, 68),
+    'room-koke.jpg': (860, 66), 'room-shizuka.jpg': (860, 66),
+    'room-yamabiko.jpg': (860, 66), 'room-hinoki.jpg': (860, 66),
+    'room-higashiyama.jpg': (860, 66),
+    's2-room-koke.jpg': (640, 64), 's2-room-shizuka.jpg': (640, 64),
+    's2-room-yamabiko.jpg': (640, 64), 's2-room-hinoki.jpg': (640, 64),
+    's2-room-higashiyama.jpg': (640, 64),
+    # the two supplied drawings: fine linework, so they keep more width than
+    # quality — detail survives compression better than it survives scaling
+    'hikosan-engraving.jpg': (780, 64),
+    'lanterns.jpg': (660, 68),
 }
 
 
@@ -70,13 +75,71 @@ def encode(name):
         im.convert('LA').resize((320, 320), Image.LANCZOS).save(buf, 'PNG', optimize=True)
         mime = 'image/png'
     else:
+        # Encode both ways and keep whichever is smaller. WebP is 25-35% ahead
+        # on the photographs; on the two supplied pen drawings, whose dense
+        # stipple defeats both codecs, JPEG sometimes still wins. Measuring is
+        # cheaper than guessing per file.
         w, q = IMG[name]
         if im.width > w:
             im = im.resize((w, round(im.height * w / im.width)), Image.LANCZOS)
-        im.convert('RGB').save(buf, 'JPEG', quality=q, optimize=True, progressive=True)
-        mime = 'image/jpeg'
+        rgb = im.convert('RGB')
+        jpg = io.BytesIO(); rgb.save(jpg, 'JPEG', quality=q, optimize=True, progressive=True)
+        web = io.BytesIO(); rgb.save(web, 'WEBP', quality=min(q + 4, 82), method=6)
+        if len(web.getvalue()) < len(jpg.getvalue()):
+            buf, mime = web, 'image/webp'
+        else:
+            buf, mime = jpg, 'image/jpeg'
     return 'data:%s;base64,%s' % (mime, base64.b64encode(buf.getvalue()).decode())
 
+
+def prune_fonts(css, *sources):
+    """Drop @font-face blocks whose unicode-range covers nothing on the page.
+
+    Noto Serif JP ships as ~124 subsets split by codepoint range, and the
+    standalone was embedding every one of them — 733 KB, most of it glyphs this
+    site never sets. A face is kept only if the page actually uses a character
+    inside its range, which is exactly the rule the browser itself applies, so
+    nothing renders differently; the untouched subsets would simply never have
+    been downloaded on the multi-file site.
+    """
+    used = set()
+    for s in sources:
+        used.update(ord(ch) for ch in s)
+
+    def covered(rng):
+        for part in rng.split(','):
+            part = part.strip()
+            if not part.upper().startswith('U+'):
+                continue
+            body = part[2:]
+            if '-' in body:
+                lo, hi = body.split('-', 1)
+                lo, hi = int(lo, 16), int(hi, 16)
+            elif '?' in body:
+                lo = int(body.replace('?', '0'), 16)
+                hi = int(body.replace('?', 'F'), 16)
+            else:
+                lo = hi = int(body, 16)
+            if any(lo <= cp <= hi for cp in used):
+                return True
+        return False
+
+    kept, dropped, saved = [], 0, 0
+    pos = 0
+    out = []
+    for m in re.finditer(r'@font-face\s*\{[^}]*\}', css, re.S):
+        out.append(css[pos:m.start()])
+        pos = m.end()
+        block = m.group(0)
+        rng = re.search(r'unicode-range:\s*([^;}]+)', block)
+        if rng and not covered(rng.group(1)):
+            dropped += 1
+            saved += sum(len(d) for d in re.findall(r'base64,([A-Za-z0-9+/=]+)', block))
+            continue
+        out.append(block)
+    out.append(css[pos:])
+    print(f'  fonts: dropped {dropped} unused subsets, {saved / 1024:.0f} KB of base64')
+    return ''.join(out)
 
 key = lambda n: re.sub(r'[^a-z0-9]+', '-', n.rsplit('.', 1)[0].lower())
 used = sorted(set(re.findall(r'assets/img/([\w.-]+\.(?:jpg|png))',
@@ -109,6 +172,8 @@ html = re.sub(r'\n\s*<meta property="og:image[^>]*>', '', html)
 
 leftover = re.findall(r'assets/img/[\w.-]+', html + style + enhance + js + wow_css + wow_js + kb_css + kb_js + scenes_css)
 assert not leftover, f'unresolved asset references: {leftover}'
+
+fonts_css = prune_fonts(fonts_css, html, js, wow_js, kb_js, switch_js, style, enhance, splash_js, luxe_js)
 
 asset_js = (
     'var A = ' + json.dumps(assets, ensure_ascii=False) + ';\n'
