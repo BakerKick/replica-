@@ -212,8 +212,10 @@
    area down, each scene takes a slow parallax as it crosses the viewport. */
 (function () {
   var HTML = document.documentElement;
-  var SECTIONS = ['story-section', 'rooms-section', 'area-section', 'experience-section', 'journal-section'];
-  var MOVES = ['area-section', 'experience-section', 'journal-section'];
+  // Area, experience and journal no longer carry a scene — those were removed
+  // on request, so only story and rooms are drawn, and nothing needs to drift.
+  var SECTIONS = ['story-section', 'rooms-section'];
+  var MOVES = [];
 
   function place() {
     var v = HTML.getAttribute('data-palette');
@@ -280,4 +282,26 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', plate, { once: true });
   else plate();
   new MutationObserver(plate).observe(HTML, { attributes: true, attributeFilter: ['data-palette'] });
+})();
+
+/* The lantern plate in "What to expect from a stay". The drawing is a night
+   scene, so it is hung as a dark framed plate on the pale section rather than
+   multiplied onto the paper — inverted it loses its linework, and used as a
+   background it would turn the whole section black. */
+(function () {
+  var HTML = document.documentElement;
+  function lanterns() {
+    if (HTML.getAttribute('data-palette') !== 'c') return;
+    var sec = document.querySelector('#view-home .experience-section');
+    if (!sec || sec.querySelector(':scope > .kb-lanterns')) return;
+    var el = document.createElement('div');
+    el.className = 'kb-lanterns';
+    el.setAttribute('role', 'img');
+    el.setAttribute('aria-label', 'Ink drawing: paper lanterns hung over a town at night');
+    el.innerHTML = '<span class="kb-lanterns__art" aria-hidden="true"></span>';
+    sec.insertBefore(el, sec.firstChild);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', lanterns, { once: true });
+  else lanterns();
+  new MutationObserver(lanterns).observe(HTML, { attributes: true, attributeFilter: ['data-palette'] });
 })();

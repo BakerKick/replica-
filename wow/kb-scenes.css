@@ -255,3 +255,50 @@ html[data-palette="c"] body.shiraume-enhanced #view-home .why-section .shiraume-
             mask-image: radial-gradient(118% 112% at 50% 48%, #000 84%, transparent 100%);
   }
 }
+
+/* ── Decoration cleared from three sections ───────────────────────────────
+   The koi and water behind the area, the kabuto, blades, lanterns, bamboo and
+   diagonal ruling behind the experience, and everything behind Notes from the
+   Mountain: all removed on request. The papers, the gold seams and the type
+   are untouched — only the drawn backgrounds go. The scene layers are also no
+   longer created for these sections, so this is belt and braces. */
+html[data-palette="c"] body.shiraume-enhanced #view-home .area-section::before,
+html[data-palette="c"] body.shiraume-enhanced #view-home .experience-section::before,
+html[data-palette="c"] body.shiraume-enhanced #view-home .experience-section::after,
+html[data-palette="c"] body.shiraume-enhanced #view-home .journal-section::before { content: none !important; }
+html[data-palette="c"] body.shiraume-enhanced #view-home .journal-section .kanji-bg { display: none; }
+html[data-palette="c"] body.shiraume-enhanced #view-home .area-section > .kb-scene,
+html[data-palette="c"] body.shiraume-enhanced #view-home .experience-section > .kb-scene,
+html[data-palette="c"] body.shiraume-enhanced #view-home .journal-section > .kb-scene { display: none !important; }
+
+/* The 発見 seal beside the Why Hikosan heading, also removed. */
+html[data-palette="c"] body.shiraume-enhanced #view-home .why-hikosan-art__seal,
+html[data-palette="c"] body.shiraume-enhanced #view-home .why-hikosan-art__caption { display: none; }
+
+/* ── The lantern plate ────────────────────────────────────────────────────
+   Hung on the right of "What to expect from a stay", framed in gold with a
+   cast shadow. The drawing is a night scene: inverted it loses its linework
+   and its lanterns go to solid black, and multiplied onto the paper it would
+   darken the whole section — so it hangs as a plate instead, which is what it
+   actually is. */
+html[data-palette="c"] body.shiraume-enhanced #view-home .experience-section { position: relative; }
+html[data-palette="c"] body.shiraume-enhanced #view-home .experience-section > .kb-lanterns {
+  position: absolute; z-index: 0; pointer-events: none;
+  /* A fixed offset rather than a percentage: the section is ~2000px tall, so a
+     small percentage still put the top of the plate under the sticky header. */
+  top: 7rem; right: clamp(1.5rem, 4vw, 5rem);
+  width: min(28rem, 30vw);
+  aspect-ratio: 820 / 1230;
+  box-shadow: 0 1.6rem 4rem rgba(23,23,26,.22), 0 0 0 1px rgba(176,141,58,.5);
+}
+html[data-palette="c"] body.shiraume-enhanced #view-home .experience-section > .kb-lanterns > .kb-lanterns__art {
+  position: absolute; inset: 0;
+  background: center center / cover no-repeat url(assets/img/lanterns.jpg);
+}
+html[data-palette="c"] body.shiraume-enhanced #view-home .experience-section > .kb-lanterns::after {
+  content: ''; position: absolute; inset: .6rem;
+  border: 1px solid rgba(212,175,55,.4); pointer-events: none;
+}
+@media (max-width: 1100px) {
+  html[data-palette="c"] body.shiraume-enhanced #view-home .experience-section > .kb-lanterns { display: none; }
+}
