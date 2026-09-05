@@ -46,6 +46,23 @@
     '<path pathLength="1" style="animation-delay:.3s" stroke-width="3" d="M312 762H396M804 762H888"/>' +
     '</svg>';
 
+  // Gold leaf takes its colour from the palette tokens, so the splash changes
+  // with the rest of the page instead of staying yellow under a silver scheme.
+  function token(name, fallback) {
+    var v = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+    return /^#[0-9a-f]{3,8}$/i.test(v) ? v : fallback;
+  }
+  function hexRGB(h) {
+    h = h.replace('#', '');
+    if (h.length === 3) h = h[0] + h[0] + h[1] + h[1] + h[2] + h[2];
+    return [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)];
+  }
+  var METAL = {
+    lo:  hexRGB(token('--kb-kin-lo', '#8a6a1f')),
+    mid: hexRGB(token('--kb-kin',    '#c9a227')),
+    hi:  hexRGB(token('--kb-kin-hi', '#f8ecb4'))
+  };
+  function leafRGB(c, a) { return 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',' + a + ')'; }
   function buildSplash() {
     if (document.getElementById('kb-splash')) return;
     var s = document.createElement('div');
@@ -147,9 +164,9 @@
         var flat = 0.34 + 0.66 * Math.abs(Math.cos(f.a));
         ctx.save(); ctx.translate(f.x, f.y); ctx.rotate(f.a);
         var g = ctx.createLinearGradient(-f.r, 0, f.r, 0);
-        g.addColorStop(0, 'rgba(138,106,31,' + f.o * 0.7 + ')');
-        g.addColorStop(0.45, 'rgba(248,236,180,' + f.o + ')');
-        g.addColorStop(1, 'rgba(201,162,39,' + f.o * 0.8 + ')');
+        g.addColorStop(0, leafRGB(METAL.lo, f.o * 0.7));
+        g.addColorStop(0.45, leafRGB(METAL.hi, f.o));
+        g.addColorStop(1, leafRGB(METAL.mid, f.o * 0.8));
         ctx.fillStyle = g;
         ctx.beginPath();
         ctx.moveTo(-f.r, -f.r * flat * 0.6);

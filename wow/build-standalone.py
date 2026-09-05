@@ -34,6 +34,7 @@ luxe_css, luxe_js = read('assets', 'splash', 'splash-luxe.css'), read('assets', 
 wow_css, wow_js = read('shiraume-wow.css'), read('shiraume-wow.js')
 kb_css, kb_js = read('design-kinbyobu.css'), read('design-kinbyobu.js')
 scenes_css = read('kb-scenes.css')
+tones_css = read('palette-tones.css')
 switch_js = read('palette-switch.js')
 
 # Max render width and JPEG quality per image, from how large each one ever
@@ -143,7 +144,7 @@ def prune_fonts(css, *sources):
 
 key = lambda n: re.sub(r'[^a-z0-9]+', '-', n.rsplit('.', 1)[0].lower())
 used = sorted(set(re.findall(r'assets/img/([\w.-]+\.(?:jpg|png))',
-                            html + style + enhance + js + splash_css + splash_js + wow_css + wow_js + kb_css + kb_js + scenes_css)))
+                            html + style + enhance + js + splash_css + splash_js + wow_css + wow_js + kb_css + kb_js + scenes_css + tones_css)))
 assets = {key(n): encode(n) for n in used}
 
 # Point every reference at the single embedded copy.
@@ -154,6 +155,7 @@ for n in used:
     wow_css = re.sub(pat, f'var(--a-{key(n)})', wow_css)
     kb_css = re.sub(pat, f'var(--a-{key(n)})', kb_css)
     scenes_css = re.sub(pat, f'var(--a-{key(n)})', scenes_css)
+    tones_css = re.sub(pat, f'var(--a-{key(n)})', tones_css)
     for q in ("'", '"'):
         kb_js = kb_js.replace(f"{q}assets/img/{n}{q}", f"A[{q}{key(n)}{q}]")
     # main.js quotes these with ', the Moonlit Cedar module with " — take both
@@ -170,7 +172,7 @@ html = re.sub(r'(<img[^>]*?)src="assets/img/([\w.-]+\.(?:jpg|png))"',
 html = re.sub(r'\n\s*<!-- Relative path:.*?-->', '', html, flags=re.S)
 html = re.sub(r'\n\s*<meta property="og:image[^>]*>', '', html)
 
-leftover = re.findall(r'assets/img/[\w.-]+', html + style + enhance + js + wow_css + wow_js + kb_css + kb_js + scenes_css)
+leftover = re.findall(r'assets/img/[\w.-]+', html + style + enhance + js + wow_css + wow_js + kb_css + kb_js + scenes_css + tones_css)
 assert not leftover, f'unresolved asset references: {leftover}'
 
 fonts_css = prune_fonts(fonts_css, html, js, wow_js, kb_js, switch_js, style, enhance, splash_js, luxe_js)
@@ -215,6 +217,8 @@ html = html.replace('<link rel="stylesheet" href="./design-kinbyobu.css">',
                     '<style>\n' + kb_css + '\n</style>')
 html = html.replace('<link rel="stylesheet" href="./kb-scenes.css">',
                     '<style>\n' + scenes_css + '\n</style>')
+html = html.replace('<link rel="stylesheet" href="./palette-tones.css">',
+                    '<style>\n' + tones_css + '\n</style>')
 html = html.replace('<script src="./shiraume-wow.js"></script>', '<script>\n' + wow_js + '\n</script>')
 html = html.replace('<script src="./design-kinbyobu.js"></script>', '<script>\n' + kb_js + '\n</script>')
 html = html.replace('<script src="./palette-switch.js"></script>', '<script>\n' + switch_js + '\n</script>')
@@ -226,7 +230,7 @@ for tag in ('href="./style.css"', 'src="./main.js"',
             'src="./assets/splash/splash-luxe.js"',
             'href="./shiraume-wow.css"', 'src="./shiraume-wow.js"',
             'href="./design-kinbyobu.css"', 'src="./design-kinbyobu.js"',
-            'href="./kb-scenes.css"',
+            'href="./kb-scenes.css"', 'href="./palette-tones.css"',
             'src="./palette-switch.js"'):
     assert tag not in html, f'not inlined: {tag}'
 open(OUT, 'w', encoding='utf-8').write(html)
