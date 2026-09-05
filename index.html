@@ -44,6 +44,7 @@
       <nav class="site-nav" aria-label="Main navigation">
         <ul class="nav-links" role="list">
           <li><a href="#story"><span class="en">Our Story</span><span class="ja">物語</span></a></li>
+          <li><a href="#model"><span class="en">The Model</span><span class="ja">立体模型</span></a></li>
           <li><a href="#rooms"><span class="en">Rooms</span><span class="ja">客室</span></a></li>
           <li><a href="#area"><span class="en">The Area</span><span class="ja">周辺</span></a></li>
           <li><a href="#experience"><span class="en">Experience</span><span class="ja">体験</span></a></li>
@@ -76,6 +77,7 @@
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
   </button>
   <a href="#story" class="mobile-nav-link"><span class="en">Our Story</span><span class="ja">物語</span></a>
+  <a href="#model" class="mobile-nav-link"><span class="en">The Model</span><span class="ja">立体模型</span></a>
   <a href="#rooms" class="mobile-nav-link"><span class="en">Rooms</span><span class="ja">客室</span></a>
   <a href="#area" class="mobile-nav-link"><span class="en">The Area</span><span class="ja">周辺</span></a>
   <a href="#experience" class="mobile-nav-link"><span class="en">Experience</span><span class="ja">体験</span></a>
@@ -225,6 +227,111 @@
         </div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- ── 3D PROPERTY MODEL ─────────────────────────────── -->
+<section class="model-section" id="model">
+  <div class="container">
+    <div class="model-intro reveal">
+      <p class="section-eyebrow">
+        <span class="en">Interactive Model</span>
+        <span class="ja">立体模型</span>
+      </p>
+      <h2 class="section-title">
+        <span class="en">Walk the grounds<br>before they exist</span>
+        <span class="ja">まだ無い庭を、<br>先に歩く</span>
+      </h2>
+      <div class="bilingual-block">
+        <p class="model-intro-desc en">A working three-dimensional study of the property as it is drawn today — the irimoya roof over the original frame, the engawa facing the moss garden, the bath annex, and the torii where the sando begins. Drag to move around it, and open a marker to read what each part of the plan is for.</p>
+        <p class="model-intro-desc ja">現在の設計に基づく、敷地の立体スタディです。元の軸組を覆う入母屋屋根、苔庭に面した縁側、湯屋の離れ、そして参道の始まりに立つ鳥居。ドラッグで視点を動かし、マーカーから各部の意図をご覧いただけます。</p>
+      </div>
+    </div>
+
+    <div class="model-stage reveal reveal-delay-1" id="model-3d">
+      <canvas class="model-canvas" tabindex="0" role="img"
+              aria-label="Interactive three-dimensional model of Shiraume Lodge and its grounds. Drag to orbit; arrow keys rotate, plus and minus zoom."></canvas>
+
+      <div class="model-hotspots"></div>
+
+      <div class="model-panel" role="region" aria-live="polite" aria-label="Model detail" aria-hidden="true">
+        <button class="model-panel-close" type="button" data-panel-close aria-label="Close detail">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+        <p class="model-panel-title" data-panel-title><span class="en"></span><span class="ja"></span></p>
+        <p class="model-panel-body" data-panel-body><span class="en"></span><span class="ja"></span></p>
+        <a class="model-panel-link" data-panel-link href="#story">
+          <span class="en"></span><span class="ja"></span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+
+      <div class="model-toolbar" role="group" aria-label="Model controls">
+        <button class="model-btn" type="button" data-model-spin aria-pressed="true" aria-label="Toggle automatic rotation">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12a9 9 0 1 1-3.5-7.1"/><polyline points="21 3 21 8 16 8"/></svg>
+        </button>
+        <button class="model-btn" type="button" data-model-zoom="in" aria-label="Zoom in">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <button class="model-btn" type="button" data-model-zoom="out" aria-label="Zoom out">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <button class="model-btn" type="button" data-model-reset aria-label="Reset the view">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 12a9 9 0 1 0 2.6-6.4"/><polyline points="3 3 3 9 9 9"/></svg>
+        </button>
+      </div>
+
+      <p class="model-hint" hidden>
+        <span class="en">Drag to orbit · tap a marker</span>
+        <span class="ja">ドラッグで回転・マーカーをタップ</span>
+      </p>
+
+      <div class="model-fallback">
+        <img src="./assets/story.png" alt="The inn's exterior, timber frame and garden approach" loading="lazy" width="600" height="750" />
+        <div class="model-fallback-text">
+          <p class="en">The interactive model needs WebGL, which this browser has turned off. The plan below describes the same five parts of the property.</p>
+          <p class="ja">立体模型の表示にはWebGLが必要です。ご利用の環境では無効になっているため、以下の一覧で同じ五つの要素をご説明します。</p>
+        </div>
+      </div>
+    </div>
+
+    <ol class="model-legend reveal reveal-delay-2" role="list">
+      <li class="model-legend-item">
+        <span class="model-legend-num" aria-hidden="true">01</span>
+        <div>
+          <p class="model-legend-title"><span class="en">The Original Roofline</span><span class="ja">元の屋根</span></p>
+          <p class="model-legend-desc"><span class="en">Irimoya hip-and-gable over the hundred-year-old frame — deep eaves kept, structure reinforced.</span><span class="ja">築百年の軸組を覆う入母屋造り。深い軒を残し、構造を補強します。</span></p>
+        </div>
+      </li>
+      <li class="model-legend-item">
+        <span class="model-legend-num" aria-hidden="true">02</span>
+        <div>
+          <p class="model-legend-title"><span class="en">The Engawa</span><span class="ja">縁側</span></p>
+          <p class="model-legend-desc"><span class="en">A cedar veranda the length of the garden face — the threshold between tatami and moss.</span><span class="ja">庭側いっぱいに走る杉の縁側。畳と苔の境目です。</span></p>
+        </div>
+      </li>
+      <li class="model-legend-item">
+        <span class="model-legend-num" aria-hidden="true">03</span>
+        <div>
+          <p class="model-legend-title"><span class="en">Bath House</span><span class="ja">湯屋</span></p>
+          <p class="model-legend-desc"><span class="en">A separate timber annex drawing mountain water, joined by a covered walkway.</span><span class="ja">山の水を引く離れの木造棟。渡り廊下で本館とつながります。</span></p>
+        </div>
+      </li>
+      <li class="model-legend-item">
+        <span class="model-legend-num" aria-hidden="true">04</span>
+        <div>
+          <p class="model-legend-title"><span class="en">The Sando Approach</span><span class="ja">参道</span></p>
+          <p class="model-legend-desc"><span class="en">Torii and stepping stones setting the inn on the old route to Hikosan Jingū.</span><span class="ja">鳥居と飛び石が、宿を英彦山神宮への古道に位置づけます。</span></p>
+        </div>
+      </li>
+      <li class="model-legend-item">
+        <span class="model-legend-num" aria-hidden="true">05</span>
+        <div>
+          <p class="model-legend-title"><span class="en">Moss Garden &amp; Pond</span><span class="ja">苔庭と池</span></p>
+          <p class="model-legend-desc"><span class="en">Moss, maple and still water on the south side, lit by stone lanterns after dark.</span><span class="ja">南側の苔、モミジ、静かな水面。日が暮れれば石灯籠が灯ります。</span></p>
+        </div>
+      </li>
+    </ol>
   </div>
 </section>
 
@@ -853,6 +960,9 @@
   }
 })();
 </script>
+
+<!-- 3D property model — Three.js (vendored under ./vendor, MIT) -->
+<script type="module" src="./lodge-3d.js"></script>
 
 </body>
 </html>
