@@ -2309,6 +2309,13 @@ label .en, label .ja { display: inline; }
   transition: color var(--transition-interactive), background var(--transition-interactive);
 }
 
+.hotspot.flip .hotspot-label {
+  left: auto;
+  right: 14px;
+}
+
+.hotspot.no-label .hotspot-label { display: none; }
+
 .hotspot:hover .hotspot-dot,
 .hotspot:focus-visible .hotspot-dot,
 .hotspot.is-active .hotspot-dot {

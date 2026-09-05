@@ -446,8 +446,14 @@ function init(root) {
       '</span>';
     btn.addEventListener('click', () => openHotspot(h));
     overlay.appendChild(btn);
-    return { h, el: btn, pos: new THREE.Vector3(...h.at) };
+    return { h, el: btn, label: btn.querySelector('.hotspot-label'), lw: null, pos: new THREE.Vector3(...h.at) };
   });
+
+  /* Label widths change with the language, and again once the webfont
+     lands — drop the cache and let the next frame re-measure. */
+  const remeasure = () => { markers.forEach(m => { m.lw = null; }); invalidate(); };
+  new MutationObserver(remeasure).observe(htmlEl, { attributes: true, attributeFilter: ['data-lang'] });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(remeasure);
 
   const panelTitleEn = panel.querySelector('[data-panel-title] .en');
   const panelTitleJa = panel.querySelector('[data-panel-title] .ja');
@@ -482,14 +488,30 @@ function init(root) {
 
   /* Project each anchor to screen space and park its marker there. */
   const proj = new THREE.Vector3();
+  const GAP = 16;
   function layoutMarkers(w, h) {
     for (const m of markers) {
       proj.copy(m.pos).project(camera);
-      if (proj.z > 1) { m.el.classList.add('is-hidden'); continue; }
+      const x = (proj.x * 0.5 + 0.5) * w;
+      const y = (-proj.y * 0.5 + 0.5) * h;
+
+      /* Behind the camera, or its anchor has left the frame. */
+      if (proj.z > 1 || x < 0 || x > w || y < 0 || y > h) {
+        m.el.classList.add('is-hidden');
+        continue;
+      }
       m.el.classList.remove('is-hidden');
+
+      /* Put the label on whichever side of the dot fits; if neither does,
+         drop it and leave the dot — the panel names the place anyway. */
+      if (m.lw == null) m.lw = m.label.offsetWidth;
+      const fitsRight = x + GAP + m.lw < w;
+      const fitsLeft  = x - GAP - m.lw > 0;
+      m.el.classList.toggle('flip', !fitsRight && fitsLeft);
+      m.el.classList.toggle('no-label', !fitsRight && !fitsLeft);
+
       m.el.style.transform =
-        'translate(' + ((proj.x * 0.5 + 0.5) * w).toFixed(1) + 'px,' +
-        ((-proj.y * 0.5 + 0.5) * h).toFixed(1) + 'px)';
+        'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px)';
     }
   }
 
